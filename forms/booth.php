@@ -134,7 +134,7 @@
 				"duration" => str_replace(",", ".", $_REQUEST["duration"]),
 			);
 
-			$process_data = query("GET", $url, $parameters);
+			$process_data = query("POST", $url, $parameters);
 			$process_data = isset($process_data["result"]) ? $process_data["result"] : $process_data;
 			log_debug(var_export($process_data, true));
 
@@ -215,7 +215,7 @@
 		case "create_booth":
 
 
-			$datetime_atom = $_REQUEST["date"]."T".$_REQUEST["time"].":00+06:00";
+			$datetime_atom = $_REQUEST["date"]."T".$_REQUEST["time"]."+06:00";
 
 			$curr_user = isset($curr_user) ? $curr_user : BitrixHelper::getCurrentUser($auth_id);
 			$url = "https://script.google.com/macros/s/AKfycbxjyTPPbRdVZ-QJKcWLFyITXIeQ1GwI7fAi0FgATQ0PsoGKAdM/exec";
@@ -238,7 +238,7 @@
 				"discount_comment" => $_REQUEST["discount_comment"],
 			);
 
-			$process_data = query("GET", $url, $parameters);
+			$process_data = query("POST", $url, $parameters);
 			$process_data = isset($process_data["result"]) ? $process_data["result"] : $process_data;
 
             require_once($_SERVER["DOCUMENT_ROOT"]."/forms/header.php");

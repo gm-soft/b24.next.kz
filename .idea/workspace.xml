@@ -68,11 +68,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="booth.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="booth.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/forms/booth.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="219" column="86" lean-forward="false" selection-start-line="219" selection-start-column="58" selection-end-line="219" selection-end-column="86" />
+            <state relative-caret-position="722">
+              <caret line="133" column="63" lean-forward="false" selection-start-line="133" selection-start-column="63" selection-end-line="133" selection-end-column="63" />
               <folding />
             </state>
           </provider>
@@ -158,7 +158,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bitrix.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="bitrix.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rest/bitrix.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="382">
@@ -203,7 +203,6 @@
         <option value="$PROJECT_DIR$/forms/calculation.php" />
         <option value="$PROJECT_DIR$/Helpers/BitrixHelperClass.php" />
         <option value="$PROJECT_DIR$/rest/control.php" />
-        <option value="$PROJECT_DIR$/forms/booth.php" />
         <option value="$PROJECT_DIR$/server/index.php" />
         <option value="$PROJECT_DIR$/forms/company.php" />
         <option value="$PROJECT_DIR$/forms/preorder.php" />
@@ -212,6 +211,7 @@
         <option value="$PROJECT_DIR$/forms/index.php" />
         <option value="$PROJECT_DIR$/forms/company_contact.php" />
         <option value="$PROJECT_DIR$/rest/bitrix.php" />
+        <option value="$PROJECT_DIR$/forms/booth.php" />
       </list>
     </option>
   </component>
@@ -456,7 +456,7 @@
       <workItem from="1480643922380" duration="805000" />
       <workItem from="1480645302059" duration="7670000" />
       <workItem from="1480903779856" duration="6377000" />
-      <workItem from="1480910575367" duration="2070000" />
+      <workItem from="1480910575367" duration="3273000" />
     </task>
     <task id="LOCAL-00001" summary="First commit applied from job">
       <created>1480904288285</created>
@@ -469,7 +469,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="73793000" />
+    <option name="totallyTimeSpent" value="74996000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -710,14 +710,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/forms/booth.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="219" column="86" lean-forward="false" selection-start-line="219" selection-start-column="58" selection-end-line="219" selection-end-column="86" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/forms/company.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -786,6 +778,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="382">
           <caret line="316" column="65" lean-forward="false" selection-start-line="316" selection-start-column="65" selection-end-line="316" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/forms/booth.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="722">
+          <caret line="133" column="63" lean-forward="false" selection-start-line="133" selection-start-column="63" selection-end-line="133" selection-end-column="63" />
           <folding />
         </state>
       </provider>
