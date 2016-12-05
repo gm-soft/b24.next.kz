@@ -28,14 +28,14 @@
     $browser = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "unknown";
     log_event("bitrix.php: \$_REQUEST[\"action\"]=".$action.". Client: ".$ip.", (".$browser.")");
 
-    if (!isset($_REQUEST["deal_id"])) {
+    /*if (!isset($_REQUEST["deal_id"])) {
         $response["error"] = "BAD REQUEST";
         $response["error_description"] = "No deal_id received";
         echo json_encode($response);
         die();
-    }
+    }*/
     $deal_id = $_REQUEST["deal_id"];
-    $deal = get_deal($deal_id, $access_data["access_token"] );
+    $deal = BitrixHelper::getDeal($deal_id, $access_data["access_token"] );
     $type = isset($_REQUEST["type"]) ? $_REQUEST["type"] : null;
 
 
@@ -199,7 +199,7 @@
             ));
 
             $response["clear_list"] = BitrixHelper::clearChecklist($task_id, $access_data["access_token"]);
-            $response["result"] = batch_commands($checklist_data["result"]["checklist_commands"], $access_data["access_token"]);
+            $response["result"] = BitrixHelper::batch_commands($checklist_data["result"]["checklist_commands"], $access_data["access_token"]);
 
             $response["item_history"] = array(
                 "added" => $checklist_data["result"]["added"],
@@ -234,7 +234,7 @@
             }
 
 
-            $task_update = call("task.item.update", array(
+            $task_update = BitrixHelper::callMethod("task.item.update", array(
                 "auth" => $access_data["access_token"],
                 0 => $task_id,
                 1 => array("DESCRIPTION" => $description),
@@ -300,16 +300,40 @@
                 $response["error"] = "task_id is null";
                 break;
             }
-            $current_checklist = call("task.checklistitem.getlist" , array(0 => $task_id, "auth" => $access_data["access_token"]));
+            $current_checklist = BitrixHelper::callMethod("task.checklistitem.getlist" , array(0 => $task_id, "auth" => $access_data["access_token"]));
             //$current_checklist = get_task_checklist($task_id, $access_data["access_token"]);
             $response["result"] = $current_checklist;
             
             break;
 
         case "task.setresponsible":
-
             //$task_responsible = isset($_REQUEST["task_responsible"]) ? $_REQUEST["task_responsible"] : null;
+            break;
 
+        case "lead.create":
+
+            if (!isset($_REQUEST["title"]) || !isset($_REQUEST["phone"])) {
+                $response["result"] = null;
+                $response["error"] = "Отсутствует имя или телефон";
+                break;
+            }
+
+            $auth = BitrixHelper::getAuth(true);
+            $leadName = $_REQUEST["title"];
+            $phone = BitrixHelper::formatPhone($_REQUEST["phone"]);
+            $sourceId = isset($_REQUEST["source"]) ? $_REQUEST["source"] : "";
+            $params = [
+                "fields[TITLE]" => $leadName,
+                "fields[PHONE][0][VALUE]" => $phone,
+                "fields[SOURCE_ID]" => $sourceId,
+                "fields[STATUS_ID]"=> "NEW",
+                "fields[OPENED]"=> "Y",
+                "fields[ASSIGNED_BY_ID]" => "72",
+                "fields[CREATED_BY_ID]" => "72",
+                "auth" => $auth
+            ];
+            $result = BitrixHelper::callMethod("crm.lead.add", $params);
+            $response["result"] = $result;
             break;
     }
 
