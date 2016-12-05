@@ -12,7 +12,7 @@
 
     $admin_auth_id = isset($_REQUEST["admin_token"]) ? $_REQUEST["admin_token"] : get_access_data(true);
 
-    $curr_user = get_curr_user($auth_id);
+    $curr_user = BitrixHelper::getCurrentUser($auth_id);
     $_SESSION["user_name"] =  $curr_user["EMAIL"];
     $_SESSION["user_id"] =  $curr_user["ID"];
     $userId = $curr_user["ID"];
@@ -28,7 +28,7 @@
     switch ($actionPerformed) {
         case "contact_defined":
 
-            $curr_user = isset($curr_user) ? $curr_user : get_curr_user($auth_id);
+            $curr_user = isset($curr_user) ? $curr_user : BitrixHelper::getCurrentUser($auth_id);
             $url = "https://script.google.com/macros/s/AKfycbxjyTPPbRdVZ-QJKcWLFyITXIeQ1GwI7fAi0FgATQ0PsoGKAdM/exec";
 
             $parameters = array(

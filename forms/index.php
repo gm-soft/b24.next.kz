@@ -15,7 +15,7 @@
 		redirect("../forms/index.php?error=Нет авторизации через CRM Битрикс24!");
 	}
 
-	$curr_user = get_curr_user($auth_id);
+	$curr_user = BitrixHelper::getCurrentUser($auth_id);
 	$_SESSION["user_name"] =  $curr_user["EMAIL"];
 	$_SESSION["user_id"] =  $curr_user["ID"];
 

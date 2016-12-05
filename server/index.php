@@ -3,6 +3,7 @@
 	require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
 	require($_SERVER["DOCUMENT_ROOT"] . "/include/help.php");
 	require($_SERVER["DOCUMENT_ROOT"]."/server/request_processor.php");
+	require ($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
 	//---------------------------------------------
 	$error = "";
 
@@ -24,7 +25,7 @@
 			$writeResult = write_to_file(AUTH_FILENAME, $json);
 
 			$_SESSION["access_data"] = $query_data;
-			$current_user = get_curr_user($query_data["access_token"]);
+			$current_user = BitrixHelper::getCurrentUser($query_data["access_token"]);
 			setcookie("user_email", $current_user["EMAIL"], time() + 3600, "/");
 			$_SESSION["user_email"] = $current_user["EMAIL"];
 			redirect(PATH);
@@ -53,7 +54,7 @@
 			$writeResult = write_to_file(AUTH_FILENAME, $json);
 
 			$_SESSION["access_data"] = $query_data;
-			$current_user = get_curr_user($query_data["access_token"]);
+			$current_user = BitrixHelper::getCurrentUser($query_data["access_token"]);
 			setcookie("user_email", $current_user["EMAIL"], time() + 3600, "/");
 			redirect(PATH);
 			die();
@@ -91,7 +92,7 @@
 	}
 	else
 	{
-		$currUser = get_curr_user($access_data["access_token"]);
+		$currUser = BitrixHelper::getCurrentUser($access_data["access_token"]);
 		$_SESSION["tokenemail"] = $currUser["EMAIL"];
 		require_once($_SERVER["DOCUMENT_ROOT"]."/server/content.php");
 		$data = process_user_request($_REQUEST, $access_data);

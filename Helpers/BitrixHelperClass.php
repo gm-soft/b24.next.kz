@@ -541,6 +541,26 @@ class BitrixHelper
     }
 
     /**
+     * Функция возвращает сделку как ассоциативный массив
+     *
+     * @param $dealId
+     * @param null $auth
+     * @return null
+     */
+    public static function getDeal($dealId, $auth = null) {
+        $auth = is_null($auth) ? get_access_data(true) : $auth;
+        $params = array(
+            "id" => $dealId,
+            "auth" => $auth
+        );
+        $data = BitrixHelper::callMethod("crm.deal.get", $params);
+        if (isset($data["result"])) {
+            return $data["result"];
+        }
+        return null;
+    }
+
+    /**
      * Функция возвращает лид как ассоциативный массив
      *
      * @param $leadId
@@ -757,5 +777,36 @@ class BitrixHelper
 
         return $sourceText;
 
+    }
+
+    /**
+     *  Возвращает залогиненного пользователя либо null, если нет авторизации
+     * @param $token
+     * @return array|null
+     */
+    public static function getCurrentUser($token) {
+        $data = call("user.current", array("auth" => $token));
+        return  isset($data["result"]) ? $data["result"] : NULL;
+    }
+
+    /**
+     * Высылает уведомление указанному пользователю.
+     *
+     * @param $user_id
+     * @param $text
+     * @param $access_token
+     * @param string $type
+     * @return array
+     */
+    public static function notifyUser($user_id, $text, $access_token, $type = "USER"){
+        $result = call("im.notify", array(
+                "to" => $user_id,
+                "message" => $text,
+                "type" => $type,
+                "auth" => $access_token,
+            )
+        );
+        if (isset($result["error"])) process_error("Ошибка отправки уведомления: ".var_export($result));
+        return $result;
     }
 }

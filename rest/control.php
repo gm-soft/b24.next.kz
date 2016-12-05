@@ -2,6 +2,7 @@
 
 	require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
 	require($_SERVER["DOCUMENT_ROOT"]."/include/help.php");
+    require($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
 
 	$access_data = get_access_data();
     if(!isset($_SESSION)) session_start();
@@ -36,7 +37,7 @@
 				$json_array["result"] = write_to_file(AUTH_FILENAME, $json);
 				
 				$access_token = $query_data["access_token"];
-            	$current_user = get_curr_user($access_token);
+            	$current_user = BitrixHelper::getCurrentUser($access_token);
             	$_SESSION["user_name"] = $current_user["EMAIL"];
             	$text_to_log = "Auth refreshed successfully";
 			} else {
@@ -52,7 +53,7 @@
 
 		case "checkdate":
 
-            include $_SERVER["DOCUMENT_ROOT"] . "/Helpers/BitrixHelperClass.php";
+
 		    $dateString = "2016-11-25";
             $time = "11:00";
             $time = null;

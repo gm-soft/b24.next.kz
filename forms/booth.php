@@ -14,7 +14,7 @@
 
 	
 
-	$curr_user = get_curr_user($auth_id);
+	$curr_user = BitrixHelper::getCurrentUser($auth_id);
 	$_SESSION["user_name"] =  $curr_user["EMAIL"];
 	$_SESSION["user_id"] =  $curr_user["ID"];
 	$userId = $curr_user["ID"];
@@ -217,7 +217,7 @@
 
 			$datetime_atom = $_REQUEST["date"]."T".$_REQUEST["time"].":00+06:00";
 
-			$curr_user = isset($curr_user) ? $curr_user : get_curr_user($auth_id);
+			$curr_user = isset($curr_user) ? $curr_user : BitrixHelper::getCurrentUser($auth_id);
 			$url = "https://script.google.com/macros/s/AKfycbxjyTPPbRdVZ-QJKcWLFyITXIeQ1GwI7fAi0FgATQ0PsoGKAdM/exec";
 			$parameters = array(
 				"event" => "OnBoothCreateRequested",

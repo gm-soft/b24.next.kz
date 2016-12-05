@@ -1,6 +1,7 @@
 <?php
     require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
     require($_SERVER["DOCUMENT_ROOT"]."/include/help.php");
+    require ($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
 
     $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
     $auth_id = isset($_REQUEST["auth_id"]) ? $_REQUEST["auth_id"] : null;
@@ -11,9 +12,9 @@
 
 
     $adminAuthToken = isset($_REQUEST["admin_token"]) ? $_REQUEST["admin_token"] : get_access_data(true);
-    $userId = "72";
+    //$userId = "72";
 
-    $curr_user = get_curr_user($auth_id);
+    $curr_user = BitrixHelper::getCurrentUser($auth_id);
     $_SESSION["user_name"] =  $curr_user["EMAIL"];
     $_SESSION["user_id"] =  $curr_user["ID"];
     $userId = $curr_user["ID"];
@@ -25,7 +26,7 @@
         case "choose_company":
         case "all_companies":
 
-            include $_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php";
+
             $form_action = "company_contact.php";
 
             $companies = BitrixHelper::getCompanies($userId, $adminAuthToken);
