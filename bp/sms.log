@@ -1,0 +1,91 @@
+array (
+  'result' => 
+  array (
+    'ID' => '6678',
+    'POST' => NULL,
+    'COMMENTS' => '',
+    'HONORIFIC' => NULL,
+    'NAME' => 'Тест',
+    'SECOND_NAME' => '',
+    'LAST_NAME' => 'Тестович',
+    'PHOTO' => NULL,
+    'LEAD_ID' => NULL,
+    'TYPE_ID' => NULL,
+    'SOURCE_ID' => '18',
+    'SOURCE_DESCRIPTION' => '',
+    'COMPANY_ID' => NULL,
+    'BIRTHDATE' => '1988-07-24T03:00:00+04:00',
+    'EXPORT' => 'Y',
+    'HAS_PHONE' => 'Y',
+    'HAS_EMAIL' => 'N',
+    'DATE_CREATE' => '2016-09-15T07:00:51+03:00',
+    'DATE_MODIFY' => '2016-09-15T07:00:51+03:00',
+    'ASSIGNED_BY_ID' => '1',
+    'CREATED_BY_ID' => '1',
+    'MODIFY_BY_ID' => '1',
+    'OPENED' => 'Y',
+    'ORIGINATOR_ID' => NULL,
+    'ORIGIN_ID' => NULL,
+    'ORIGIN_VERSION' => NULL,
+    'ADDRESS' => NULL,
+    'ADDRESS_2' => NULL,
+    'ADDRESS_CITY' => NULL,
+    'ADDRESS_POSTAL_CODE' => NULL,
+    'ADDRESS_REGION' => NULL,
+    'ADDRESS_PROVINCE' => NULL,
+    'ADDRESS_COUNTRY' => NULL,
+    'ADDRESS_COUNTRY_CODE' => NULL,
+    'UF_CRM_1467018213' => 
+    array (
+    ),
+    'UF_CRM_1467018237' => '',
+    'UF_CRM_1468207818' => 
+    array (
+    ),
+    'UF_CRM_1468302351' => 
+    array (
+      0 => 50,
+      1 => 60,
+      2 => 44,
+      3 => 80,
+    ),
+    'UF_CRM_1468304927' => '102',
+    'UF_CRM_1468382119' => '0',
+    'UF_CRM_1473046924' => '',
+    'UF_CRM_57F5E4D869052' => false,
+    'UF_CRM_OPPORTUNITY' => '',
+    'UF_CRM_COMPANY_TITLE' => '',
+    'UF_CRM_TITLE' => '',
+    'UF_CRM_CREATED_BY_ID' => '',
+    'UF_CRM_CURRENCY_ID' => '',
+    'UF_CRM_STATUS_ID' => '',
+    'UF_CRM_1376771915' => '',
+    'UF_CRM_1376771107' => '',
+    'UF_CRM_1378628502' => '',
+    'UF_CRM_1376771132' => '',
+    'UF_CRM_1376771470' => '',
+    'UF_CRM_ORIGIN_ID' => '',
+    'UF_CRM_COMPANY_ID' => '',
+    'UF_CRM_ORIGINATOR_ID' => '',
+    'UF_CRM_1376771454' => '',
+    'UF_CRM_1376771197' => '',
+    'UF_CRM_1376771244' => '',
+    'UF_CRM_1376771164' => '',
+    'UF_CRM_TYPE_ID' => '',
+    'PHONE' => 
+    array (
+      0 => 
+      array (
+        'ID' => '47096',
+        'VALUE_TYPE' => 'WORK',
+        'VALUE' => '87004605469',
+        'TYPE_ID' => 'PHONE',
+      ),
+    ),
+  ),
+)
+array (
+  'result' => true,
+)
+57fb6b98bd3905.61460467|A95813_53408_253_76158|xQfZDMWqPWspb7Fiii9rS7YOUlwzZ8LG.ead8d119819403ab299f433cbfd59c901e8b637e890fef78b6bf2b3a35f7696b
+

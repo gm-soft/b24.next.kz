@@ -1,0 +1,13 @@
+.unicorn-image {
+    z-index: -1;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+.div-inline{
+    display:inline-block;
+}
+
+
+

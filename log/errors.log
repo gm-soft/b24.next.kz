@@ -1,0 +1,119 @@
+[2016-10-17T20:04:58+00:00] No senior admin for deal["ID"]= defined
+[2016-10-17T20:04:58+00:00] No banquet admin for deal["ID"]= defined
+[2016-10-17T20:04:58+00:00] No design admin for deal["ID"]= defined
+[2016-11-25T08:19:23+00:00] Exception::__set_state(array(
+   'message' => 'DateTime::__construct(): Failed to parse time string (1476856800) at position 8 (0): Unexpected character',
+   'string' => '',
+   'code' => 0,
+   'file' => '/var/www/b24.next.kz/include/bitrix_help.php',
+   'line' => 501,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'file' => '/var/www/b24.next.kz/include/bitrix_help.php',
+      'line' => 501,
+      'function' => '__construct',
+      'class' => 'DateTime',
+      'type' => '->',
+      'args' => 
+      array (
+        0 => '1476856800',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => '/var/www/b24.next.kz/rest/control.php',
+      'line' => 57,
+      'function' => 'constructDatetime',
+      'args' => 
+      array (
+        0 => '2016-10-19',
+        1 => '11:00',
+      ),
+    ),
+  ),
+   'previous' => NULL,
+   'severity' => 2,
+))
+[2016-11-25T08:20:12+00:00] Exception::__set_state(array(
+   'message' => 'DateTime::__construct(): Failed to parse time string (1476856800) at position 8 (0): Unexpected character',
+   'string' => '',
+   'code' => 0,
+   'file' => '/var/www/b24.next.kz/include/bitrix_help.php',
+   'line' => 501,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'file' => '/var/www/b24.next.kz/include/bitrix_help.php',
+      'line' => 501,
+      'function' => '__construct',
+      'class' => 'DateTime',
+      'type' => '->',
+      'args' => 
+      array (
+        0 => '1476856800',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => '/var/www/b24.next.kz/rest/control.php',
+      'line' => 57,
+      'function' => 'constructDatetime',
+      'args' => 
+      array (
+        0 => '2016-10-19',
+        1 => '11:00',
+      ),
+    ),
+  ),
+   'previous' => NULL,
+   'severity' => 2,
+))
+[2016-11-25T08:49:45+00:00] Exception::__set_state(array(
+   'message' => 'DateTime::__construct(): Failed to parse time string (DateTime::__set_state(array(
+   \'date\' =&gt; \'2016-11-25 00:00:00.000000\',
+   \'timezone_type\' =&gt; 3,
+   \'timezone\' =&gt; \'UTC\',
+))) at position 0 (D): The timezone could not be found in the database',
+   'string' => '',
+   'code' => 0,
+   'file' => '/var/www/b24.next.kz/include/bitrix_help.php',
+   'line' => 516,
+   'trace' => 
+  array (
+    0 => 
+    array (
+      'file' => '/var/www/b24.next.kz/include/bitrix_help.php',
+      'line' => 516,
+      'function' => '__construct',
+      'class' => 'DateTime',
+      'type' => '->',
+      'args' => 
+      array (
+        0 => 'DateTime::__set_state(array(
+   \'date\' => \'2016-11-25 00:00:00.000000\',
+   \'timezone_type\' => 3,
+   \'timezone\' => \'UTC\',
+))',
+      ),
+    ),
+    1 => 
+    array (
+      'file' => '/var/www/b24.next.kz/rest/control.php',
+      'line' => 61,
+      'function' => 'isDateHoliday',
+      'args' => 
+      array (
+        0 => 'DateTime::__set_state(array(
+   \'date\' => \'2016-11-25 00:00:00.000000\',
+   \'timezone_type\' => 3,
+   \'timezone\' => \'UTC\',
+))',
+      ),
+    ),
+  ),
+   'previous' => NULL,
+   'severity' => 2,
+))
