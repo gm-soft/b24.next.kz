@@ -48,9 +48,9 @@
             <form class="form-horizontal" method="GET" action="<?= PATH?>">
 	            <div class="form-group">
 	                <!--input type="hidden" name="method" value="crm.deal.fields"-->
-	                <label class="col-sm-2" for="method_select">Сущность:</label>
+	                <label class="col-sm-2" for="method_select_fields">Сущность:</label>
                     <div class="col-sm-10">
-                        <select class="form-control" id="method_select" name="method">
+                        <select class="form-control" id="method_select_fields" name="method">
                             <option value="no.method">Не выбрана</option>
                             <option value="user.fields">Пользователь CRM</option>
                             <option value="department.fields">Департамент CRM</option>
@@ -67,6 +67,7 @@
                	</div>
                 <div class="form-group">
                 	<button type="submit" class="btn btn-default">Получить</button>
+                    <a href="#" id="get_fields_sbt" class="btn btn-default">Получить AJAX'ом</a>
             	</div>
             </form>
         </div>
@@ -75,9 +76,9 @@
             <h3>Значение сущности</h3>
             <form class="form-horizontal" method="GET" action="<?=PATH?>">
                 <div class="form-group">
-                    <label class="col-sm-2" for="method_select">Сущность:</label>
+                    <label class="col-sm-2" for="method_select_instance">Сущность:</label>
                     <div class="col-sm-10">
-                        <select class="form-control" id="method_select" name="method">
+                        <select class="form-control" id="method_select_instance" name="method">
                             <option value="no.method">Не выбрана</option>
                             <option value="user.get">Пользователь CRM</option>
                             <option value="department.get">Департамент CRM</option>
@@ -102,6 +103,7 @@
 
                 <div class="form-group">
                 	<button type="submit" class="btn btn-default">Получить</button>
+                    <a href="#" id="get_instance_sbt" class="btn btn-default">Получить AJAX'ом</a>
             	</div>
             </form>
         </div>
@@ -111,3 +113,4 @@
 
 	</div>
 </div>
+

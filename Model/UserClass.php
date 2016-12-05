@@ -18,7 +18,7 @@ class User
         $this->password = null;
         $this->usergroup = null;
         $this->createdAt = time();
-        $this->hash = User::generateCode();
+        $this->hash = md5(User::generateCode());
     }
 
     protected function fill( array $row ) {

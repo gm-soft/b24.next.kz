@@ -95,15 +95,39 @@
 		$currUser = BitrixHelper::getCurrentUser($access_data["access_token"]);
 		$_SESSION["tokenemail"] = $currUser["EMAIL"];
 		require_once($_SERVER["DOCUMENT_ROOT"]."/server/content.php");
+		?>
+		<div id="output" class="container alert alert-info">
+		</div>
+
+
+		<?php
+
+
 		$data = process_user_request($_REQUEST, $access_data);
 
 		if (!is_null($data)){
 		?>
 		<div class="container alert alert-info">
-			<pre><?= var_export($data,true)?></pre>
+			<pre id="output"><?= var_export($data,true)?></pre>
 		</div>
 	<?php	
 		}
 	}
 	require_once($_SERVER["DOCUMENT_ROOT"]."/web/footer.php");
 ?>
+<script>
+    $('#get_fields_sbt').on('click', function () {
+        var method = $('#method_select_fields option:selected').val();
+        //console.log("method is "+method);
+        var response = getBitrixInstance(method);
+
+    });
+
+    $('#get_instance_sbt').on('click', function () {
+        var method = $('#method_select_instance option:selected').val();
+        var id = $('#deal_id').val();
+        //console.log("method is "+method+". id="+id);
+        var response = getBitrixInstance(method, id);
+
+    });
+</script>
