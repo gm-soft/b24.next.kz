@@ -34,6 +34,9 @@
                 case 'allinclusive':
                     $packName = "Все включено";
                     break;
+                default:
+                    $packName = "Пакет не определен";
+                    break;
             }
 
             switch ($_REQUEST["center"]) {
@@ -43,6 +46,10 @@
                     break;
                 case 'next_apo':
                     $centerName = "NEXT Aport";
+                    if ($_REQUEST["pack"] == "newyear") {
+                        $packPrice = NEWYEAR_APO_COST;
+                        break;
+                    }
                     $packPrice = APO_PACK_COST;
                     break;
 
