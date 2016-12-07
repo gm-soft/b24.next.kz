@@ -98,7 +98,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="pupil_count">Количество голов учеников:</label>
+                            <label class="control-label col-sm-2" for="pupil_count">Количество учеников:</label>
                             <div class="col-sm-10">
                                 <div class="input-group">
                                     <input type="number" step="1" min="0" class="form-control" id="pupil_count" name="pupil_count" required placeholder="Введите целое число">
@@ -171,7 +171,7 @@
                             <label class="control-label col-sm-2" for="duration">Продолжительность аренды (часов):</label>
                             <div class="col-sm-10">
                                 <div class="input-group">
-                                    <input type="number" step="1" min="0" class="form-control" id="duration" name="duration" required placeholder="Введите продолжительность">
+                                    <input type="number" step="1" min="0" class="form-control" id="duration" name="duration" required placeholder="Введите продолжительность" value="3">
                                     <span class="input-group-addon"><i class="glyphicon glyphicons-clock"></i></span>
                                 </div>
                             </div>
@@ -373,10 +373,14 @@
                 case 'standartpack':
                     $packName = "Стандартный";
                     break;
-                default:
+                case 'newyearpack':
+                    $packName = "Новогодний";
+                    break;
+                case 'allinclusive':
                     $packName = "Все включено";
                     break;
             }
+
             switch ($_REQUEST["center"]) {
                 case 'next_ese':
                     $centerName = "NEXT Esentai";

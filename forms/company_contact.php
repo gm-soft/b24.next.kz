@@ -33,21 +33,30 @@ switch ($actionPerformed) {
 
 
     case "company_defined":
-        $companyContacts = BitrixHelper::getContactsOfTheCompany($companyId, $adminAuthToken);
-        $desc = "В списке представлены контакты, которые закреплены к выбранной компании";
+    case "choose_contact":
+        $company = BitrixHelper::getCompany($companyId, $adminAuthToken);
 
-        if (count($companyContacts) == 0) {
+        if ($actionPerformed == "choose_contact") {
+            $contacts = [];
+            foreach ($_REQUEST["contact_id"] as $key => $value) {
+                $contacts[] = BitrixHelper::getContact($value, $adminAuthToken);
+            }
+            $desc = "В списке представлены контакты, найденные по номеру телефона. Выберите нужный";
+        } else {
+            $contacts = BitrixHelper::getContactsOfTheCompany($companyId, $adminAuthToken);
+            $desc = "В списке представлены контакты, которые закреплены к выбранной компании";
 
-            $url = "../forms/company_contact.php?".
-                "auth_id=$auth_id&".
-                "action=$action&".
-                "action_performed=search_contact&".
-                "company_id=$companyId&".
-                "warning=<strong>Внимание!</strong> В компании нет прикрепленных контактов. Выберите нужный из списка или найдите по номеру телефона";
-            redirect($url);
+            if (count($contacts) == 0) {
+                $url = "../forms/company_contact.php?".
+                    "auth_id=$auth_id&".
+                    "action=$action&".
+                    "action_performed=search_contact&".
+                    "company_id=$companyId&".
+                    "warning=<strong>Внимание!</strong> В компании нет прикрепленных контактов. Выберите нужный из списка или найдите по номеру телефона";
+                redirect($url);
+            }
         }
 
-        $company = BitrixHelper::getCompany($companyId, $adminAuthToken);
 
         require_once($_SERVER["DOCUMENT_ROOT"]."/forms/header.php");
         ?>
@@ -72,7 +81,7 @@ switch ($actionPerformed) {
                             <div class="col-sm-10"><b><?= $company["TITLE"] ?> [ID <?= $company["ID"] ?>]</b></div>
                         </div>
                         <hr>
-                        <p>Было найдено <?= count($companyContacts) ?> контактов. Выберите нужный</p>
+                        <p>Было найдено <?= count($contacts) ?> контактов. Выберите нужный</p>
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="contact_id">Выберите контакт:</label>
                             <div class="col-sm-10">
@@ -80,7 +89,7 @@ switch ($actionPerformed) {
                                     <option value="">Выберите Контакт</option>
                                     <?php
                                     $i = 0;
-                                    foreach ($companyContacts as $key => $value) {
+                                    foreach ($contacts as $key => $value) {
 
                                         $option =
                                             "<option value=\"".$value["ID"]."\">".$value["NAME"]." ".$value["LAST_NAME"].
@@ -195,7 +204,7 @@ switch ($actionPerformed) {
 
     case "contact_found":
         $contacts =  BitrixHelper::searchContact(BitrixHelper::formatPhone($_REQUEST["contact_phone"]) ,$adminAuthToken);
-
+        $phone = isset($_REQUEST["contact_phone"]) ? BitrixHelper::formatPhone($_REQUEST["contact_phone"]) : "";
         //log_debug("PHONE = ".$_REQUEST["contact_phone"].". Count=".count($contacts)." ".var_export($contacts, true));
         if (count($contacts) == 0) {
             $url = "../forms/company_contact.php?".
@@ -203,19 +212,36 @@ switch ($actionPerformed) {
                 "action=$action&".
                 "action_performed=create_contact&".
                 "company_id=$companyId&".
+                "contact_phone=$phone&" .
                 "error=<strong>Внимание!</strong> Контакт по номеру телефона не найден";
             redirect($url);
         }
 
-        $contact = $contacts[0];
-        log_debug(var_export($contact, true));
-        $url = "../forms/company_contact.php?".
-            "auth_id=$auth_id&".
-            "action=$action&".
-            "action_performed=contact_defined&".
-            "contact_id=".$contact["ID"]."&".
-            "company_phone=".$_REQUEST["contact_phone"]."&".
-            "company_id=$companyId";
+        //$contact = $contacts[0];
+
+        if (count($contacts) > 1){
+            $url = "../forms/company_contact.php?".
+                "auth_id=$auth_id&".
+                "action=$action&".
+                "action_performed=choose_contact&".
+                // "contact_id=".$contact["ID"]."&".
+                "company_phone=".$_REQUEST["contact_phone"]."&".
+                "company_id=$companyId";
+            for ($i = 0; $i < count($contacts); $i++){
+                $contact = $contacts[$i];
+                $url .= "&contact_id[$i]=".$contact["ID"];
+            }
+        } else {
+            $url = "../forms/company_contact.php?".
+                "auth_id=$auth_id&".
+                "action=$action&".
+                "action_performed=contact_defined&".
+                "contact_id=".$contacts[0]["ID"]."&".
+                "company_phone=".$_REQUEST["contact_phone"]."&".
+                "company_id=$companyId";
+        }
+
+
         redirect($url);
         break;
 

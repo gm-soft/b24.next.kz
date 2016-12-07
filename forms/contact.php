@@ -135,13 +135,15 @@
                 $url = "../forms/contact.php?" .
                     "auth_id=$auth_id&" .
                     "action=$action&" .
-                    "action_performed=contact_create&" .
+                    "action_performed=contact_create&".
+                    "contact_phone=$phone&" .
                     "error=Ни одного контакта с указанным телефоном не найдено. Создайте новый";
                 redirect($url);
             }
             break;
 
         case "contact_create":
+            $phone = isset($_REQUEST["contact_phone"]) ? BitrixHelper::formatPhone($_REQUEST["contact_phone"]) : "";
             require_once($_SERVER["DOCUMENT_ROOT"]."/forms/header.php");
             ?>
             <div class="container">
@@ -177,7 +179,7 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="contact_phone">Телефон:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="contact_phone" name="contact_phone" required value="<?= BitrixHelper::formatPhone($_REQUEST["contact_phone"]) ?>">
+                                    <input type="text" class="form-control" id="contact_phone" name="contact_phone" required value="<?= $phone ?>">
                                 </div>
                             </div>
 
