@@ -321,7 +321,7 @@
             $auth = BitrixHelper::getAuth(true);
             $leadName = $_REQUEST["title"];
             $phone = BitrixHelper::formatPhone($_REQUEST["phone"]);
-            $sourceId = isset($_REQUEST["source"]) ? $_REQUEST["source"] : "";
+            $sourceId = isset($_REQUEST["source"]) ? $_REQUEST["source"] : "11";
             $params = [
                 "fields[TITLE]" => $leadName,
                 "fields[PHONE][0][VALUE]" => $phone,
@@ -333,7 +333,8 @@
                 "auth" => $auth
             ];
             $result = BitrixHelper::callMethod("crm.lead.add", $params);
-            $response["result"] = $result;
+            $response["result"] = isset($result["result"]);
+            //$response["result"] = $result;
             break;
     }
 
