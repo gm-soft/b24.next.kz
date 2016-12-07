@@ -8,7 +8,7 @@
     $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : null;
 
     if (is_null($method) /*|| is_null($id)*/){
-        $response = ["error" => "No method received"];
+        $response = ["error" => "No method received", "request" => var_export($_REQUEST, true)];
         header('Content-Type: application/json');
         echo json_encode($response);
         die();
@@ -192,7 +192,10 @@
             break;
     }
     $response["result"] = $data;
-
+    if (isset($_REQUEST["type"]) && $_REQUEST["type"] == "var_export"){
+        echo var_export($response, true);
+        die();
+    }
     header('Content-Type: application/json');
     echo json_encode($response);
 

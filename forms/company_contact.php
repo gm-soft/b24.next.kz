@@ -215,8 +215,7 @@ switch ($actionPerformed) {
             "action_performed=contact_defined&".
             "contact_id=".$contact["ID"]."&".
             "company_phone=".$_REQUEST["contact_phone"]."&".
-            "company_id=$companyId&".
-            "success=Контакт найден. Подтердите верность введенной информации";
+            "company_id=$companyId";
         redirect($url);
         break;
 
@@ -350,15 +349,27 @@ switch ($actionPerformed) {
                     <p>Проверьте верность выбранных контактных данных: компанию и контакт из CRM</p>
 
                     <div class="row">
-                        <div class="col-sm-4">
-                            <h3><?= $company["TITLE"]?></h3>
-                            <p>Компания <a href="https://next.bitrix24.kz/crm/company/show/<?= $company["ID"]?>/">ID<?= $company["ID"]?></a></p>
-                            <p>Телефон: <?= $company["PHONE"][0]["VALUE"]?></p>
+                        <div class="col-sm-5">
+
+                            <div class="panel panel-primary">
+                                <div class="panel-heading panel-custom"><i><?= $company["TITLE"]?></i></div>
+                                <div class="panel-body">
+                                    Компания <a href="https://next.bitrix24.kz/crm/company/show/<?= $company["ID"]?>/">ID<?= $company["ID"]?></a><br>
+                                    Телефон: <?= $company["PHONE"][0]["VALUE"]?>
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="col-sm-4 col-md-offset-2">
-                            <h3><?= $contact["NAME"]?> <?= $contact["LAST_NAME"]?></h3>
-                            <p>Контакт <a href="https://next.bitrix24.kz/crm/contact/show/<?= $contact["ID"]?>/">ID<?= $contact["ID"]?></a></p>
-                            <p>Телефон: <?= $contact["PHONE"][0]["VALUE"]?></p>
+                        <div class="col-sm-5 col-md-offset-2">
+
+                            <div class="panel panel-primary">
+                                <div class="panel-heading panel-custom"><i><?= $contact["NAME"]?> <?= $contact["LAST_NAME"]?></i></div>
+                                <div class="panel-body">
+                                    Контакт <a href="https://next.bitrix24.kz/crm/contact/show/<?= $contact["ID"]?>/">ID<?= $contact["ID"]?></a><br>
+                                    Телефон: <?= $contact["PHONE"][0]["VALUE"]?>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 

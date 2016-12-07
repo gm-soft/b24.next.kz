@@ -42,13 +42,28 @@
                     <h1>Школы и лагеря</h1>
 
                     <div class="row">
-                        <div class="col-sm-2"><b>Компания:</b></div>
-                        <div class="col-sm-10"><?= $company["TITLE"]?> (<a href="https://next.bitrix24.kz/crm/company/show/<?= $company["ID"]?>/">ID<?= $company["ID"]?></a>)</div>
-                    </div>
+                        <div class="col-sm-5">
 
-                    <div class="row">
-                        <div class="col-sm-2"><b>Контакт:</b></div>
-                        <div class="col-sm-10"><?= $contact["NAME"]." ".$contact["LAST_NAME"]?> (<a href="https://next.bitrix24.kz/crm/contact/show/<?= $contact["ID"]?>/">ID<?= $contact["ID"]?></a>)</div>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading panel-custom"><i><?= $company["TITLE"]?></i></div>
+                                <div class="panel-body">
+                                    Компания <a href="https://next.bitrix24.kz/crm/company/show/<?= $company["ID"]?>/">ID<?= $company["ID"]?></a><br>
+                                    Телефон: <?= $company["PHONE"][0]["VALUE"]?>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-5 col-md-offset-2">
+
+                            <div class="panel panel-primary">
+                                <div class="panel-heading panel-custom"><i><?= $contact["NAME"]?> <?= $contact["LAST_NAME"]?></i></div>
+                                <div class="panel-body">
+                                    Контакт <a href="https://next.bitrix24.kz/crm/contact/show/<?= $contact["ID"]?>/">ID<?= $contact["ID"]?></a><br>
+                                    Телефон: <?= $contact["PHONE"][0]["VALUE"]?>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
 
                     <form id="form" class="form-horizontal" method="post" action="school.php">
@@ -64,7 +79,7 @@
                         <input type="hidden" name="contact_phone" value="<?= $contact["PHONE"][0]["VALUE"]?>">
                         <input type="hidden" name="company_name" value="<?= $company["TITLE"]?>">
 
-                        <h3>Информация о пакетах</h3>
+                        <h4>Информация о пакетах</h4>
 
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="pack">Выберите пакет:</label>
@@ -112,7 +127,7 @@
                         </div>
 
                         <hr>
-                        <h3>Дата, время, продолжительность, местоположение аренды</h3>
+                        <h4>Дата, время, продолжительность, местоположение аренды</h4>
 
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="center">Центр:</label>

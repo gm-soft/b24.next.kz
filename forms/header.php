@@ -35,7 +35,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse blue-bg">
     <div class="container-fluid">
         <div class="container">
             <div class="navbar-header">

@@ -9,5 +9,30 @@
     display:inline-block;
 }
 
+.blue-bg {
+    background: #11184F !important;
+    color: #A6AAC7;
+}
 
+.blue-bg li > a {
+    color: #B3A2C5;
+}
 
+.content {
+    /*background: #e6ecff !important;*/
+    border-radius: 2px;
+
+    -webkit-box-shadow: 0px 3px 12px 1px rgba(0,0,0,0.37);
+    -moz-box-shadow: 0px 3px 12px 1px rgba(0,0,0,0.37);
+    box-shadow: 0px 3px 12px 1px rgba(0,0,0,0.37);
+}
+
+.margin-top {
+    margin-top: 50px !important;
+}
+
+.panel-heading.panel-custom {
+    background-color: #11184F !important;
+    font-size: 13pt;
+    color: #B3A2C5;
+}
