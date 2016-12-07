@@ -82,8 +82,8 @@
                         <h4>Информация о пакетах</h4>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="pack">Выберите пакет:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-sm-3" for="pack">Выберите пакет:</label>
+                            <div class="col-sm-9">
                                 <div class="input-group">
                                     <select class="form-control" id="pack" name="pack" required>
                                         <option value="">Выберите из списка</option>
@@ -98,8 +98,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="pupil_count">Количество учеников:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-sm-3" for="pupil_count">Количество учеников:</label>
+                            <div class="col-sm-9">
                                 <div class="input-group">
                                     <input type="number" step="1" min="0" class="form-control" id="pupil_count" name="pupil_count" required placeholder="Введите целое число">
                                     <span class="input-group-addon"><i class="glyphicon glyphicons-fire"></i></span>
@@ -108,8 +108,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="teacher_count">Количество учителей:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-sm-3" for="teacher_count">Количество учителей:</label>
+                            <div class="col-sm-9">
                                 <div class="input-group">
                                     <input type="number" step="1" min="0" class="form-control" id="teacher_count" name="teacher_count" required placeholder="Введите целое число">
                                     <span class="input-group-addon"><i class="glyphicon glyphicons-parents"></i></span>
@@ -118,8 +118,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="subject">Тема урока:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-sm-3" for="subject">Тема урока:</label>
+                            <div class="col-sm-9">
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="subject" name="subject" required placeholder="Введите тему урока">
                                     <span class="input-group-addon"><i class="glyphicon glyphicons-book"></i></span>
@@ -131,8 +131,8 @@
                         <h4>Дата, время, продолжительность, местоположение аренды</h4>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="center">Центр:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-sm-3" for="center">Центр:</label>
+                            <div class="col-sm-9">
                                 <div class="input-group">
                                     <select class="form-control" id="center" name="center" required>
                                         <option value="">Выберите из списка</option>
@@ -147,8 +147,8 @@
 
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="date">Дата:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-sm-3" for="date">Дата:</label>
+                            <div class="col-sm-9">
                                 <div class="input-group">
                                     <input type="date" class="form-control" id="date" name="date" required placeholder="Выберите дату">
                                     <span class="input-group-addon"><i class="glyphicon glyphicons-calendar"></i></span>
@@ -157,8 +157,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="time">Время:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-sm-3" for="time">Время:</label>
+                            <div class="col-sm-9">
                                 <div class="input-group">
                                     <input type="time" class="form-control" id="time" name="time" required
                                            placeholder="Выберите время">
@@ -168,17 +168,17 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="duration">Продолжительность аренды (часов):</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-sm-3" for="duration">Длительность аренды (часов):</label>
+                            <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="number" step="1" min="0" class="form-control" id="duration" name="duration" required placeholder="Введите продолжительность" value="3">
+                                    <input type="number" step="1" min="0" class="form-control" id="duration" name="duration" value="3" required placeholder="Введите продолжительность" >
                                     <span class="input-group-addon"><i class="glyphicon glyphicons-clock"></i></span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <div class="col-sm-offset-2">
+                            <div class="col-sm-offset-3">
                                 <button type="submit" id="submit-btn" class="btn btn-primary">Далее</button>
                             </div>
                         </div>
@@ -249,8 +249,8 @@
                         <hr>
                         <h3>Фуд-пакеты</h3>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="foodpack_count">Количество фуд-пакетов:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-sm-3" for="foodpack_count">Количество фуд-пакетов:</label>
+                            <div class="col-sm-9">
                                 <div class="input-group">
                                     <input type="number" step="1" min="0" class="form-control" id="foodpack_count" name="foodpack_count" required placeholder="Введите целое число">
                                     <span class="input-group-addon"><i class="glyphicon glyphicons-fast-food"></i></span>
@@ -271,8 +271,8 @@
                         <hr>
                         <h3>Трансфер</h3>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="transfer_cost">Полная стоимость трансфера:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-sm-3" for="transfer_cost">Полная стоимость трансфера:</label>
+                            <div class="col-sm-9">
                                 <div class="input-group">
                                     <input type="number" step="0.1" min="0" class="form-control" id="transfer_cost" name="transfer_cost" required placeholder="Введите стоимость">
                                     <span class="input-group-addon"><i class="glyphicon glyphicons-bus"></i></span>
@@ -281,8 +281,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="driver_cost">Деньги водителю:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-sm-3" for="driver_cost">Деньги водителю:</label>
+                            <div class="col-sm-9">
                                 <div class="input-group">
                                     <input type="number" step="0.1" min="0" class="form-control" id="driver_cost" name="driver_cost" required placeholder="Введите стоимость">
                                     <span class="input-group-addon"><i class="glyphicon glyphicons-businessman"></i></span>
@@ -302,18 +302,18 @@
                         <hr>
                         <h3>Финансовая информация</h3>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="bribe_percent">Процент X:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-sm-3" for="bribe_percent">Процент X:</label>
+                            <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="number" step="1" min="0" max="100" class="form-control" id="bribe_percent" name="bribe_percent" required placeholder="Введите процент от 1 до 100">
+                                    <input type="number" step="1" min="0" max="100" class="form-control" id="bribe_percent" name="bribe_percent" value="10" required placeholder="Введите процент от 1 до 100">
                                     <span class="input-group-addon"><i class="glyphicon glyphicons-money"></i></span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="discount">Скидка:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-sm-3" for="discount">Скидка:</label>
+                            <div class="col-sm-9">
                                 <div class="input-group">
                                     <input type="number" step="1" min="0" class="form-control" id="discount" name="discount" value="0">
                                     <span class="input-group-addon"><i class="glyphicon glyphicons-heart-empty"></i></span>
@@ -322,8 +322,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="discount_comment">Комментарий к скидке:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-sm-3" for="discount_comment">Комментарий к скидке:</label>
+                            <div class="col-sm-9">
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="discount_comment" name="discount_comment" placeholder="Введите комментарий к скидке" maxlength="150">
                                     <span class="input-group-addon"><i class="glyphicon glyphicons-heart-empty"></i></span>
@@ -333,16 +333,15 @@
                         <hr>
                         <h3>Общая информация</h3>
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="comment">Комментарий к заказу:</label>
-                            <div class="col-sm-10">
+                            <label class="control-label col-sm-3" for="comment">Комментарий к заказу:</label>
+                            <div class="col-sm-9">
                                 <textarea class="form-control" id="comment" name="comment" ></textarea>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <div class="col-sm-offset-2">
-                                <button type="submit" id="submit-btn" class="btn btn-primary">Рассчитать стоимость</button>
-                            </div>
+                            <a href="#" id="back" class="btn btn-default">Вернуться</a>
+                            <button type="submit" id="submit-btn" class="btn btn-primary">Рассчитать стоимость</button>
                         </div>
                     </form>
                     <div id="alert"></div>
@@ -547,9 +546,8 @@
                             <input type="hidden" name="user_id" value="<?= $userId?>">
 
                             <div class="form-group">
-                                <div class="col-sm-offset-2">
-                                    <button type="submit" id="submit-btn" class="btn btn-primary">Создать заказ</button>
-                                </div>
+                                <a href="#" id="back" class="btn btn-default">Вернуться</a>
+                                <button type="submit" id="submit-btn" class="btn btn-primary">Создать заказ</button>
                             </div>
                         </form>
                         <div id="alert"></div>
@@ -557,25 +555,30 @@
                     }
                     ?>
             </div>
-            <script>
-                $('#form').submit(function(){
-                    //$(this).find('input[type=submit]').prop('disabled', true);
-
-                    $("#submit-btn").prop('disabled',true);
-                    $('#alert').addClass("alert alert-warning").append("Идет обработка информации");
-                });
-
-                $('#print').click(function(){
-                    printContent("tableToPrint");
-                });
-
-            </script>
 
             <?php
 
             break;
 
     }
+    ?>
+    <script>
+        $('#form').submit(function(){
+            //$(this).find('input[type=submit]').prop('disabled', true);
+
+            $("#submit-btn").prop('disabled',true);
+            $("a").addClass('disabled');
+            $('#alert').addClass("alert alert-warning").append("Идет обработка информации");
+        });
+
+        $('#print').click(function(){
+            printContent("tableToPrint");
+        });
+        $('#back').click(function(){
+            window.history.back();
+        });
+    </script>
+    <?php
     require_once($_SERVER["DOCUMENT_ROOT"]."/forms/footer.php");
 
     ?>
