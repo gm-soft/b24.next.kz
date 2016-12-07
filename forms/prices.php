@@ -1,6 +1,7 @@
 <?php
-	define('BASEPACK_COST', 2000);
-    define('STANDARTPACK_COST', 3500);
-    define('ALLINCLUSIVE_COST', 5000);
+	define('APO_PACK_COST', 2000);
+    define('ESE_PACK_COST', 2500);
+    define('PRO_PACK_COST', 3000);
+    define('NEWYEAR_COST', 3000);
     define('FOODPACK_COST', 500);
     define('TEACHERPACK_COST', 0);

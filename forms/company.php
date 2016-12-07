@@ -1,6 +1,6 @@
 <?php
-    require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
-    require($_SERVER["DOCUMENT_ROOT"]."/include/help.php");
+    require ($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
+    require ($_SERVER["DOCUMENT_ROOT"]."/include/help.php");
     require ($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
 
     $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
@@ -182,6 +182,7 @@
             break;
 
         case "company_created":
+            require_once ($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
             $params = array(
                 "fields[TITLE]" => $_REQUEST["company_title"],
                 "fields[COMPANY_TYPE]"=> "CUSTOMER",

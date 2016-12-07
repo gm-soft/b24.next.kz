@@ -39,7 +39,7 @@
 				<td><a class="btn btn-default" href="../forms/contact.php?action=preorder&auth_id=<?= $auth_id?>" role="button">Открыть &raquo;</a></td>
 			</tr>
 
-			<?php if ($_SESSION["user_id"] == "30" || $_SESSION["user_id"] == "1"){
+			<?php if ($_SESSION["user_id"] == "30" || $_SESSION["user_id"] == "1" || $_SESSION["user_id"] == "98"){
 				?>
 				<tr>
 					<td><b>Школы и лагеря <span class="label label-info">beta</span></b></td>

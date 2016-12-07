@@ -40,28 +40,28 @@ class MysqlHelper
      * @param string $field - названеи поля, по которому осуществлять поиск
      * @return array|null
      */
-    public function getUser($searchable, $field = "username") {
+    public function getUserData($searchable, $field = "username") {
 
-        if ($field == "id") $query = "select * from users where ".$field."=".$searchable;
-        else $query = "select * from users where ".$field."='".$searchable."'";
+        if ($field == "id") $query = "SELECT * FROM users WHERE $field=$searchable";
+        else $query = "SELECT * FROM users WHERE $field='$searchable'";
         $data = $this->executeQuery($query);
         if ($data["result"] != true || is_null($data["data"])) return $data;
 
-        $data["data"] = User::fromDatabase($data["data"]);
+        //$data["data"] = User::fromDatabase($data["data"]);
 
         return $data;
     }
 
-    public function addUser($user){
+    public function addUser(User $user){
 
-        $query = "insert into `".$this->table_users."` (".
+        $query = "insert into `$this->table_users` (".
             "`username`, ".
             "`password`, ".
             "`hash`".
             ") values (".
-            "'".$user->getUsername()."',".
-            "'".$user->getPassword()."',".
-            "'".$user->getHash()."'".
+            "'$user->getUsername()',".
+            "'$user->getPassword()',".
+            "'$user->getHash()'".
             ")";
         $query_result = $this->executeQuery($query);
         if ($query_result["result"] != true) return $query_result;
@@ -70,7 +70,7 @@ class MysqlHelper
         return $query_result;
     }
 
-    public function updateUser($user){
+    public function updateUser(User $user){
         $query = "update `".$this->table_users."` set ".
             "`username`='".$user->getUsername()."', ".
             "`password`='".$user->getPassword()."', ".
@@ -82,5 +82,9 @@ class MysqlHelper
         //$query_result["data"] = mysqli_insert_id($this->context);;
         //$id = mysqli_insert_id($this->context);
         return $query_result;
+    }
+
+    function createTables() {
+
     }
 }

@@ -53,15 +53,15 @@ if (!isset($_POST["login"])) {
     $data = $mysql->getUserData($login, "username");
     if (is_null($data["data"]) ) $err[] = "Пользователь с таким логином отсутствует в базе";
 
-    $user = $data["result"] == true && count($err) == 0 ? $data["data"] : null;
+    $user = User::fromDatabase($data);
+    $user->setHash(md5(User::generateCode(10)));
+    //$user = $data["result"] == true && count($err) == 0 ? $data["data"] : null;
     $inputedPassword = md5(md5($pwd));
 
     if (!is_null($user) && $inputedPassword != $user->getPassword()) $err[] = "Пароль не совпадает";
 
     if(count($err) == 0)
     {
-        $hash = md5(generateCode(10));
-        $user->setHash($hash);
         $res = $mysql->updateUser($user);
 
         $ts = time();

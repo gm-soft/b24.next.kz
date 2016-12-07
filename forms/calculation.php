@@ -23,34 +23,42 @@
 
             switch ($_REQUEST["pack"]) {
                 case 'basepack':
-                    $packPrice = BASEPACK_COST;
                     $packName = "Базовый";
                     break;
                 case 'standartpack':
-                    $packPrice = STANDARTPACK_COST;
                     $packName = "Стандартный";
                     break;
-                default:
-                    $packPrice = ALLINCLUSIVE_COST;
+                case 'newyear':
+                    $packName = "Новогодний";
+                    break;
+                case 'allinclusive':
                     $packName = "Все включено";
                     break;
-                }
+            }
 
             switch ($_REQUEST["center"]) {
                 case 'next_ese':
                     $centerName = "NEXT Esentai";
+                    $packPrice = ESE_PACK_COST;
                     break;
                 case 'next_apo':
                     $centerName = "NEXT Aport";
+                    $packPrice = APO_PACK_COST;
                     break;
 
                 case 'next_pro':
                     $centerName = "NEXT Promenade";
+                    $packPrice = PRO_PACK_COST;
                     break;
                 default:
-                    $centerName = "Не известен";
+                    if ($_REQUEST["pack"] == "newyear") {
+                        $packPrice = NEWYEAR_COST;
+                        break;
+                    }
+
+                    $packPrice = 0;
                     break;
-                }
+            }
 
             $pupilCount = intval($_REQUEST["pupil_count"]);
             $teacherCount = intval($_REQUEST["teacher_count"]);

@@ -90,6 +90,7 @@
                                         <option value="basepack">Базовый</option>
                                         <option value="standartpack">Стандартный</option>
                                         <option value="allinclusive">Все включено</option>
+                                        <option value="newyear">Новогодний</option>
                                     </select>
                                     <span class="input-group-addon"><i class="glyphicon glyphicons-gift"></i></span>
                                 </div>
@@ -167,10 +168,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="duration">Время аренды (часов):</label>
+                            <label class="control-label col-sm-2" for="duration">Продолжительность аренды (часов):</label>
                             <div class="col-sm-10">
                                 <div class="input-group">
-                                    <input type="number" step="1" min="0" class="form-control" id="duration" name="duration" required placeholder="Введите кол-во часов">
+                                    <input type="number" step="1" min="0" class="form-control" id="duration" name="duration" required placeholder="Введите продолжительность">
                                     <span class="input-group-addon"><i class="glyphicon glyphicons-clock"></i></span>
                                 </div>
                             </div>
