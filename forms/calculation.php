@@ -42,30 +42,17 @@
             switch ($_REQUEST["center"]) {
                 case 'next_ese':
                     $centerName = "NEXT Esentai";
-                    $packPrice = ESE_PACK_COST;
                     break;
                 case 'next_apo':
                     $centerName = "NEXT Aport";
-                    if ($_REQUEST["pack"] == "newyear") {
-                        $packPrice = NEWYEAR_APO_COST;
-                        break;
-                    }
-                    $packPrice = APO_PACK_COST;
                     break;
 
                 case 'next_pro':
                     $centerName = "NEXT Promenade";
-                    $packPrice = PRO_PACK_COST;
-                    break;
-                default:
-                    if ($_REQUEST["pack"] == "newyear") {
-                        $packPrice = NEWYEAR_COST;
-                        break;
-                    }
-
-                    $packPrice = 0;
                     break;
             }
+
+            $packPrice = GetPackPrice($_REQUEST["pack"], $_REQUEST["center"]);
 
             $pupilCount = intval($_REQUEST["pupil_count"]);
             $teacherCount = intval($_REQUEST["teacher_count"]);
@@ -233,6 +220,67 @@
     header('Content-Type: application/json');
     echo json_encode($response);
 
+
+    function GetPackPrice($pack, $center){
+        $packPrice = 0;
+
+
+        switch ($center) {
+            case 'next_ese':
+                $packPrice = ESE_BASE_PACK_PRICE;
+                switch ($pack) {
+                    case 'basepack':
+                        $packPrice = ESE_BASE_PACK_PRICE;
+                        break;
+                    case 'standartpack':
+                        $packPrice = ESE_STD_PACK_PRICE;
+                        break;
+                    case 'newyear':
+                        $packPrice = ESE_NEWYEAR_COST;
+                        break;
+                    case 'allinclusive':
+                        $packPrice = ESE_ALL_PACK_PRICE;
+                        break;
+                }
+
+
+                break;
+            case 'next_apo':
+                switch ($pack) {
+                    case 'basepack':
+                        $packPrice = APO_BASE_PACK_PRICE;
+                        break;
+                    case 'standartpack':
+                        $packPrice = APO_STD_PACK_PRICE;
+                        break;
+                    case 'newyear':
+                        $packPrice = APO_NEWYEAR_COST;
+                        break;
+                    case 'allinclusive':
+                        $packPrice = APO_ALL_PACK_PRICE;
+                        break;
+                }
+                break;
+
+            case 'next_pro':
+                switch ($pack) {
+                    case 'basepack':
+                        $packPrice = PRO_BASE_PACK_PRICE;
+                        break;
+                    case 'standartpack':
+                        $packPrice = PRO_STD_PACK_PRICE;
+                        break;
+                    case 'newyear':
+                        $packPrice = PRO_NEWYEAR_COST;
+                        break;
+                    case 'allinclusive':
+                        $packPrice = PRO_ALL_PACK_PRICE;
+                        break;
+                }
+                break;
+        }
+        return $packPrice;
+    }
 
 
 /*
