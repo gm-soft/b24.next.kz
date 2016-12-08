@@ -336,6 +336,24 @@
             $response["result"] = isset($result["result"]);
             //$response["result"] = $result;
             break;
+
+        case "deals.get":
+            $filterField = isset($_REQUEST["field"]) ? $_REQUEST["field"] : null;
+            $filterValue = isset($_REQUEST["value"]) ? $_REQUEST["value"] : null;
+
+            $fields = array(
+                0 => $filterField, 
+                //1 => "STATUS"
+            );
+            $values = array(
+                0 => $filterValue, 
+                //1 => "WON"
+            );
+
+            $openDeals = BitrixHelper::getDeals($fields, $values, $access_data["access_token"]);
+            $response["total"] = count($openDeals);
+            $response["result"] = $openDeals;
+            break;
     }
 
 
