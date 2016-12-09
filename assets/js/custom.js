@@ -25,7 +25,7 @@ function getBitrixInstance(method, id){
     };
     var body = "method="+method+"&type=var_export";
     if (typeof id !== 'undefined') body += "&id="+id;
-    xhr.open("GET", "http://b24.next.kz/rest/request.php?"+body, true);
+    xhr.open("GET", "../rest/request.php?"+body, true);
     xhr.send();
 }
 

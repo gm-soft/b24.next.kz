@@ -21,6 +21,8 @@
         case 'schoolGetCostSave':
             include "prices.php";
 
+            log_debug(var_export($_REQUEST,true));
+
             switch ($_REQUEST["pack"]) {
                 case 'basepack':
                     $packName = "Базовый";
@@ -52,7 +54,8 @@
                     break;
             }
 
-            $packPrice = GetPackPrice($_REQUEST["pack"], $_REQUEST["center"]);
+            //$packPrice = GetPackPrice($_REQUEST["pack"], $_REQUEST["center"]);
+            $packPrice = floatval($_REQUEST["package_price"]);
 
             $pupilCount = intval($_REQUEST["pupil_count"]);
             $teacherCount = intval($_REQUEST["teacher_count"]);
@@ -60,36 +63,47 @@
 
             $packCost = $packPrice * $pupilCount;
             $teacherPackCost = $teacherCount * TEACHERPACK_COST;
-            $foodPackCost = $foodPackCount * FOODPACK_COST;
+            //$foodPackCost = $foodPackCount * FOODPACK_COST;
+
+            $foodPackCost = $foodPackCount * floatval($_REQUEST["foodpack_price"]);
 
             $transferCost = floatval($_REQUEST["transfer_cost"]);
-            $driverCost = floatval($_REQUEST["driver_cost"]);
-            $transferToCash = $transferCost > $driverCost ? $transferCost - $driverCost : 0;
+            //$driverCost = floatval($_REQUEST["driver_cost"]);
+            //$transferToCash = $transferCost > $driverCost ? $transferCost - $driverCost : 0;
+
 
             $discount = floatval($_REQUEST["discount"]);
             //---------------------------------------------------------
             $orderCost = $packCost - $discount;
-            $totalCost = $orderCost > 0 ? $orderCost : 0;
-            $totalCost += $foodPackCost + $teacherPackCost + $transferCost - $discount;
+            $orderCost = $orderCost > 0 ? $orderCost : 0;
 
             $bribePercent = floatval($_REQUEST["bribe_percent"]);
-            $bribePercent = $bribePercent >= 1 ? $bribePercent / 100 : $bribePercent;
+            $bribePercent = $bribePercent > $packPrice ? $packPrice : $bribePercent; // вдруг ввели скидку больше, чем нужно представить
+            $bribe = $pupilCount * $bribePercent;
 
-            $bribe = $totalCost * $bribePercent;
 
-            $moneyToCash = $totalCost - $transferCost - $bribe + $transferToCash;
+            $totalCost = $orderCost + $foodPackCost + $teacherPackCost - $transferCost;
+            //$moneyToCash = $orderCost + $foodPackCost + $teacherPackCost - $bribe;
+            $moneyToCash = $totalCost - $bribe;
+
+            /*$bribePercent = $bribePercent >= 1 ? $bribePercent / 100 : $bribePercent;
+
+            $bribe = $totalCost * $bribePercent;*/
+
+
+
 
             $result = array(
                 "totalCost" => $totalCost + $discount,
                 "totalCostDiscount" => $totalCost,
                 "moneyToCash" => $moneyToCash,
-                "driverCost" => $driverCost,
+                //"driverCost" => $driverCost,
                 "foodCost" => $foodPackCost + $teacherPackCost,
                 "orderCost" => $orderCost,
                 "packCost" => $packCost,
                 "packPrice" => $packPrice,
                 "transferCost" => $transferCost,
-                "transferToCash" => $transferToCash,
+                //"transferToCash" => $transferToCash,
                 "bribe" => $bribe
             );
             $response["result"] = $result;

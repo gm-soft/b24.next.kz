@@ -354,7 +354,7 @@ switch ($actionPerformed) {
 
         switch ($action) {
             case 'school':
-                $formAction = "school.php";
+                $formAction = "school_basic.php";
                 break;
             case 'corporate':
                 $formAction = "corporate.php";
