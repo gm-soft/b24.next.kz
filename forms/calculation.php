@@ -60,6 +60,7 @@
             $pupilCount = intval($_REQUEST["pupil_count"]);
             $teacherCount = intval($_REQUEST["teacher_count"]);
             $foodPackCount = intval($_REQUEST["foodpack_count"]);
+            $pupilAge = $_REQUEST["pupil_age"];
 
             $packCost = $packPrice * $pupilCount;
             $teacherPackCost = $teacherCount * TEACHERPACK_COST;
@@ -82,7 +83,7 @@
             $bribe = $pupilCount * $bribePercent;
 
 
-            $totalCost = $orderCost + $foodPackCost + $teacherPackCost - $transferCost;
+            $totalCost = $orderCost - $transferCost;
             //$moneyToCash = $orderCost + $foodPackCost + $teacherPackCost - $bribe;
             $moneyToCash = $totalCost - $bribe;
 
@@ -195,6 +196,7 @@
 
                 $comment = $_REQUEST["comment"] != "" ? $_REQUEST["comment"]."\n" : "";
                 $comment .= "=== Служебная информация ===\n";
+                $comment .= "Возраст детей: ".$pupilAge."\n";
                 $comment .= "Тема урока: ".$_REQUEST["subject"]."\n";
                 $comment .= "Выбранный пакет: ".$packName."\n";
                 $comment .= "Процент учителю: ".$bribe."\n";
