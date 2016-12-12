@@ -7,7 +7,7 @@
 	$auth_id = isset($_REQUEST["auth_id"]) ? $_REQUEST["auth_id"] : null;
 
 	if (is_null($action)) {
-		redirect("../forms/index.php?auth_id=<?= $auth_id ?>");
+		redirect("../sales/index.php?auth_id=<?= $auth_id ?>");
 	}
 
 	$admin_auth_id = isset($_REQUEST["admin_token"]) ? $_REQUEST["admin_token"] : get_access_data(true);
@@ -27,7 +27,7 @@
 
         case "contact_defined":
 	        $contact = BitrixHelper::getContact($_REQUEST["contact_id"]);
-            require_once($_SERVER["DOCUMENT_ROOT"]."/forms/header.php");
+            require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
 
             ?>
             <div class="container ">
@@ -138,7 +138,7 @@
 			$process_data = isset($process_data["result"]) ? $process_data["result"] : $process_data;
 			log_debug(var_export($process_data, true));
 
-            require_once($_SERVER["DOCUMENT_ROOT"]."/forms/header.php");
+            require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
 			if (!is_null($process_data) ) {
 				$cost = $process_data["cost"];
 				$date_string = $process_data["date_string"];
@@ -241,7 +241,7 @@
 			$process_data = query("POST", $url, $parameters);
 			$process_data = isset($process_data["result"]) ? $process_data["result"] : $process_data;
 
-            require_once($_SERVER["DOCUMENT_ROOT"]."/forms/header.php");
+            require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/header.php");
 			if (!is_null($process_data) ) {
 				$deal_id = $process_data["deal_id"];
 				$order_id = $process_data["order_id"];
@@ -346,6 +346,6 @@
 	</script>
 <?php 
 
-	require_once($_SERVER["DOCUMENT_ROOT"]."/forms/footer.php"); 
+	require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/footer.php");
 
 ?>

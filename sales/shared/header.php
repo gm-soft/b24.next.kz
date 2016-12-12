@@ -4,23 +4,23 @@
     <title>NEXT.Events</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="shortcut icon" href="../../favicon.ico">
     <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script-->
 
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../../assets/css/custom.css">
     
-    <link rel="stylesheet" href="../assets/css/select2.min.css">
+    <link rel="stylesheet" href="../../assets/css/select2.min.css">
 
     
-    <script src="../assets/js/jquery1.12.4.min.js"></script>
-    <script src="../assets/js/bootstrap3.3.7.min.js"></script>
+    <script src="../../assets/js/jquery1.12.4.min.js"></script>
+    <script src="../../assets/js/bootstrap3.3.7.min.js"></script>
     <script src="//api.bitrix24.com/api/v1/"></script>
 
-    <script src="../assets/js/select2.min.js"></script>
-    <script src="../assets/js/custom.js"></script>
+    <script src="../../assets/js/select2.min.js"></script>
+    <script src="../../assets/js/custom.js"></script>
 
     <script type="text/javascript">
          
@@ -45,7 +45,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="../forms/index.php?auth_id=<?= isset($_REQUEST["AUTH_ID"]) ? $_REQUEST["AUTH_ID"] : $_REQUEST["auth_id"]?>">Система продаж</a>
+                <a class="navbar-brand" href="/index.php?auth_id=<?= isset($_REQUEST["AUTH_ID"]) ? $_REQUEST["AUTH_ID"] : $_REQUEST["auth_id"]?>" >Система продаж</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -94,4 +94,4 @@ if (isset($_GET["error"]) || isset($_GET["success"]) || isset($_GET["warning"]))
     }
 }
 ?>
-<div class="unicorn-image"><img src="../assets/images/unicorn-with-cat.png"> </div>
+<div class="unicorn-image"><img src="../../assets/images/unicorn-with-cat.png"> </div>

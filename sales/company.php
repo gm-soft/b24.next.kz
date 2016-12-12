@@ -6,7 +6,7 @@
     $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
     $auth_id = isset($_REQUEST["auth_id"]) ? $_REQUEST["auth_id"] : null;
     if (is_null($action)) {
-        redirect("../forms/index.php?auth_id=<?= $auth_id ?>");
+        redirect("../sales/index.php?auth_id=<?= $auth_id ?>");
     }
 
 
@@ -31,7 +31,7 @@
 
             $companies = BitrixHelper::getCompanies($userId, $adminAuthToken);
             $header = "Мои компании";
-            $url = "https://b24.next.kz/forms/company.php?auth_id=$auth_id&action=$action&action_performed=all_companies";
+            $url = "https://b24.next.kz/sales/company.php?auth_id=$auth_id&action=$action&action_performed=all_companies";
             $urlHeader = "Все компании";
             $desc = "В списке представлены компании/школы, где ответственный - Вы.";
 
@@ -39,14 +39,14 @@
                 $companies = BitrixHelper::getCompanies(null, $adminAuthToken);
                 $header = "Все компании";
                 $desc = "В списке представлены все компании/школы, которые есть в Битрикс24";
-                $url = "https://b24.next.kz/forms/company.php?auth_id=$auth_id&action=$action&action_performed=choose_company";
+                $url = "https://b24.next.kz/sales/company.php?auth_id=$auth_id&action=$action&action_performed=choose_company";
                 $urlHeader = "Мои компании";
             }
             if (count($companies) == 0) {
 
                 $_SESSION["errors"] = array("Компаний, где Вы назначены ответственным, не найдено");
 
-                $url = "../forms/company.php?".
+                $url = "../sales/company.php?".
                     "auth_id=$auth_id&".
                     "action=$action&".
                     "action_performed=company_create";
@@ -54,7 +54,7 @@
             }
             // Если нет компаний в списке вообще, то редиректнуть на себя же, а в параметрах указать key = company_create
 
-            require_once($_SERVER["DOCUMENT_ROOT"]."/forms/header.php");
+            require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
             ?>
             <div class="container">
                 <div class="row">
@@ -96,13 +96,13 @@
                                     <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="https://b24.next.kz/forms/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=company_create">Создать новую компанию</a>
+                                            <a href="https://b24.next.kz/sales/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=company_create">Создать новую компанию</a>
                                         </li>
                                         <li>
                                             <a href="<?= $url ?>"><?= $urlHeader ?></a>
                                         </li>
                                         <li>
-                                            <a href="../forms/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
+                                            <a href="/sales/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -122,7 +122,7 @@
 
         case "company_create":
             $form_action = "company.php";
-            require_once($_SERVER["DOCUMENT_ROOT"]."/forms/header.php");
+            require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
             ?>
             <div class="container">
                 <div class="row">
@@ -161,13 +161,13 @@
                                     <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="https://b24.next.kz/forms/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=initiated">Мои компании</a>
+                                            <a href="https://b24.next.kz/sales/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=initiated">Мои компании</a>
                                         </li>
                                         <li>
-                                            <a href="https://b24.next.kz/forms/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=all_companies">Выбрать компанию</a>
+                                            <a href="https://b24.next.kz/sales/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=all_companies">Выбрать компанию</a>
                                         </li>
                                         <li>
-                                            <a href="../forms/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
+                                            <a href="/sales/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -194,7 +194,7 @@
             $createResult = BitrixHelper::callMethod("crm.company.add", $params);
             $companyId = $createResult["result"];
 
-            $url = "../forms/company_contact.php?".
+            $url = "../sales/company_contact.php?".
                 "auth_id=".$auth_id."&".
                 "action=".$action."&".
                 "action_performed=company_defined&".
@@ -222,5 +222,5 @@
     });
 </script>
 <?php
-require_once($_SERVER["DOCUMENT_ROOT"]."/forms/footer.php");
+require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/footer.php");
 ?>

@@ -34,14 +34,18 @@
         echo json_encode($response);
         die();
     }*/
-    $deal_id = $_REQUEST["deal_id"];
+    /*$deal_id = $_REQUEST["deal_id"];
     $deal = BitrixHelper::getDeal($deal_id, $access_data["access_token"] );
-    $type = isset($_REQUEST["type"]) ? $_REQUEST["type"] : null;
+    $type = isset($_REQUEST["type"]) ? $_REQUEST["type"] : null;*/
 
 
 	switch ($action) {
 
         case "task.update.all":
+
+            $deal_id = $_REQUEST["deal_id"];
+            $deal = BitrixHelper::getDeal($deal_id, $access_data["access_token"] );
+            $type = isset($_REQUEST["type"]) ? $_REQUEST["type"] : null;
 
             $types = array(0 => "admin", 1 => "food", 2 => "design");
             $url = "http://b24.next.kz/rest/bitrix.php";
@@ -60,6 +64,11 @@
             break;
 
         case "task.update":
+
+            $deal_id = $_REQUEST["deal_id"];
+            $deal = BitrixHelper::getDeal($deal_id, $access_data["access_token"] );
+            $type = isset($_REQUEST["type"]) ? $_REQUEST["type"] : null;
+
             switch ($type) {
                 case "food":
                     $task_id_field = "UF_CRM_1476413526";
@@ -121,6 +130,11 @@
             break;
 
         case "task.checklist.get":
+
+            $deal_id = $_REQUEST["deal_id"];
+            $deal = BitrixHelper::getDeal($deal_id, $access_data["access_token"] );
+            $type = isset($_REQUEST["type"]) ? $_REQUEST["type"] : null;
+
             $parent_task_id = $deal["UF_CRM_1476413504"];
 
             switch ($type){
@@ -174,6 +188,11 @@
             break;
 
         case "task.checklist.update":
+
+            $deal_id = $_REQUEST["deal_id"];
+            $deal = BitrixHelper::getDeal($deal_id, $access_data["access_token"] );
+            $type = isset($_REQUEST["type"]) ? $_REQUEST["type"] : null;
+
             switch ($type){
                 case "food":
                     $task_id = $deal["UF_CRM_1476413526"];
@@ -249,6 +268,10 @@
 
         case "checklist.clear" :
 
+            $deal_id = $_REQUEST["deal_id"];
+            $deal = BitrixHelper::getDeal($deal_id, $access_data["access_token"] );
+            $type = isset($_REQUEST["type"]) ? $_REQUEST["type"] : null;
+
             switch ($type){
                 case "food":
                     $task_id = $deal["UF_CRM_1476413526"];
@@ -272,6 +295,10 @@
             break;
 
         case "task.checklist.current":
+
+            $deal_id = $_REQUEST["deal_id"];
+            $deal = BitrixHelper::getDeal($deal_id, $access_data["access_token"] );
+            $type = isset($_REQUEST["type"]) ? $_REQUEST["type"] : null;
 
             switch ($type) {
                 case "food":
@@ -353,6 +380,17 @@
             $openDeals = BitrixHelper::getDeals($fields, $values, $access_data["access_token"]);
             $response["total"] = count($openDeals);
             $response["result"] = $openDeals;
+            break;
+
+        case "order.get.google":
+            $res = queryGoogleScript(array(
+                "id" => $_REQUEST["id"],
+                "event" => "OnOrderRequested",
+
+                )
+            );
+
+            $response["result"] = isset($res["result"]) ? $res["result"] : $res;
             break;
     }
 

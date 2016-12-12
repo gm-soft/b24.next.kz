@@ -21,6 +21,17 @@
     }
 
     /**
+     * Отправляет запрос на гугл-скрипт-сервер
+     *
+     * @param $data
+     * @param string $url - по дефолту стоит адрес моего гугл-скрипт-сервера
+     * @return array
+     */
+    function queryGoogleScript($data, $url = "https://script.google.com/macros/s/AKfycbxjyTPPbRdVZ-QJKcWLFyITXIeQ1GwI7fAi0FgATQ0PsoGKAdM/exec"){
+        return query("GET", $url, $data);
+    }
+
+    /**
      * Совершает запрос с заданными данными по заданному адресу. В ответ ожидается JSON
      *
      * @param string $method GET|POST - тип запроса

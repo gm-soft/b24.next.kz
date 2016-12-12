@@ -7,7 +7,7 @@
 	$action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
 	$auth_id = isset($_REQUEST["auth_id"]) ? $_REQUEST["auth_id"] : null;
 	if (is_null($action)) {
-		redirect("../forms/index.php?auth_id=<?= $auth_id ?>");
+		redirect("../sales/index.php?auth_id=<?= $auth_id ?>");
 	}
 
 
@@ -37,7 +37,7 @@
 
 	switch ($actionPerformed){
         case "initiated":
-            require_once($_SERVER["DOCUMENT_ROOT"]."/forms/header.php");
+            require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
             ?>
             <div class="container">
                 <div class="row">
@@ -82,7 +82,7 @@
             $contacts = BitrixHelper::searchContact($phone, $adminAuthToken);
 
             if (count($contacts) > 0) {
-                require_once($_SERVER["DOCUMENT_ROOT"]."/forms/header.php");
+                require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
             ?>
             <div class="container">
                 <div class="row">
@@ -122,7 +122,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <a href="https://b24.next.kz/forms/index.php?auth_id=<?= $auth_id ?>" type="button" class="btn btn-link"><< В главное меню</a>
+                                    <a href="https://b24.next.kz/sales/index.php?auth_id=<?= $auth_id ?>" type="button" class="btn btn-link"><< В главное меню</a>
                                     <button type="submit" id="submit-btn" class="btn btn-primary">Далее</button>
                                 </div>
                             </div>
@@ -132,7 +132,7 @@
             </div>
             <?php
             } else {
-                $url = "../forms/contact.php?" .
+                $url = "../sales/contact.php?" .
                     "auth_id=$auth_id&" .
                     "action=$action&" .
                     "action_performed=contact_create&".
@@ -144,7 +144,7 @@
 
         case "contact_create":
             $phone = isset($_REQUEST["contact_phone"]) ? BitrixHelper::formatPhone($_REQUEST["contact_phone"]) : "";
-            require_once($_SERVER["DOCUMENT_ROOT"]."/forms/header.php");
+            require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
             ?>
             <div class="container">
                 <div class="row">
@@ -200,7 +200,7 @@
 
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <a href="https://b24.next.kz/forms/index.php?auth_id=<?= $auth_id ?>" type="button" class="btn btn-link"><< В главное меню</a>
+                                    <a href="https://b24.next.kz/sales/index.php?auth_id=<?= $auth_id ?>" type="button" class="btn btn-link"><< В главное меню</a>
                                     <button type="submit" id="submit-btn" class="btn btn-primary">Далее</button>
                                 </div>
                             </div>
@@ -235,7 +235,7 @@
             $createResult = BitrixHelper::callMethod("crm.contact.add", $params);
             $contactId = $createResult["result"];
 
-            $url = "../forms/preorder.php?".
+            $url = "../sales/preorder.php?".
                 "auth_id=$auth_id&".
                 "action=$action&".
                 "action_performed=contact_defined&".
@@ -255,5 +255,5 @@
         });
     </script>
     <?php
-	require_once($_SERVER["DOCUMENT_ROOT"]."/forms/footer.php"); 
+	require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/footer.php");
 ?>

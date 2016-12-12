@@ -6,7 +6,7 @@ require ($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
 $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
 $auth_id = isset($_REQUEST["auth_id"]) ? $_REQUEST["auth_id"] : null;
 if (is_null($action)) {
-    redirect("../forms/index.php?auth_id=<?= $auth_id ?>");
+    redirect("../sales/index.php?auth_id=<?= $auth_id ?>");
 }
 
 
@@ -19,7 +19,7 @@ $_SESSION["user_id"] =  $curr_user["ID"];
 $userId = $curr_user["ID"];
 
 /*if (!isset($_REQUEST["company_id"])) {
-    $url = "../forms/company.php?".
+    $url = "../sales/company.php?".
                 "auth_id=$auth_id&".
                 "action=$action&".
                 "action_performed=choose_company";
@@ -47,7 +47,7 @@ switch ($actionPerformed) {
             $desc = "В списке представлены контакты, которые закреплены к выбранной компании";
 
             if (count($contacts) == 0) {
-                $url = "../forms/company_contact.php?".
+                $url = "../sales/company_contact.php?".
                     "auth_id=$auth_id&".
                     "action=$action&".
                     "action_performed=search_contact&".
@@ -58,7 +58,7 @@ switch ($actionPerformed) {
         }
 
 
-        require_once($_SERVER["DOCUMENT_ROOT"]."/forms/header.php");
+        require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
         ?>
         <div class="container">
             <div class="row">
@@ -107,16 +107,16 @@ switch ($actionPerformed) {
                                 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="https://b24.next.kz/forms/company_contact.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=search_contact&company_id=<?= $companyId ?>">Найти контакт</a>
+                                        <a href="https://b24.next.kz/sales/company_contact.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=search_contact&company_id=<?= $companyId ?>">Найти контакт</a>
                                     </li>
                                     <li>
                                         <?php
-                                        $url = "https://b24.next.kz/forms/company_contact.php?auth_id=$auth_id&action=$action&action_performed=create_contact&company_id=$companyId";
+                                        $url = "https://b24.next.kz/sales/company_contact.php?auth_id=$auth_id&action=$action&action_performed=create_contact&company_id=$companyId";
                                         ?>
                                         <a href="<?=$url?>">Создать контакт</a>
                                     </li>
                                     <li>
-                                        <a href="../forms/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
+                                        <a href="/sales/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
                                     </li>
                                 </ul>
                             </div>
@@ -135,7 +135,7 @@ switch ($actionPerformed) {
 
         $company = BitrixHelper::getCompany($companyId, $adminAuthToken);
         
-        require_once($_SERVER["DOCUMENT_ROOT"]."/forms/header.php");
+        require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
         ?>
         <div class="container">
             <div class="row">
@@ -173,22 +173,22 @@ switch ($actionPerformed) {
                                 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="https://b24.next.kz/forms/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=choose_company">Выбрать компанию</a>
+                                        <a href="https://b24.next.kz/sales/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=choose_company">Выбрать компанию</a>
                                     </li>
                                     <li>
                                         <?php
-                                        $url = "https://b24.next.kz/forms/company_contact.php?auth_id=$auth_id&action=$action&action_performed=company_defined&company_id=$companyId";
+                                        $url = "https://b24.next.kz/sales/company_contact.php?auth_id=$auth_id&action=$action&action_performed=company_defined&company_id=$companyId";
                                         ?>
                                         <a href="<?=$url?>">Выбрать контакт</a>
                                     </li>
                                     <li>
                                         <?php
-                                        $url = "https://b24.next.kz/forms/company_contact.php?auth_id=$auth_id&action=$action&action_performed=create_contact&company_id=$companyId";
+                                        $url = "https://b24.next.kz/sales/company_contact.php?auth_id=$auth_id&action=$action&action_performed=create_contact&company_id=$companyId";
                                         ?>
                                         <a href="<?=$url?>">Создать контакт</a>
                                     </li>
                                     <li>
-                                        <a href="../forms/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
+                                        <a href="/sales/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
                                     </li>
                                 </ul>
                             </div>
@@ -207,7 +207,7 @@ switch ($actionPerformed) {
         $phone = isset($_REQUEST["contact_phone"]) ? BitrixHelper::formatPhone($_REQUEST["contact_phone"]) : "";
         //log_debug("PHONE = ".$_REQUEST["contact_phone"].". Count=".count($contacts)." ".var_export($contacts, true));
         if (count($contacts) == 0) {
-            $url = "../forms/company_contact.php?".
+            $url = "../sales/company_contact.php?".
                 "auth_id=$auth_id&".
                 "action=$action&".
                 "action_performed=create_contact&".
@@ -220,7 +220,7 @@ switch ($actionPerformed) {
         //$contact = $contacts[0];
 
         if (count($contacts) > 1){
-            $url = "../forms/company_contact.php?".
+            $url = "../sales/company_contact.php?".
                 "auth_id=$auth_id&".
                 "action=$action&".
                 "action_performed=choose_contact&".
@@ -232,7 +232,7 @@ switch ($actionPerformed) {
                 $url .= "&contact_id[$i]=".$contact["ID"];
             }
         } else {
-            $url = "../forms/company_contact.php?".
+            $url = "../sales/company_contact.php?".
                 "auth_id=$auth_id&".
                 "action=$action&".
                 "action_performed=contact_defined&".
@@ -247,7 +247,7 @@ switch ($actionPerformed) {
 
     case "create_contact":
         $company = BitrixHelper::getCompany($companyId, $adminAuthToken);
-        require_once($_SERVER["DOCUMENT_ROOT"]."/forms/header.php");
+        require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
         ?>
         <div class="container">
             <div class="row">
@@ -299,16 +299,16 @@ switch ($actionPerformed) {
                                 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="https://b24.next.kz/forms/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=choose_company">Выбрать компанию</a>
+                                        <a href="https://b24.next.kz/sales/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=choose_company">Выбрать компанию</a>
                                     </li>
                                     <li>
                                         <?php
-                                        $url = "https://b24.next.kz/forms/company_contact.php?auth_id=$auth_id&action=$action&action_performed=company_defined&company_id=$companyId";
+                                        $url = "https://b24.next.kz/sales/company_contact.php?auth_id=$auth_id&action=$action&action_performed=company_defined&company_id=$companyId";
                                         ?>
                                         <a href="<?=$url?>">Выбрать контакт</a>
                                     </li>
                                     <li>
-                                        <a href="../forms/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
+                                        <a href="/sales/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
                                     </li>
                                 </ul>
                             </div>
@@ -337,7 +337,7 @@ switch ($actionPerformed) {
         $createResult = BitrixHelper::callMethod("crm.contact.add", $params);
         $contactId = $createResult["result"];
 
-        $url = "../forms/company_contact.php?".
+        $url = "../sales/company_contact.php?".
             "auth_id=$auth_id&".
             "action=$action&".
             "action_performed=contact_defined&".
@@ -354,17 +354,17 @@ switch ($actionPerformed) {
 
         switch ($action) {
             case 'school':
-                $formAction = "school.php";
+                $formAction = "../sales/school/school.php";
                 break;
             case 'corporate':
-                $formAction = "corporate.php";
+                $formAction = "../sales/corporate/corporate.php";
                 break;
             default:
                 $formAction = "";
                 break;
         }
 
-        require_once($_SERVER["DOCUMENT_ROOT"]."/forms/header.php");
+        require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
         ?>
         <div class="container">
             <div class="row">
@@ -415,16 +415,16 @@ switch ($actionPerformed) {
                                 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="https://b24.next.kz/forms/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=choose_company">Выбрать компанию</a>
+                                        <a href="https://b24.next.kz/sales/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=choose_company">Выбрать компанию</a>
                                     </li>
                                     <li>
                                         <?php
-                                        $url = "https://b24.next.kz/forms/company_contact.php?auth_id=$auth_id&action=$action&action_performed=company_defined&company_id=$companyId";
+                                        $url = "https://b24.next.kz/sales/company_contact.php?auth_id=$auth_id&action=$action&action_performed=company_defined&company_id=$companyId";
                                         ?>
                                         <a href="<?=$url?>">Выбрать контакт</a>
                                     </li>
                                     <li>
-                                        <a href="../forms/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
+                                        <a href="/sales/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
                                     </li>
                                 </ul>
                             </div>
@@ -464,5 +464,5 @@ switch ($actionPerformed) {
     });
 </script>
 <?php
-require_once($_SERVER["DOCUMENT_ROOT"]."/forms/footer.php");
+require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/footer.php");
 ?>

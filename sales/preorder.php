@@ -7,7 +7,7 @@
     $auth_id = isset($_REQUEST["auth_id"]) ? $_REQUEST["auth_id"] : null;
 
     if (is_null($action)) {
-        redirect("../forms/index.php?auth_id=".$auth_id);
+        redirect("../sales/index.php?auth_id=".$auth_id);
     }
 
     $admin_auth_id = isset($_REQUEST["admin_token"]) ? $_REQUEST["admin_token"] : get_access_data(true);
@@ -20,7 +20,7 @@
     $contacts = BitrixHelper::searchContact(BitrixHelper::formatPhone($_REQUEST["contact_phone"]), $admin_auth_id);
 
     $form_action = "preorder.php";
-    require_once($_SERVER["DOCUMENT_ROOT"]."/forms/header.php");
+    require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
 
     $actionPerformed = isset($_REQUEST["action_performed"]) ? $_REQUEST["action_performed"] : "initiated";
     //-------------------------------------------------------------------------
@@ -103,6 +103,6 @@
         
     <?php
 
-    require_once($_SERVER["DOCUMENT_ROOT"]."/forms/footer.php");
+    require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/footer.php");
 
     ?>

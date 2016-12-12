@@ -19,7 +19,7 @@
     switch ($action) {
         case 'schoolGetCost':
         case 'schoolGetCostSave':
-            include "prices.php";
+            include $_SERVER["DOCUMENT_ROOT"]."/sales/shared/prices.php";
 
             log_debug(var_export($_REQUEST,true));
 
@@ -64,15 +64,8 @@
 
             $packCost = $packPrice * $pupilCount;
             $teacherPackCost = $teacherCount * TEACHERPACK_COST;
-            $foodPackCost = $foodPackCount * FOODPACK_COST;
-
             $foodPackCost = $pupilCount * FOODPACK_COST;
-            //$foodPackCost = $foodPackCount * floatval($_REQUEST["foodpack_price"]);
-
             $transferCost = floatval($_REQUEST["transfer_cost"]);
-            //$driverCost = floatval($_REQUEST["driver_cost"]);
-            //$transferToCash = $transferCost > $driverCost ? $transferCost - $driverCost : 0;
-
 
             $discount = floatval($_REQUEST["discount"]);
             //---------------------------------------------------------
@@ -155,7 +148,22 @@
                     'StartTime' => str_replace(":", "-", $_REQUEST["time"]),
                     'Duration' => $_REQUEST["duration"],
                     'GuestCount' => $_REQUEST["pupil_count"],
-                    'Cost' => $moneyToCash
+                    'Cost' => $moneyToCash,
+                    //------------------------------
+                    // дополнительные данные для школ
+                    'TeacherCount' => $teacherCount,
+                    'Pack' => $_REQUEST["pack"],
+                    'PackPrice' => $packPrice,
+                    'PupilCount' => $pupilCount,
+                    'PupilAge' => $pupilAge,
+                    'Subject' => $_REQUEST["subject"],
+
+                    'HasTransfer' => $_REQUEST["has_transfer"],
+                    'TransferCost' => $transferCost,
+
+                    'TeacherBribePercent' => $bribePercent,
+                    'TeacherBribe' => $bribe,
+                    
                 );
                 $order["Event"] = $event;
                 //----------------------------
@@ -202,7 +210,6 @@
                 $comment .= "Выбранный пакет: ".$packName."\n";
                 $comment .= "Процент учителю: ".$bribe."\n";
                 $comment .= "Стоимость трансфера: ".$transferCost."\n";
-                $comment .= "Деньги водителю: ".$driverCost."\n";
 
                 $order["Comment"] = $comment;
                 //--------------------------------
