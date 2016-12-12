@@ -135,6 +135,12 @@ switch ($actionPerformed) {
             redirect($url);
         }
 
+        $companyId = $order["CompanyId"];
+        $contactId = $order["ContactId"];
+
+        $dealId = isset($order["DealId"]) ? $order["DealId"] : "";
+        $orderId = $_REQUEST["order_id"];
+
         $company = BitrixHelper::getCompany($companyId, $adminAuthToken);
         $contact = BitrixHelper::getContact($contactId, $adminAuthToken);
         require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
@@ -175,7 +181,7 @@ switch ($actionPerformed) {
         <?php
         break;
 
-    case "order_created":
+    case "order_saved":
     case "order_confirmed":
     $packName = "";
     switch ($_REQUEST["pack"]) {
@@ -211,11 +217,15 @@ switch ($actionPerformed) {
 
     $url = "http://b24.next.kz/sales/calculation.php";
     $parameters = array(
-        "action" => $actionPerformed == "order_created" ? "schoolGetCost" : "schoolGetCostSave",
+        "action" => $actionPerformed == "order_saved" ? "schoolGetCost" : "schoolGetCostSave",
         "pack" => $_REQUEST["pack"],
         "contact_id" => $_REQUEST["contact_id"],
         "company_id" => $_REQUEST["company_id"],
+        "order_id" => $_REQUEST["order_id"],
+        "deal_id" => $_REQUEST["deal_id"],
+
         "company_name" => $_REQUEST["company_name"],
+
         "center" => $_REQUEST["center"],
 
         "date" => $_REQUEST["date"],
@@ -304,7 +314,7 @@ switch ($actionPerformed) {
 
                     <tr><th>Трансфер</th><td></td></tr>
                     <?php
-                    if ($_REQUEST["with-transfer"] == "yes"){
+                    if ($_REQUEST["has_transfer"] == "yes"){
                         echo "<tr><td>Наличие трансфера</td><td><b>Есть</b></td></tr>";
                         echo "<tr><td>Стоимость трансфера</td><td>".$costs["transferCost"]."</td></tr>";
                     } else {
@@ -328,7 +338,7 @@ switch ($actionPerformed) {
             </div>
 
             <?php
-            if ($actionPerformed == "order_created"){
+            if ($actionPerformed == "order_saved"){
                 ?>
                 <form id="form" method="post" action="school.php">
                     <input type="hidden" name="action_performed" value="order_confirmed">
@@ -338,6 +348,9 @@ switch ($actionPerformed) {
 
                     <input type="hidden" name="contact_id" value="<?= $_REQUEST["contact_id"] ?>">
                     <input type="hidden" name="company_id" value="<?= $_REQUEST["company_id"]?>">
+
+                    <input type="hidden" name="deal_id" value="<?= $_REQUEST["deal_id"] ?>">
+                    <input type="hidden" name="order_id" value="<?= $_REQUEST["order_id"] ?>">
 
                     <input type="hidden" name="contact_name" value="<?= $_REQUEST["contact_name"] ?>">
                     <input type="hidden" name="contact_phone" value="<?= $_REQUEST["contact_phone"]?>">
@@ -421,15 +434,11 @@ switch ($actionPerformed) {
             if ($(this).val() == "yes"){
 
                 html =
-                    "<div class=\"form-group\">"+
-                    "<label class=\"control-label col-sm-3\" for=\"transfer_cost\">Стоимость трансфера</label>" +
-                    "<div class=\"col-sm-9\">" +
                     "<input type=\"number\" step=\"1\" min=\"0\" class=\"form-control\" id=\"transfer_cost\" name=\"transfer_cost\" " +
-                    "required placeholder=\"Введите стоимость трансфера\" >" +
-                    "</div>"+
-                    "</div>";
+                    "required placeholder=\"Стоимость трансфера\" >";
             } else {
-                html = "<input type=\"hidden\" name=\"transfer_cost\" value=\"0\">";
+                html = "<input type=\"hidden\" name=\"transfer_cost\" value=\"0\">" +
+                    "<input type=\"text\" class=\"form-control\" name=\"empty\"  value=\"Стоимость трансфера: 0\" disabled>";
             }
             $('#transfer-inputs').html(html);
         });

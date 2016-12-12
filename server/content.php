@@ -90,6 +90,7 @@
                             <option value="crm.contact.get">Контакт</option>
                             <option value="crm.company.get">Компания</option>
                             <option value="task.item.getdata">Задача</option>
+                            <option value="google.order.get">Заказ (9-1, не CRM)</option>
                         </select>
                     </div>
                 </div>

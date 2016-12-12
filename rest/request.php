@@ -180,6 +180,14 @@
             ));
             break;
 
+        case 'google.order.get':
+            $data = queryGoogleScript(array(
+                "event" => "OnOrderRequested",
+                "id" => $id
+            ));
+            $data = isset($data["result"]) ? $data["result"] : $data;
+            break;
+
         case '':
             $data = null;
             break;

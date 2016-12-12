@@ -1,7 +1,7 @@
 
 
 <form id="form" class="form-horizontal" method="post" action="school.php">
-    <input type="hidden" name="action_performed" value="order_created">
+    <input type="hidden" name="action_performed" value="order_saved">
     <input type="hidden" name="action" value="<?= $action ?>">
     <input type="hidden" name="auth_id" value="<?= $auth_id ?>">
     <input type="hidden" name="admin_token" value="<?= $adminAuthToken ?>">
@@ -9,9 +9,14 @@
     <input type="hidden" name="contact_id" value="<?= $contactId ?>">
     <input type="hidden" name="company_id" value="<?= $companyId?>">
 
+    <input type="hidden" name="deal_id" value="<?= $dealId?>">
+    <input type="hidden" name="order_id" value="<?= $orderId?>">
+
     <input type="hidden" name="contact_name" value="<?= $contact["NAME"]." ".$contact["LAST_NAME"] ?>">
     <input type="hidden" name="contact_phone" value="<?= $contact["PHONE"][0]["VALUE"]?>">
     <input type="hidden" name="company_name" value="<?= $company["TITLE"]?>">
+
+
 
     <div class="form-group">
         <label class="control-label col-sm-3" for="pack">Выберите пакет:</label>
@@ -133,8 +138,10 @@
             <div class="input-group">
 
                 <?php
-                    $date = isset($order["DateOfEvent"]) ? $order["DateOfEvent"] : time() ;
-                    $value = date("d.m.Y", $date);
+                    $date = strtotime($order["DateAtom"]);
+                    $date = $date + 6 * 3600;
+                    $value = date("Y-m-d", $date);
+                    //echo $date. " " .$value;
                 ?>
                 <input type="date" class="form-control" id="date" name="date" required placeholder="Выберите дату" value="<?= $value ?>">
                 <span class="input-group-addon"><i class="glyphicon glyphicons-calendar"></i></span>
@@ -148,9 +155,12 @@
             <div class="input-group">
                 <?php
 
-                if (isset($order["DateOfEvent"])){
-                    $date = $order["DateOfEvent"];
+                if (isset($order["DateAtom"])){
+                    // 2016-12-13T11:00:00+06:00
+                    $date = strtotime($order["DateAtom"]);
+                    $date = $date + 6 * 3600;
                     $value = date("H:m", $date);
+                    //echo $date. " " .$value;
                 } else {
                     $value = "";
                 }
@@ -189,17 +199,32 @@
 
     <div class="form-group">
         <label class="control-label col-sm-3" for="has_transfer">С трансфером:</label>
-        <div class="col-sm-9">
+        <div class="col-sm-3">
             <?php
-                $selectedOption = isset($order["Event"]["HasTransfer"]) && !is_null($order["Event"]["HasTransfer"]) ? "yes" : "no";
+                $selectedOption = isset($order["Event"]["HasTransfer"]) ? $order["Event"]["HasTransfer"]  : "no";
             ?>
             <select class="form-control" id="has_transfer" name="has_transfer" required>
                 <option value="no" <?= $selectedOption == "no" ? "selected" : "" ?>>Нет</option>
                 <option value="yes" <?= $selectedOption == "yes" ? "selected" : "" ?>>Да</option>
             </select>
         </div>
+        <div id="transfer-inputs" class="col-sm-6">
+
+            <?php
+            if (isset($order["Event"]["TransferCost"]) && $order["Event"]["TransferCost"] != 0){
+            ?>
+                <input type="number" step="1" min="0" class="form-control" id="transfer_cost" name="transfer_cost"
+                       required placeholder="Стоимость трансфера" value="<?= $order["Event"]["TransferCost"] ?>">
+            <?php } else {
+                ?>
+                <input type="hidden" name="transfer_cost" value="0">
+                <input type="text" class="form-control" name="empty" value="Стоимость трансфера: 0" disabled >
+            <?php } ?>
+
+        </div>
+
+
     </div>
-    <div id="transfer-inputs"></div>
     <hr>
 
     <div class="form-group">
@@ -247,7 +272,7 @@
     <div class="form-group">
         <label class="control-label col-sm-3" for="comment">Комментарий к заказу:</label>
         <div class="col-sm-9">
-            <?php $value = isset($order["Comment"]) ? $order["Comment"] : "" ?>
+            <?php $value = isset($order["Event"]["Comment"]) ? $order["Event"]["Comment"] : "" ?>
             <textarea class="form-control" id="comment" name="comment" ><?= $value ?></textarea>
         </div>
     </div>

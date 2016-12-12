@@ -4,7 +4,6 @@
     require($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
     require($_SERVER["DOCUMENT_ROOT"]."/include/order_helper.php");
 
-    //log_debug(var_export($_REQUEST, true));
 
     $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
     $response = array("result" => null);
@@ -106,19 +105,24 @@
 
             if ($action == "schoolGetCostSave") {
 
-                $url = "https://script.google.com/macros/s/AKfycbxjyTPPbRdVZ-QJKcWLFyITXIeQ1GwI7fAi0FgATQ0PsoGKAdM/exec";
-                $idData = query("GET", $url, array(
-                    "event" => "OnIdIncrementedRequested"
-                ));
+                if ($_REQUEST["order_id"] == "" ){
+                    $url = "https://script.google.com/macros/s/AKfycbxjyTPPbRdVZ-QJKcWLFyITXIeQ1GwI7fAi0FgATQ0PsoGKAdM/exec";
+                    $idData = query("GET", $url, array(
+                        "event" => "OnIdIncrementedRequested"
+                    ));
 
-                $id = $idData["result"];
-                //$id = -1;
+                    $id = $idData["result"];
+                } else {
+                    $id = $_REQUEST["order_id"];
+                }
+                log_debug(var_export($_REQUEST, true));
 
                 $order = array();
                 $order["Id"] = $id;
-                $order["Status"] = "Сделка закрыта";
-                $order["DealId"] = null;
+                $order["Status"] = "Заказ подтвержден";
+                $order["DealId"] = $_REQUEST["deal_id"];
                 $order["ContactId"] = $_REQUEST["contact_id"];
+                $order["CompanyId"] = $_REQUEST["company_id"];
                 //--------------------------------------------
                 $order["ClientName"] = $_REQUEST["contact_name"];
                 $order["KidName"] = $_REQUEST["company_name"];
@@ -128,6 +132,7 @@
                 $datetime = BitrixHelper::constructDatetime($_REQUEST["date"], $_REQUEST["time"]);
                 $ts = BitrixHelper::constructTimestamp($_REQUEST["date"], $_REQUEST["time"]);
 
+                $order["ts"] = $ts;
                 $order["DateOfEvent"] = $datetime; //sourceOrder["DateOfEvent"];
                 $time = strtotime($datetime);
                 $time = $time - (3 * 3600);
@@ -135,7 +140,7 @@
 
                 $order["Date"] = str_replace(" ", "T", formatDate($datetime, "Y-m-d H:i:s+06:00"));
                 $order["DateAtom"] = str_replace(" ", "T", formatDate($datetime, "Y-m-d H:i:s+06:00"));
-                log_debug("datetime = ".var_export($datetime, true));
+
                 $order["TotalCost"] = $moneyToCash;
                 $order["UserId"] = $_REQUEST["user_id"];
                 $order["User"] = $_REQUEST["user_fullname"];
@@ -163,6 +168,8 @@
 
                     'TeacherBribePercent' => $bribePercent,
                     'TeacherBribe' => $bribe,
+
+                    'Comment' => $_REQUEST["comment"],
                     
                 );
                 $order["Event"] = $event;
@@ -174,17 +181,19 @@
                     'Code' => "No code",
                     'Status' => "Не требуется",
                     'Date' => "",
+                    'CompanyId' => $_REQUEST["company_id"],
                 );
                 $order["VerifyInfo"] = $clientInfo;
                 //----------------------------
+                $paymentDate = formatDate($datetime, "Y-m-d H:i");
                 $financeInfo = array (
                     'Id' => $id,
                     'Remainder' =>  0,
                     'Payed' => $moneyToCash,
-                    'PaymentsView' => "[".formatDate($datetime, "Y-m-d H:i")."] Сумма ".$moneyToCash."\n",
+                    'PaymentsView' => "[".$paymentDate."] Сумма ".$moneyToCash."\n",
                     'Payments' => array(
                         "paymentValue" => $moneyToCash,
-                        "receiptDate" => formatDate($datetime, "Y-m-d H:i"),
+                        "receiptDate" => $paymentDate,
                         "receiptNumber" => 1
                     ),
                     'TotalDiscount' => $_REQUEST["discount"],
@@ -217,14 +226,24 @@
                 $order["UpdatedAt"] = $order["CreatedAt"];
                 $order["TaskId"] = null;
 
+                $admin_token = get_access_data(true);
+
                 $contact = BitrixHelper::getContact($_REQUEST["contact_id"], $admin_token);
                 $order["ContactSource"] = !is_null($contact) ?  BitrixHelper::getInstanceSource($contact["ID"], "contact", $admin_token) : "Ошибка. Контакт не существует";
                 $order["LeadSource"] = !is_null($contact) && !is_null($contact["LEAD_ID"]) ?  BitrixHelper::getInstanceSource($contact["LEAD_ID"], "lead", $admin_token) : "Лид отсутствует";
 
-                $admin_token = get_access_data(true);
-                $order["DealId"] = createOrderDeal($order, $admin_token);
+
+
+                if ($_REQUEST["order_id"] != "") {
+                    $updateResult = updateOrderDeal($order, $admin_token, true, $_REQUEST["order_id"]);
+                    log_debug("updateResult = ".$updateResult."\n".var_export($_REQUEST, true));
+                } else {
+                    $order["DealId"] = updateOrderDeal($order, $admin_token);
+                }
+                
                 $updateProductsResult = updateDealProductSet($order, $admin_token);
                 $response["order"] = $order;
+                
 
 
                 $saveResult = query("POST", $url, array(

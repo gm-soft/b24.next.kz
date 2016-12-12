@@ -1,6 +1,6 @@
 <?php
 
-    function createOrderDeal($order, $admin_token) {
+    function updateOrderDeal($order, $admin_token, $isExisted = false, $id = 0) {
         $payload = array();
         $payload["fields[CONTACT_ID]"] = $order["ContactId"];
         switch ($order["Event"]["Event"]){
@@ -96,7 +96,15 @@
         }
         $payload["auth"] = $admin_token;
 
-        $createResult = call("crm.deal.add", $payload);
+
+        if ($isExisted == true) {
+            $method = "crm.deal.update";
+            $payload["id"] = $id;
+        } else {
+            $method = "crm.deal.add";
+        }
+        
+        $createResult = call($method, $payload);
         $dealId = $createResult["result"];
         return $dealId;
 
