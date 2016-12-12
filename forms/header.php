@@ -48,18 +48,9 @@
                 <a class="navbar-brand" href="../forms/index.php?auth_id=<?= isset($_REQUEST["AUTH_ID"]) ? $_REQUEST["AUTH_ID"] : $_REQUEST["auth_id"]?>">Система продаж</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
-                <!--ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Действия
-                            <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="../forms/contact.php?action=booth&AUTH_ID=<?= $auth_id?>">Продажа BOOTH'a</a></li>
-                            <li><a href="../forms/contact.php?action=birthday&AUTH_ID=<?= $auth_id?>">Создать предзаказник аренды</a></li>
-                            <li><a href="../forms/contact.php?action=corp_sell&AUTH_ID=<?= $auth_id?>">Корпоративная продажа</a></li>
-                            <li><a href="../forms/contact.php?action=school_sell&AUTH_ID=<?= $auth_id?>">Продажа для школ</a></li>
-                        </ul>
-                    </li>
-                </ul-->
+                <ul class="nav navbar-nav">
+                    <li><a href="#" id="updatePageButton">Обновить страницу</a></li>
+                </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <?php
                     $user_name = isset($_SESSION["user_name"]) ? $_SESSION["user_name"]." [".$_SESSION["user_id"]."]" : "Не залогинен";

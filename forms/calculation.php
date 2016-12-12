@@ -64,9 +64,10 @@
 
             $packCost = $packPrice * $pupilCount;
             $teacherPackCost = $teacherCount * TEACHERPACK_COST;
-            //$foodPackCost = $foodPackCount * FOODPACK_COST;
+            $foodPackCost = $foodPackCount * FOODPACK_COST;
 
-            $foodPackCost = $foodPackCount * floatval($_REQUEST["foodpack_price"]);
+            $foodPackCost = $pupilCount * FOODPACK_COST;
+            //$foodPackCost = $foodPackCount * floatval($_REQUEST["foodpack_price"]);
 
             $transferCost = floatval($_REQUEST["transfer_cost"]);
             //$driverCost = floatval($_REQUEST["driver_cost"]);
