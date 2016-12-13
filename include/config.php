@@ -28,7 +28,7 @@
      * @return array
      */
     function queryGoogleScript($data, $url = "https://script.google.com/macros/s/AKfycbxjyTPPbRdVZ-QJKcWLFyITXIeQ1GwI7fAi0FgATQ0PsoGKAdM/exec"){
-        return query("GET", $url, $data);
+        return query("POST", $url, $data);
     }
 
     /**
@@ -44,27 +44,34 @@
     {
     	$query_data = "";
 
-    	$curlOptions = array(
-    		CURLOPT_RETURNTRANSFER => true
-    	);
+        try {
+            $curlOptions = array(
+                CURLOPT_RETURNTRANSFER => true
+            );
 
-    	if($method == "POST")
-    	{
-    		$curlOptions[CURLOPT_POST] = true;
-    		$curlOptions[CURLOPT_POSTFIELDS] = http_build_query($data);
-    	}
-    	elseif(!empty($data))
-    	{
-    		$url .= strpos($url, "?") > 0 ? "&" : "?";
-    		$url .= http_build_query($data);
-    	}
-        
-    	$curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-    	curl_setopt_array($curl, $curlOptions);
-    	$result = curl_exec($curl);
-        //log_debug($result);
-    	return json_decode($result, 1);
+            if($method == "POST")
+            {
+                $curlOptions[CURLOPT_POST] = true;
+                $curlOptions[CURLOPT_POSTFIELDS] = http_build_query($data);
+            }
+            elseif(!empty($data))
+            {
+                $url .= strpos($url, "?") > 0 ? "&" : "?";
+                $url .= http_build_query($data);
+            }
+
+            $curl = curl_init($url);
+            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt_array($curl, $curlOptions);
+            $result = curl_exec($curl);
+            //log_debug($result);
+            return json_decode($result, 1);
+
+        } catch (Exception $ex){
+            process_error($ex->getMessage(). "\nFile: ".$ex->getFile()."\nLine: ".$ex->getLine());
+        }
+        return null;
+
     }
 
     /**

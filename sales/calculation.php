@@ -43,13 +43,16 @@
             switch ($_REQUEST["center"]) {
                 case 'next_ese':
                     $centerName = "NEXT Esentai";
+                    $centerNameRu = "Есентай";
                     break;
                 case 'next_apo':
                     $centerName = "NEXT Aport";
+                    $centerNameRu = "Апорт";
                     break;
 
                 case 'next_pro':
                     $centerName = "NEXT Promenade";
+                    $centerNameRu = "Променад";
                     break;
             }
 
@@ -58,12 +61,18 @@
 
             $pupilCount = intval($_REQUEST["pupil_count"]);
             $teacherCount = intval($_REQUEST["teacher_count"]);
-            $foodPackCount = intval($_REQUEST["foodpack_count"]);
+            //$foodPackCount = intval($_REQUEST["foodpack_count"]);
             $pupilAge = $_REQUEST["pupil_age"];
 
             $packCost = $packPrice * $pupilCount;
             $teacherPackCost = $teacherCount * TEACHERPACK_COST;
-            $foodPackCost = $pupilCount * FOODPACK_COST;
+
+            if ($_REQUEST["has_food"] == "yes") {
+                $foodPackCost = $pupilCount * FOODPACK_COST;
+            } else {
+                $foodPackCost = 0;
+            }
+
             $transferCost = floatval($_REQUEST["transfer_cost"]);
 
             $discount = floatval($_REQUEST["discount"]);
@@ -112,14 +121,25 @@
                     ));
 
                     $id = $idData["result"];
+                    $order = array();
+                    $order["Id"] = $id;
+                    $order["Status"] = "Заказ подтвержден";
+
+
                 } else {
                     $id = $_REQUEST["order_id"];
+                    $data = queryGoogleScript(array(
+                        "event" => "OnOrderRequested",
+                        "id" => $id
+                    ));
+                    $order = $data["result"];
+                    //$order["Id"] = $id;
                 }
-                log_debug(var_export($_REQUEST, true));
+                log_debug(var_export($order , true));
 
-                $order = array();
-                $order["Id"] = $id;
-                $order["Status"] = "Заказ подтвержден";
+
+
+
                 $order["DealId"] = $_REQUEST["deal_id"];
                 $order["ContactId"] = $_REQUEST["contact_id"];
                 $order["CompanyId"] = $_REQUEST["company_id"];
@@ -164,6 +184,7 @@
                     'Subject' => $_REQUEST["subject"],
 
                     'HasTransfer' => $_REQUEST["has_transfer"],
+                    'HasFood' => $_REQUEST["has_transfer"],
                     'TransferCost' => $transferCost,
 
                     'TeacherBribePercent' => $bribePercent,
@@ -209,14 +230,82 @@
                 if ($financeInfo["DiscountComment"] == "") $financeInfo["Discount"] = 0;
                 $order["FinanceInfo"] = $financeInfo;
                 //--------------------------------------------
-                $order["BanquetInfo"] = null;
+                if ($_REQUEST["has_food"] == "yes") {
+
+                    if (is_null($order["BanquetInfo"])) {
+                        $isNew = "1";
+                        $tzfId = "";
+                    }
+                    else {
+                        $isNew = "0";
+                        $tzfId = $order["BanquetInfo"]["BanquetId"];
+                    }
+
+                    $tzfData = queryGoogleScript(array(
+                        "event" => "OnTzfSchoolCreateRequested",
+                        "user" => $_REQUEST["user_fullname"],
+                        "itemCount" => $pupilCount,
+                        "center" => $centerNameRu,
+                        "date" => str_replace(" ", ".", formatDate($datetime, "d m Y")),
+                        "orderId" => $id,
+                        "isNew" => $isNew,
+                    ));
+                    $tzf = $tzfData["result"];
+                    log_debug(var_export($tzf, true));
+                    if (is_null($tzf)) $order["BanquetInfo"] = null;
+                    else {
+
+                        if ($isNew == "1") $tzfId = $tzf["tzfId"];
+                        $banquet = array(
+                            'BanquetId' => $tzfId,
+                            'Comment' => "",
+                            'TranscriptStr' => "Фуд пакет для школ (цена ".$tzf["price"].", кол-во ".$pupilCount.") - ".$tzf["cost"],
+                            'Items' => array(
+                                0 => array(
+                                    'name' => 'Фуд пакет для школ',
+                                    'price' => $tzf["price"],
+                                    'measure' => 'шт',
+                                    'note' => '',
+                                    'increasePercent' => 0,
+                                    'itemId' => $tzf["bitrixId"],
+                                    'count' => $pupilCount,
+                                    'cost' => $tzf["cost"],
+                                )
+                            ),
+                            'Cost' => $tzf["cost"],
+                            'Cake' => "",
+                            'Candybar' => "",
+                            'Pinata' => "",
+                            'Date' => date("d.m.Y", $datetime),
+
+                            'CandybarCost' => 0,
+                            'CakeCost' => 0,
+                            'PinataCost' => 0,
+
+                        );
+
+                        $order["BanquetInfo"] = $banquet;
+                    }
+
+
+                } else {
+                    $order["BanquetInfo"] = null;
+                }
+
                 $order["OptionalInfo"] = null;
 
                 $comment = $_REQUEST["comment"] != "" ? $_REQUEST["comment"]."\n" : "";
-                $comment .= "=== Служебная информация ===\n";
+                $comment .= "--- Служебная информация ---\n";
                 $comment .= "Возраст детей: ".$pupilAge."\n";
                 $comment .= "Тема урока: ".$_REQUEST["subject"]."\n";
                 $comment .= "Выбранный пакет: ".$packName."\n";
+
+                if ($_REQUEST["has_food"] == "yes"){
+                    $comment .= "Фуд-пакет, наличие: есть\n";
+                    $comment .= "Фуд-пакет, стоимость: ".$foodPackCost."\n";
+                } else $comment .= "Фуд-пакет, наличие: отсутствует\n";
+
+
                 $comment .= "Процент учителю: ".$bribe."\n";
                 $comment .= "Стоимость трансфера: ".$transferCost."\n";
 
@@ -234,9 +323,9 @@
 
 
 
-                if ($_REQUEST["order_id"] != "") {
-                    $updateResult = updateOrderDeal($order, $admin_token, true, $_REQUEST["order_id"]);
-                    log_debug("updateResult = ".$updateResult."\n".var_export($_REQUEST, true));
+                if ($_REQUEST["deal_id"] != "") {
+                    $updateResult = updateOrderDeal($order, $admin_token, true, $_REQUEST["deal_id"]);
+                    
                 } else {
                     $order["DealId"] = updateOrderDeal($order, $admin_token);
                 }
@@ -246,9 +335,10 @@
                 
 
 
-                $saveResult = query("POST", $url, array(
+                $saveResult = queryGoogleScript(array(
                     "event" => "OnOrderSaveRequested",
-                    "orderJson" => json_encode($order)
+                    "orderJson" => json_encode($order),
+                    "order" => $order,
                 ));
 
                 $response["saveResult"] = $saveResult;

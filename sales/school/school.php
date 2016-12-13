@@ -241,6 +241,7 @@ switch ($actionPerformed) {
         "foodpack_price" => $_REQUEST["foodpack_price"],
         "transfer_cost" => $_REQUEST["transfer_cost"],
         "has_transfer" => $_REQUEST["has_transfer"],
+        "has_food" => $_REQUEST["has_food"],
         "discount" => $_REQUEST["discount"],
 
         "discount_comment" => $_REQUEST["discount_comment"],
@@ -302,7 +303,7 @@ switch ($actionPerformed) {
 
                     <tr><th>Фуд-пакеты</th><td></td></tr>
                     <?php
-                    if ($_REQUEST["with-food"] == "yes") {
+                    if ($_REQUEST["has_food"] == "yes") {
                         echo "<tr><td>Наличие фуд-пакетов</td><td><b>Есть</b></td></tr>".
                         "<tr><td>Стоимость фуд-пакетов</td><td>".$costs["foodCost"]."</td></tr>";
                     } else {
@@ -365,7 +366,7 @@ switch ($actionPerformed) {
                     <input type="hidden" name="pupil_age" value="<?= $_REQUEST["pupil_age"]?>">
                     <input type="hidden" name="package_price" value="<?= $_REQUEST["package_price"]?>">
                     <input type="hidden" name="has_transfer" value="<?= $_REQUEST["has_transfer"]?>">
-                    <input type="hidden" name="with-food" value="<?= $_REQUEST["with-food"]?>">
+                    <input type="hidden" name="has_food" value="<?= $_REQUEST["has_food"]?>">
 
                     <input type="hidden" name="date" value="<?= $_REQUEST["date"]?>">
                     <input type="hidden" name="time" value="<?= $_REQUEST["time"]?>">
@@ -385,7 +386,7 @@ switch ($actionPerformed) {
 
                     <div class="form-group">
                         <a href="#" id="back" class="btn btn-default">Вернуться</a>
-                        <button type="submit" id="submit-btn" class="btn btn-primary">Создать заказ</button>
+                        <button type="submit" id="submit-btn" class="btn btn-primary">Сохранить заказ</button>
                     </div>
                 </form>
                 <div id="alert"></div>

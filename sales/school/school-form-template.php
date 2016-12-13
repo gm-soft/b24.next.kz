@@ -138,9 +138,14 @@
             <div class="input-group">
 
                 <?php
+                if (isset($order["DateAtom"])) {
                     $date = strtotime($order["DateAtom"]);
                     $date = $date + 6 * 3600;
                     $value = date("Y-m-d", $date);
+                } else {
+                    $value = "";
+                }
+
                     //echo $date. " " .$value;
                 ?>
                 <input type="date" class="form-control" id="date" name="date" required placeholder="Выберите дату" value="<?= $value ?>">
@@ -185,12 +190,12 @@
     </div>
     <hr>
     <div class="form-group">
-        <label class="control-label col-sm-3" for="with-food">С фуд-пакетом:</label>
+        <label class="control-label col-sm-3" for="has_food">С фуд-пакетом:</label>
         <div class="col-sm-9">
             <?php
                 $selectedOption = isset($order["BanquetInfo"]) && !is_null($order["BanquetInfo"]) ? "yes" : "no";
             ?>
-            <select class="form-control" id="with-food" name="with-food" required>
+            <select class="form-control" id="has_food" name="has_food" required>
                 <option value="no" <?= $selectedOption == "no" ? "selected" : "" ?>>Нет</option>
                 <option value="yes" <?= $selectedOption == "yes" ? "selected" : "" ?>>Да</option>
             </select>
