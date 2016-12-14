@@ -2,6 +2,7 @@
     require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
     require($_SERVER["DOCUMENT_ROOT"]."/include/help.php");
     require($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
+    require($_SERVER["DOCUMENT_ROOT"]."/Helpers/OrderHelperClass.php");
     require($_SERVER["DOCUMENT_ROOT"]."/include/order_helper.php");
 
 
@@ -20,101 +21,93 @@
         case 'schoolGetCostSave':
             include $_SERVER["DOCUMENT_ROOT"]."/sales/shared/prices.php";
 
-            log_debug(var_export($_REQUEST,true));
 
             switch ($_REQUEST["pack"]) {
                 case 'basepack':
-                    $packName = "Базовый";
+                    $_REQUEST["packName"] = "Базовый";
                     break;
                 case 'standartpack':
-                    $packName = "Стандартный";
+                    $_REQUEST["packName"] = "Стандартный";
                     break;
                 case 'newyear':
-                    $packName = "Новогодний";
+                    $_REQUEST["packName"] = "Новогодний";
                     break;
                 case 'allinclusive':
-                    $packName = "Все включено";
+                    $_REQUEST["packName"] = "Все включено";
                     break;
                 default:
-                    $packName = "Пакет не определен";
+                    $_REQUEST["packName"] = "Пакет не определен";
                     break;
             }
 
             switch ($_REQUEST["center"]) {
-                case 'next_ese':
-                    $centerName = "NEXT Esentai";
-                    $centerNameRu = "Есентай";
+                case 'nextEse':
+                    $_REQUEST["centerName"]  = "NEXT Esentai";
+                    $_REQUEST["centerNameRu"] = "Есентай";
                     break;
-                case 'next_apo':
-                    $centerName = "NEXT Aport";
-                    $centerNameRu = "Апорт";
+                case 'nextApo':
+                    $_REQUEST["centerName"]  = "NEXT Aport";
+                    $_REQUEST["centerNameRu"] = "Апорт";
                     break;
 
-                case 'next_pro':
-                    $centerName = "NEXT Promenade";
-                    $centerNameRu = "Променад";
+                case 'nextPro':
+                    $_REQUEST["centerName"] = "NEXT Promenade";
+                    $_REQUEST["centerNameRu"] = "Променад";
                     break;
             }
+            $_REQUEST["packagePrice"] = floatval($_REQUEST["packagePrice"]);
 
-            //$packPrice = GetPackPrice($_REQUEST["pack"], $_REQUEST["center"]);
-            $packPrice = floatval($_REQUEST["package_price"]);
+            $_REQUEST["pupilCount"] = intval($_REQUEST["pupilCount"]);
+            $_REQUEST["teacherCount"] = intval($_REQUEST["teacherCount"]);
 
-            $pupilCount = intval($_REQUEST["pupil_count"]);
-            $teacherCount = intval($_REQUEST["teacher_count"]);
-            //$foodPackCount = intval($_REQUEST["foodpack_count"]);
-            $pupilAge = $_REQUEST["pupil_age"];
+            // $pupilAge = $_REQUEST["pupilAge"];
 
-            $packCost = $packPrice * $pupilCount;
-            $teacherPackCost = $teacherCount * TEACHERPACK_COST;
+            $_REQUEST["packCost"] = $_REQUEST["packagePrice"] * $_REQUEST["pupilCount"];
+            $_REQUEST["teacherPackCost"] = $_REQUEST["teacherCount"] * TEACHERPACK_COST;
 
-            if ($_REQUEST["has_food"] == "yes") {
-                $foodPackCost = $pupilCount * FOODPACK_COST;
+            if ($_REQUEST["hasFood"] == "yes") {
+                $_REQUEST["foodPackCost"] = $_REQUEST["pupilCount"] * FOODPACK_COST;
             } else {
-                $foodPackCost = 0;
+                $_REQUEST["foodPackCost"] = 0;
             }
 
-            $transferCost = floatval($_REQUEST["transfer_cost"]);
+            $_REQUEST["transferCost"] = floatval($_REQUEST["transferCost"]);
 
-            $discount = floatval($_REQUEST["discount"]);
+            $_REQUEST["discount"] = floatval($_REQUEST["discount"]);
             //---------------------------------------------------------
-            $orderCost = $packCost - $discount;
-            $orderCost = $orderCost > 0 ? $orderCost : 0;
+            $_REQUEST["orderCost"] = $_REQUEST["packCost"] - $_REQUEST["discount"];
+            $_REQUEST["orderCost"] = $_REQUEST["orderCost"] > 0 ? $_REQUEST["orderCost"] : 0;
 
-            $bribePercent = floatval($_REQUEST["bribe_percent"]);
-            $bribePercent = $bribePercent > $packPrice ? $packPrice : $bribePercent; // вдруг ввели скидку больше, чем нужно представить
-            $bribe = $pupilCount * $bribePercent;
-
-
-            $totalCost = $orderCost - $transferCost;
-            //$moneyToCash = $orderCost + $foodPackCost + $teacherPackCost - $bribe;
-            $moneyToCash = $totalCost - $bribe;
-
-            /*$bribePercent = $bribePercent >= 1 ? $bribePercent / 100 : $bribePercent;
-
-            $bribe = $totalCost * $bribePercent;*/
+            $_REQUEST["bribePercent"] = floatval($_REQUEST["bribePercent"]);
+            $_REQUEST["bribePercent"] = $_REQUEST["bribePercent"] > $_REQUEST["packagePrice"] ? $_REQUEST["packagePrice"] : $_REQUEST["bribePercent"]; // вдруг ввели скидку больше, чем нужно представить
+            $_REQUEST["bribe"] = $_REQUEST["pupilCount"] * $_REQUEST["bribePercent"];
 
 
+            $_REQUEST["totalCost"] = $_REQUEST["orderCost"] - $_REQUEST["transferCost"];
+            $_REQUEST["moneyToCash"] = $_REQUEST["totalCost"] - $_REQUEST["bribe"];
 
 
             $result = array(
-                "totalCost" => $totalCost + $discount,
-                "totalCostDiscount" => $totalCost,
-                "moneyToCash" => $moneyToCash,
+                "totalCost" => $_REQUEST["totalCost"] + $_REQUEST["discount"],
+                "totalCostDiscount" => $_REQUEST["totalCost"],
+                "moneyToCash" => $_REQUEST["moneyToCash"],
                 //"driverCost" => $driverCost,
-                "foodCost" => $foodPackCost + $teacherPackCost,
-                "orderCost" => $orderCost,
-                "packCost" => $packCost,
-                "packPrice" => $packPrice,
-                "transferCost" => $transferCost,
-                //"transferToCash" => $transferToCash,
-                "bribe" => $bribe
+                "foodCost" => $_REQUEST["foodPackCost"] + $_REQUEST["teacherPackCost"],
+                "orderCost" => $_REQUEST["orderCost"],
+                "packCost" => $_REQUEST["packCost"],
+                "packPrice" => $_REQUEST["packPrice"],
+                "transferCost" => $_REQUEST["transferCost"],
+                "bribe" => $_REQUEST["bribe"]
             );
             $response["result"] = $result;
 
 
             if ($action == "schoolGetCostSave") {
 
-                if ($_REQUEST["order_id"] == "" ){
+                $adminToken = get_access_data(true);
+                $order = OrderHelper::ConstructSchoolOrder($_REQUEST, $adminToken);
+                /*
+                if ($_REQUEST["orderId"] == "" ){
                     $url = "https://script.google.com/macros/s/AKfycbxjyTPPbRdVZ-QJKcWLFyITXIeQ1GwI7fAi0FgATQ0PsoGKAdM/exec";
                     $idData = query("GET", $url, array(
                         "event" => "OnIdIncrementedRequested"
@@ -123,11 +116,11 @@
                     $id = $idData["result"];
                     $order = array();
                     $order["Id"] = $id;
-                    $order["Status"] = "Заказ подтвержден";
+
 
 
                 } else {
-                    $id = $_REQUEST["order_id"];
+                    $id = $_REQUEST["orderId"];
                     $data = queryGoogleScript(array(
                         "event" => "OnOrderRequested",
                         "id" => $id
@@ -137,16 +130,33 @@
                 }
                 log_debug(var_export($order , true));
 
+                switch ($_REQUEST["status"]){
+                    case "initiated":
+                        $status = "Заказ подтвержден";
+                        break;
+                    case "conducted":
+                        $status = "Аренда проведена";
+                        break;
+                    case "closed":
+                        $status = "Сделка закрыта";
+                        break;
+                    case "canceled":
+                        $status = "Аренда отменена";
+                        break;
 
+                    default:
+                        $status = "Заказ подтвержден";
+                        break;
+                }
+                $order["Status"] = "Заказ подтвержден";
 
-
-                $order["DealId"] = $_REQUEST["deal_id"];
-                $order["ContactId"] = $_REQUEST["contact_id"];
-                $order["CompanyId"] = $_REQUEST["company_id"];
+                $order["DealId"] = $_REQUEST["dealId"];
+                $order["ContactId"] = $_REQUEST["contactId"];
+                $order["CompanyId"] = $_REQUEST["companyId"];
                 //--------------------------------------------
-                $order["ClientName"] = $_REQUEST["contact_name"];
-                $order["KidName"] = $_REQUEST["company_name"];
-                $order["Phone"] = $_REQUEST["contact_phone"];
+                $order["ClientName"] = $_REQUEST["contactName"];
+                $order["KidName"] = $_REQUEST["companyName"];
+                $order["Phone"] = $_REQUEST["contactPhone"];
                 $order["Center"] = $centerName;
 
                 $datetime = BitrixHelper::constructDatetime($_REQUEST["date"], $_REQUEST["time"]);
@@ -161,9 +171,9 @@
                 $order["Date"] = str_replace(" ", "T", formatDate($datetime, "Y-m-d H:i:s+06:00"));
                 $order["DateAtom"] = str_replace(" ", "T", formatDate($datetime, "Y-m-d H:i:s+06:00"));
 
-                $order["TotalCost"] = $moneyToCash;
-                $order["UserId"] = $_REQUEST["user_id"];
-                $order["User"] = $_REQUEST["user_fullname"];
+                $order["TotalCost"] = $_REQUEST["moneyToCash"];
+                $order["UserId"] = $_REQUEST["userId"];
+                $order["User"] = $_REQUEST["userFullname"];
                 $order["FullPriceType"] = isDateHoliday($datetime);
                 //------------------------------------
                 $event = array(
@@ -172,23 +182,23 @@
                     'Date' => $ts,
                     'StartTime' => str_replace(":", "-", $_REQUEST["time"]),
                     'Duration' => $_REQUEST["duration"],
-                    'GuestCount' => $_REQUEST["pupil_count"],
-                    'Cost' => $moneyToCash,
+                    'GuestCount' => $_REQUEST["pupilCount"],
+                    'Cost' => $_REQUEST["moneyToCash"],
                     //------------------------------
                     // дополнительные данные для школ
-                    'TeacherCount' => $teacherCount,
+                    'TeacherCount' => $_REQUEST["teacherCount"],
                     'Pack' => $_REQUEST["pack"],
-                    'PackPrice' => $packPrice,
-                    'PupilCount' => $pupilCount,
-                    'PupilAge' => $pupilAge,
+                    'PackPrice' => $_REQUEST["packPrice"],
+                    'PupilCount' => $_REQUEST["pupilCount"],
+                    'PupilAge' => $_REQUEST["pupilAge"],
                     'Subject' => $_REQUEST["subject"],
 
-                    'HasTransfer' => $_REQUEST["has_transfer"],
-                    'HasFood' => $_REQUEST["has_transfer"],
-                    'TransferCost' => $transferCost,
+                    'HasTransfer' => $_REQUEST["hasTransfer"],
+                    'HasFood' => $_REQUEST["hasTransfer"],
+                    'TransferCost' => $_REQUEST["transferCost"],
 
-                    'TeacherBribePercent' => $bribePercent,
-                    'TeacherBribe' => $bribe,
+                    'TeacherBribePercent' => $_REQUEST["bribePercent"],
+                    'TeacherBribe' => $_REQUEST["bribe"],
 
                     'Comment' => $_REQUEST["comment"],
                     
@@ -202,7 +212,7 @@
                     'Code' => "No code",
                     'Status' => "Не требуется",
                     'Date' => "",
-                    'CompanyId' => $_REQUEST["company_id"],
+                    'CompanyId' => $_REQUEST["companyId"],
                 );
                 $order["VerifyInfo"] = $clientInfo;
                 //----------------------------
@@ -210,18 +220,14 @@
                 $financeInfo = array (
                     'Id' => $id,
                     'Remainder' =>  0,
-                    'Payed' => $moneyToCash,
-                    'PaymentsView' => "[".$paymentDate."] Сумма ".$moneyToCash."\n",
-                    'Payments' => array(
-                        "paymentValue" => $moneyToCash,
-                        "receiptDate" => $paymentDate,
-                        "receiptNumber" => 1
-                    ),
+                    'Payed' => $_REQUEST["moneyToCash"],
+                    'PaymentsView' => "[".$paymentDate."] Сумма ".$_REQUEST["moneyToCash"]."\n",
+                    'Payments' => array(),
                     'TotalDiscount' => $_REQUEST["discount"],
                     'Increase' => 0,
                     'IncreaseComment' => "",
                     'Discount' => $_REQUEST["discount"],
-                    'DiscountComment' => $_REQUEST["discount_comment"],
+                    'DiscountComment' => $_REQUEST["discountComment"],
                     'LoyaltyCode' => "",
                     'LoyaltyDiscount' => 0,
                     'AgentCode' => "",
@@ -243,8 +249,8 @@
 
                     $tzfData = queryGoogleScript(array(
                         "event" => "OnTzfSchoolCreateRequested",
-                        "user" => $_REQUEST["user_fullname"],
-                        "itemCount" => $pupilCount,
+                        "user" => $_REQUEST["userFullname"],
+                        "itemCount" => $_REQUEST["pupilCount"],
                         "center" => $centerNameRu,
                         "date" => str_replace(" ", ".", formatDate($datetime, "d m Y")),
                         "orderId" => $id,
@@ -259,7 +265,7 @@
                         $banquet = array(
                             'BanquetId' => $tzfId,
                             'Comment' => "",
-                            'TranscriptStr' => "Фуд пакет для школ (цена ".$tzf["price"].", кол-во ".$pupilCount.") - ".$tzf["cost"],
+                            'TranscriptStr' => "Фуд пакет для школ (цена ".$tzf["price"].", кол-во ".$_REQUEST["pupilCount"].") - ".$tzf["cost"],
                             'Items' => array(
                                 0 => array(
                                     'name' => 'Фуд пакет для школ',
@@ -268,7 +274,7 @@
                                     'note' => '',
                                     'increasePercent' => 0,
                                     'itemId' => $tzf["bitrixId"],
-                                    'count' => $pupilCount,
+                                    'count' => $_REQUEST["pupilCount"],
                                     'cost' => $tzf["cost"],
                                 )
                             ),
@@ -296,18 +302,18 @@
 
                 $comment = $_REQUEST["comment"] != "" ? $_REQUEST["comment"]."\n" : "";
                 $comment .= "--- Служебная информация ---\n";
-                $comment .= "Возраст детей: ".$pupilAge."\n";
+                $comment .= "Возраст детей: ".$_REQUEST["pupilAge"]."\n";
                 $comment .= "Тема урока: ".$_REQUEST["subject"]."\n";
-                $comment .= "Выбранный пакет: ".$packName."\n";
+                $comment .= "Выбранный пакет: ".$_REQUEST["packName"]."\n";
 
                 if ($_REQUEST["has_food"] == "yes"){
                     $comment .= "Фуд-пакет, наличие: есть\n";
-                    $comment .= "Фуд-пакет, стоимость: ".$foodPackCost."\n";
+                    $comment .= "Фуд-пакет, стоимость: ".$_REQUEST["foodPackCost"]."\n";
                 } else $comment .= "Фуд-пакет, наличие: отсутствует\n";
 
 
-                $comment .= "Процент учителю: ".$bribe."\n";
-                $comment .= "Стоимость трансфера: ".$transferCost."\n";
+                $comment .= "Процент учителю: ".$_REQUEST["bribe"]."\n";
+                $comment .= "Стоимость трансфера: ".$_REQUEST["transferCost"]."\n";
 
                 $order["Comment"] = $comment;
                 //--------------------------------
@@ -317,20 +323,20 @@
 
                 $admin_token = get_access_data(true);
 
-                $contact = BitrixHelper::getContact($_REQUEST["contact_id"], $admin_token);
+                $contact = BitrixHelper::getContact($_REQUEST["contactId"], $admin_token);
                 $order["ContactSource"] = !is_null($contact) ?  BitrixHelper::getInstanceSource($contact["ID"], "contact", $admin_token) : "Ошибка. Контакт не существует";
                 $order["LeadSource"] = !is_null($contact) && !is_null($contact["LEAD_ID"]) ?  BitrixHelper::getInstanceSource($contact["LEAD_ID"], "lead", $admin_token) : "Лид отсутствует";
+                */
 
 
-
-                if ($_REQUEST["deal_id"] != "") {
-                    $updateResult = updateOrderDeal($order, $admin_token, true, $_REQUEST["deal_id"]);
+                if ($_REQUEST["dealId"] != "") {
+                    $updateResult = updateOrderDeal($order, $adminToken, true, $_REQUEST["dealId"]);
                     
                 } else {
-                    $order["DealId"] = updateOrderDeal($order, $admin_token);
+                    $order["DealId"] = updateOrderDeal($order, $adminToken);
                 }
                 
-                $updateProductsResult = updateDealProductSet($order, $admin_token);
+                $updateProductsResult = updateDealProductSet($order, $adminToken);
                 $response["order"] = $order;
                 
 
@@ -353,67 +359,6 @@
     header('Content-Type: application/json');
     echo json_encode($response);
 
-
-    function GetPackPrice($pack, $center){
-        $packPrice = 0;
-
-
-        switch ($center) {
-            case 'next_ese':
-                $packPrice = ESE_BASE_PACK_PRICE;
-                switch ($pack) {
-                    case 'basepack':
-                        $packPrice = ESE_BASE_PACK_PRICE;
-                        break;
-                    case 'standartpack':
-                        $packPrice = ESE_STD_PACK_PRICE;
-                        break;
-                    case 'newyear':
-                        $packPrice = ESE_NEWYEAR_COST;
-                        break;
-                    case 'allinclusive':
-                        $packPrice = ESE_ALL_PACK_PRICE;
-                        break;
-                }
-
-
-                break;
-            case 'next_apo':
-                switch ($pack) {
-                    case 'basepack':
-                        $packPrice = APO_BASE_PACK_PRICE;
-                        break;
-                    case 'standartpack':
-                        $packPrice = APO_STD_PACK_PRICE;
-                        break;
-                    case 'newyear':
-                        $packPrice = APO_NEWYEAR_COST;
-                        break;
-                    case 'allinclusive':
-                        $packPrice = APO_ALL_PACK_PRICE;
-                        break;
-                }
-                break;
-
-            case 'next_pro':
-                switch ($pack) {
-                    case 'basepack':
-                        $packPrice = PRO_BASE_PACK_PRICE;
-                        break;
-                    case 'standartpack':
-                        $packPrice = PRO_STD_PACK_PRICE;
-                        break;
-                    case 'newyear':
-                        $packPrice = PRO_NEWYEAR_COST;
-                        break;
-                    case 'allinclusive':
-                        $packPrice = PRO_ALL_PACK_PRICE;
-                        break;
-                }
-                break;
-        }
-        return $packPrice;
-    }
 
 
 /*

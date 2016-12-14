@@ -6,15 +6,15 @@
     <input type="hidden" name="auth_id" value="<?= $auth_id ?>">
     <input type="hidden" name="admin_token" value="<?= $adminAuthToken ?>">
 
-    <input type="hidden" name="contact_id" value="<?= $contactId ?>">
-    <input type="hidden" name="company_id" value="<?= $companyId?>">
+    <input type="hidden" name="contactId" value="<?= $contactId ?>">
+    <input type="hidden" name="companyId" value="<?= $companyId?>">
 
-    <input type="hidden" name="deal_id" value="<?= $dealId?>">
-    <input type="hidden" name="order_id" value="<?= $orderId?>">
+    <input type="hidden" name="dealId" value="<?= $dealId?>">
+    <input type="hidden" name="orderId" value="<?= $orderId?>">
 
-    <input type="hidden" name="contact_name" value="<?= $contact["NAME"]." ".$contact["LAST_NAME"] ?>">
-    <input type="hidden" name="contact_phone" value="<?= $contact["PHONE"][0]["VALUE"]?>">
-    <input type="hidden" name="company_name" value="<?= $company["TITLE"]?>">
+    <input type="hidden" name="contactName" value="<?= $contact["NAME"]." ".$contact["LAST_NAME"] ?>">
+    <input type="hidden" name="contactPhone" value="<?= $contact["PHONE"][0]["VALUE"]?>">
+    <input type="hidden" name="companyName" value="<?= $company["TITLE"]?>">
 
 
 
@@ -26,7 +26,7 @@
                     <?php
                     if (!isset($order["Event"]["Pack"])){
                         ?>
-                        <option value=\"\">Выберите из списка</option>
+                        <option value="">Выберите из списка</option>
                         <option value="basepack">Базовый</option>
                         <option value="standartpack">Стандартный</option>
                         <option value="allinclusive">Все включено</option>
@@ -43,7 +43,7 @@
 
 
                 </select>
-                <span class="input-group-addon"><i class="glyphicon glyphicons-gift"></i></span>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-building"></span></span>
             </div>
         </div>
     </div>
@@ -58,41 +58,88 @@
                     if (!isset($order["Center"])){
                         ?>
                         <option value="">Выберите из списка</option>
-                        <option value="next_ese">NEXT Esentai</option>
-                        <option value="next_apo">NEXT Aport</option>
-                        <option value="next_pro">NEXT Promenade</option>
+                        <option value="nextEse">NEXT Esentai</option>
+                        <option value="nextApo">NEXT Aport</option>
+                        <option value="nextPro">NEXT Promenade</option>
                     <?php } else {
                         $selectedOption = $order["Center"];
                         ?>
-                        <option value="next_ese" <?= $selectedOption == "next_ese" ? "selected" : "" ?>>NEXT Esentai</option>
-                        <option value="next_apo" <?= $selectedOption == "next_apo" ? "selected" : "" ?>>NEXT Aport</option>
-                        <option value="next_pro" <?= $selectedOption == "next_pro" ? "selected" : "" ?>>NEXT Promenade</option>
+                        <option value="nextEse" <?= $selectedOption == "nextEse" ? "selected" : "" ?>>NEXT Esentai</option>
+                        <option value="nextApo" <?= $selectedOption == "nextApo" ? "selected" : "" ?>>NEXT Aport</option>
+                        <option value="nextPro" <?= $selectedOption == "nextPro" ? "selected" : "" ?>>NEXT Promenade</option>
 
                     <?php } ?>
                 </select>
-                <span class="input-group-addon"><i class="glyphicon glyphicons-building"></i></span>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-building"></i></span>
             </div>
         </div>
     </div>
 
     <div class="form-group">
-        <label class="control-label col-sm-3" for="pupil_count">Количество детей:</label>
+        <label class="control-label col-sm-3" for="status">Статус заказа:</label>
+        <div class="col-sm-9">
+            <div class="input-group">
+                <?php
+
+                    if (isset($order["Status"])){
+
+                        switch ($order["Status"]){
+                            case "Заказ подтвержден":
+                                $value = "initiated";
+                                break;
+
+                            case "Аренда проведена":
+                                $value = "conducted";
+                                break;
+
+                            case "Сделка закрыта":
+                                $value = "closed";
+                                break;
+
+                            case "Аренда отменена":
+                                $value = "canceled";
+                                break;
+
+                            default:
+                                $value = "initiated";
+                                break;
+                        }
+
+
+                    } else {
+                        $value = "initiated";
+                    }
+
+                ?>
+                <select class="form-control" id="status" name="status" required>
+                    <option value="initiated" <?= $value == "initiated" ? "selected" : "" ?>>Заказ подтвержден</option>
+                    <option value="conducted" <?= $value == "conducted" ? "selected" : "" ?>>Аренда проведена</option>
+                    <option value="closed" <?= $value == "closed" ? "selected" : "" ?>>Сделка закрыта</option>
+                    <option value="canceled" <?= $value == "canceled" ? "selected" : "" ?>>Аренда отменена</option>
+                </select>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-building"></i></span>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="pupilCount">Количество детей:</label>
         <div class="col-sm-9">
             <div class="input-group">
                 <?php $value = isset($order["Event"]["PupilCount"]) ? $order["Event"]["PupilCount"] : "" ?>
-                <input type="number" step="1" min="0" class="form-control" id="pupil_count" name="pupil_count" required placeholder="Количество детей (учеников)" value="<?= $value ?>">
+                <input type="number" step="1" min="0" class="form-control" id="pupilCount" name="pupilCount" required placeholder="Количество детей (учеников)" value="<?= $value ?>">
                 <span class="input-group-addon"><i class="glyphicon glyphicons-fire"></i></span>
             </div>
         </div>
     </div>
 
     <div class="form-group">
-        <label class="control-label col-sm-3" for="pupil_age">Возраст детей:</label>
+        <label class="control-label col-sm-3" for="pupilAge">Возраст детей:</label>
         <div class="col-sm-9">
             <div class="input-group">
                 <?php $value = isset($order["Event"]["PupilAge"]) ? $order["Event"]["PupilAge"] : "" ?>
-                <input type="text" class="form-control" id="pupil_age" name="pupil_age" required placeholder="Пример: 6-7 класс, 12-14 лет" value="<?= $value ?>">
-                <span class="input-group-addon"><i class="glyphicon glyphicons-fire"></i></span>
+                <input type="text" class="form-control" id="pupilAge" name="pupilAge" required placeholder="Пример: 6-7 класс, 12-14 лет" value="<?= $value ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-fire"></i></span>
             </div>
         </div>
     </div>
@@ -100,22 +147,22 @@
     <hr>
 
     <div class="form-group">
-        <label class="control-label col-sm-3" for="teacher_count">Количество учителей:</label>
+        <label class="control-label col-sm-3" for="teacherCount">Количество учителей:</label>
         <div class="col-sm-9">
             <div class="input-group">
                 <?php $value = isset($order["Event"]["TeacherCount"]) ? $order["Event"]["TeacherCount"] : "" ?>
-                <input type="number" step="1" min="0" class="form-control" id="teacher_count" name="teacher_count" required placeholder="Кол-во учителей и/или родителей" value="<?= $value ?>">
+                <input type="number" step="1" min="0" class="form-control" id="teacherCount" name="teacherCount" required placeholder="Кол-во учителей и/или родителей" value="<?= $value ?>">
                 <span class="input-group-addon"><i class="glyphicon glyphicons-parents"></i></span>
             </div>
         </div>
     </div>
 
     <div class="form-group">
-        <label class="control-label col-sm-3" for="package_price">Цена пакета:</label>
+        <label class="control-label col-sm-3" for="packagePrice">Цена пакета:</label>
         <div class="col-sm-9">
             <div class="input-group">
                 <?php $value = isset($order["Event"]["PackPrice"]) ? $order["Event"]["PackPrice"] : "" ?>
-                <input type="number" step="0ю1" min="0" class="form-control" id="package_price" name="package_price" required placeholder="Стоимость пакета развлечений на одного ребенка" value="<?= $value ?>">
+                <input type="number" step="0.1" min="0" class="form-control" id="packagePrice" name="packagePrice" required placeholder="Стоимость пакета развлечений на одного ребенка" value="<?= $value ?>">
                 <span class="input-group-addon"><i class="glyphicon glyphicons-fire"></i></span>
             </div>
         </div>
@@ -190,12 +237,12 @@
     </div>
     <hr>
     <div class="form-group">
-        <label class="control-label col-sm-3" for="has_food">С фуд-пакетом:</label>
+        <label class="control-label col-sm-3" for="hasFood">С фуд-пакетом:</label>
         <div class="col-sm-9">
             <?php
                 $selectedOption = isset($order["BanquetInfo"]) && !is_null($order["BanquetInfo"]) ? "yes" : "no";
             ?>
-            <select class="form-control" id="has_food" name="has_food" required>
+            <select class="form-control" id="hasFood" name="hasFood" required>
                 <option value="no" <?= $selectedOption == "no" ? "selected" : "" ?>>Нет</option>
                 <option value="yes" <?= $selectedOption == "yes" ? "selected" : "" ?>>Да</option>
             </select>
@@ -203,12 +250,12 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label col-sm-3" for="has_transfer">С трансфером:</label>
+        <label class="control-label col-sm-3" for="hasTransfer">С трансфером:</label>
         <div class="col-sm-3">
             <?php
                 $selectedOption = isset($order["Event"]["HasTransfer"]) ? $order["Event"]["HasTransfer"]  : "no";
             ?>
-            <select class="form-control" id="has_transfer" name="has_transfer" required>
+            <select class="form-control" id="hasTransfer" name="hasTransfer" required>
                 <option value="no" <?= $selectedOption == "no" ? "selected" : "" ?>>Нет</option>
                 <option value="yes" <?= $selectedOption == "yes" ? "selected" : "" ?>>Да</option>
             </select>
@@ -218,11 +265,11 @@
             <?php
             if (isset($order["Event"]["TransferCost"]) && $order["Event"]["TransferCost"] != 0){
             ?>
-                <input type="number" step="1" min="0" class="form-control" id="transfer_cost" name="transfer_cost"
+                <input type="number" step="1" min="0" class="form-control" id="transferCost" name="transferCost"
                        required placeholder="Стоимость трансфера" value="<?= $order["Event"]["TransferCost"] ?>">
             <?php } else {
                 ?>
-                <input type="hidden" name="transfer_cost" value="0">
+                <input type="hidden" name="transferCost" value="0">
                 <input type="text" class="form-control" name="empty" value="Стоимость трансфера: 0" disabled >
             <?php } ?>
 
@@ -233,11 +280,11 @@
     <hr>
 
     <div class="form-group">
-        <label class="control-label col-sm-3" for="bribe_percent">Сумма учителю (за одного ребенка):</label>
+        <label class="control-label col-sm-3" for="bribePercent">Сумма учителю (за одного ребенка):</label>
         <div class="col-sm-9">
             <div class="input-group">
                 <?php $value = isset($order["Event"]["TeacherBribePercent"]) ? $order["Event"]["TeacherBribePercent"] : "" ?>
-                <input type="number" step="1" min="0" class="form-control" id="bribe_percent" name="bribe_percent" required placeholder="Сумма учителю за одного ребенка" value="<?= $value ?>">
+                <input type="number" step="1" min="0" class="form-control" id="bribePercent" name="bribePercent" required placeholder="Сумма учителю за одного ребенка" value="<?= $value ?>">
                 <span class="input-group-addon"><i class="glyphicon glyphicons-money"></i></span>
             </div>
         </div>
@@ -256,7 +303,7 @@
         <div class="col-sm-6">
             <div class="input-group">
                 <?php $value = isset($order["FinanceInfo"]["DiscountComment"]) ? $order["FinanceInfo"]["DiscountComment"] : "" ?>
-                <input type="text" class="form-control" id="discount_comment" name="discount_comment" placeholder="Комментарий к скидке" maxlength="150" value="<?= $value?>">
+                <input type="text" class="form-control" id="discountComment" name="discountComment" placeholder="Комментарий к скидке" maxlength="150" value="<?= $value?>">
                 <span class="input-group-addon"><i class="glyphicon glyphicons-heart-empty"></i></span>
             </div>
 
@@ -264,16 +311,6 @@
 
     </div>
 
-    <!--div class="form-group">
-        <label class="control-label col-sm-3" for="discount_comment">Комментарий к скидке:</label>
-        <div class="col-sm-9">
-            <div class="input-group">
-                <?php $value = isset($order["FinanceInfo"]["DiscountComment"]) ? $order["FinanceInfo"]["DiscountComment"] : "" ?>
-                <input type="text" class="form-control" id="discount_comment" name="discount_comment" placeholder="Комментарий к скидке" maxlength="150" value="<?= $value?>">
-                <span class="input-group-addon"><i class="glyphicon glyphicons-heart-empty"></i></span>
-            </div>
-        </div>
-    </div-->
     <div class="form-group">
         <label class="control-label col-sm-3" for="comment">Комментарий к заказу:</label>
         <div class="col-sm-9">

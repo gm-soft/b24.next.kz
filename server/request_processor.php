@@ -123,34 +123,52 @@ function process_user_request($request, $access_data) {
         case 'bizproc.activity.add':
             $data = call("bizproc.activity.add", array(
                 "auth" => $access_token,
-                "CODE" => "client_by_deal_id",
-                "HANDLER" => "http://b24.next.kz/bp/client_by_deal_id.php",
-                "NAME" => "Возврат данных о контакте по ID сделки",
+                "CODE" => "calendar_accessibility",
+                "HANDLER" => "http://b24.next.kz/rest/biz.process.php",
+                "NAME" => "Проверка доступности в календаре",
                 "PROPERTIES" => array(
-                    "dealID" => array(
-                        "NAME" => "ID сделки",
-                        "TYPE" => "string",
+
+                    "startDate" => array(
+                        "NAME" => "Начальная дата",
+                        "TYPE" => "datetime",
                         "Multiple" => "N"
-                        )
+                        ),
+                    "endDate" => array(
+                        "NAME" => "Конечная дата",
+                        "TYPE" => "datetime",
+                        "Multiple" => "N"
                     ),
+                    "calendarType" => array(
+                        "NAME" => "Тип календаря",
+                        "TYPE" => "string",
+                        "Multiple" => "N"
+                    ),
+                    "userId" => array(
+                        "NAME" => "ID юзера/группы, чей календарь отслеживается",
+                        "TYPE" => "int",
+                        "Multiple" => "N"
+                    ),
+                    "sectionId" => array(
+                        "NAME" => "ID Секции",
+                        "TYPE" => "int",
+                        "Multiple" => "N"
+                    ),
+                ),
+
                 "RETURN_PROPERTIES" => array(
-                    "clientName" => array(
-                        "NAME" => "Фамилия и Имя контакта",
-                        "TYPE" => "string",
+                    "total" => array(
+                        "NAME" => "Количество событий в периоде",
+                        "TYPE" => "int",
                         "Multiple" => "N"
                         ),
-                    "clientPhone" => array(
-                        "NAME" => "Телефон контакта",
+                    "events" => array(
+                        "NAME" => "Массив строк (title, datetimeStart, datetimeEnd)",
                         "TYPE" => "string",
-                        "Multiple" => "N"
+                        "Multiple" => "Y"
                         ),
-                    "clientBirthday" => array(
-                        "NAME" => "День рождения контакта",
-                        "TYPE" => "date",
-                        "Multiple" => "N"
-                        )
                     )
-            ));
+                )
+            );
         break;
 
         case 'entity.get':

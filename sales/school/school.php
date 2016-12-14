@@ -25,8 +25,8 @@ $userId = $curr_user["ID"];
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 $actionPerformed = isset($_REQUEST["action_performed"])  ? $_REQUEST["action_performed"] : "initiated";
-$contactId = $_REQUEST["contact_id"];
-$companyId = $_REQUEST["company_id"];
+$contactId = $_REQUEST["contactId"];
+$companyId = $_REQUEST["companyId"];
 
 switch ($actionPerformed) {
     case "initiated":
@@ -83,9 +83,9 @@ switch ($actionPerformed) {
                     <input type="hidden" name="admin_token" value="<?= $adminAuthToken ?>">
 
                     <div class="form-group">
-                        <label class="control-label col-sm-3" for="order_id">Номер заказа аренды</label>
+                        <label class="control-label col-sm-3" for="orderId">Номер заказа аренды</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="order_id" name="order_id" required placeholder="Номер заказа аренды (9-1)">
+                            <input type="text" class="form-control" id="orderId" name="orderId" required placeholder="Номер заказа аренды (9-1)">
                         </div>
 
                     </div>
@@ -107,7 +107,7 @@ switch ($actionPerformed) {
         $url = "http://b24.next.kz/rest/bitrix.php";
         $params = array(
                 "action" => "order.get.google",
-                "id" => $_REQUEST["order_id"]
+                "id" => $_REQUEST["orderId"]
         );
         $order = query("GET", $url, $params);
         log_debug(var_export($order, true));
@@ -120,8 +120,8 @@ switch ($actionPerformed) {
                 "auth_id=$auth_id&".
                 "action=$action&".
                 "action_performed=school_find&".
-                "id=".$_REQUEST["id"]."&".
-                "error=Заказ под номером ".$_REQUEST["id"]." не найден";
+                "orderId=".$_REQUEST["orderId"]."&".
+                "error=Заказ под номером ".$_REQUEST["orderId"]." не найден";
             redirect($url);
         }
 
@@ -130,8 +130,8 @@ switch ($actionPerformed) {
                 "auth_id=$auth_id&".
                 "action=$action&".
                 "action_performed=school_find&".
-                "id=".$_REQUEST["id"]."&".
-                "error=Заказ под номером ".$_REQUEST["id"]." не является продажой для школы/лагеря";
+                "orderId=".$_REQUEST["orderId"]."&".
+                "error=Заказ под номером ".$_REQUEST["orderId"]." не является продажой для школы/лагеря";
             redirect($url);
         }
 
@@ -139,7 +139,7 @@ switch ($actionPerformed) {
         $contactId = $order["ContactId"];
 
         $dealId = isset($order["DealId"]) ? $order["DealId"] : "";
-        $orderId = $_REQUEST["order_id"];
+        $orderId = $_REQUEST["orderId"];
 
         $company = BitrixHelper::getCompany($companyId, $adminAuthToken);
         $contact = BitrixHelper::getContact($contactId, $adminAuthToken);
@@ -200,14 +200,14 @@ switch ($actionPerformed) {
     }
 
     switch ($_REQUEST["center"]) {
-        case 'next_ese':
+        case 'nextEse':
             $centerName = "NEXT Esentai";
             break;
-        case 'next_apo':
+        case 'nextApo':
             $centerName = "NEXT Aport";
             break;
 
-        case 'next_pro':
+        case 'nextPro':
             $centerName = "NEXT Promenade";
             break;
         default:
@@ -219,50 +219,50 @@ switch ($actionPerformed) {
     $parameters = array(
         "action" => $actionPerformed == "order_saved" ? "schoolGetCost" : "schoolGetCostSave",
         "pack" => $_REQUEST["pack"],
-        "contact_id" => $_REQUEST["contact_id"],
-        "company_id" => $_REQUEST["company_id"],
-        "order_id" => $_REQUEST["order_id"],
-        "deal_id" => $_REQUEST["deal_id"],
+        "contactId" => $_REQUEST["contactId"],
+        "companyId" => $_REQUEST["companyId"],
+        "orderId" => $_REQUEST["orderId"],
+        "dealId" => $_REQUEST["dealId"],
 
         "company_name" => $_REQUEST["company_name"],
-
+        "status" => $_REQUEST["status"],
         "center" => $_REQUEST["center"],
 
         "date" => $_REQUEST["date"],
         "time" => $_REQUEST["time"],
         "duration" => $_REQUEST["duration"],
 
-        "pupil_count" => $_REQUEST["pupil_count"],
-        "pupil_age" => $_REQUEST["pupil_age"],
-        "package_price" => $_REQUEST["package_price"],
+        "pupilCount" => $_REQUEST["pupilCount"],
+        "pupilAge" => $_REQUEST["pupilAge"],
+        "packagePrice" => $_REQUEST["packagePrice"],
 
-        "teacher_count" => $_REQUEST["teacher_count"],
-        "foodpack_count" => $_REQUEST["foodpack_count"],
-        "foodpack_price" => $_REQUEST["foodpack_price"],
-        "transfer_cost" => $_REQUEST["transfer_cost"],
-        "has_transfer" => $_REQUEST["has_transfer"],
-        "has_food" => $_REQUEST["has_food"],
+        "teacherCount" => $_REQUEST["teacherCount"],
+        "foodpackCount" => $_REQUEST["foodpackCount"],
+        //"foodpackPrice" => $_REQUEST["foodpackPrice"],
+        "transferCost" => $_REQUEST["transferCost"],
+        "hasTransfer" => $_REQUEST["hasTransfer"],
+        "hasFood" => $_REQUEST["hasFood"],
         "discount" => $_REQUEST["discount"],
 
-        "discount_comment" => $_REQUEST["discount_comment"],
-        "bribe_percent" => $_REQUEST["bribe_percent"],
+        "discountComment" => $_REQUEST["discountComment"],
+        "bribePercent" => $_REQUEST["bribePercent"],
 
-        "contact_name" => $_REQUEST["contact_name"],
-        "contact_phone" => $_REQUEST["contact_phone"],
+        "contactName" => $_REQUEST["contactName"],
+        "contactPhone" => $_REQUEST["contactPhone"],
 
         "comment" => $_REQUEST["comment"],
         "subject" => $_REQUEST["subject"],
 
-        "user_id" => $_SESSION["user_id"],
-        "user_fullname" => $curr_user["LAST_NAME"]." ".$curr_user["NAME"],
+        "userId" => $_SESSION["user_id"],
+        "userFullname" => $curr_user["LAST_NAME"]." ".$curr_user["NAME"],
     );
 
     $response = query("POST", $url, $parameters);
     $costs = $response["result"];
     $order = isset($response["order"]) ? $response["order"] : null;
 
-    $contact = BitrixHelper::getContact($_REQUEST["contact_id"], $adminAuthToken);
-    $company = BitrixHelper::getCompany($_REQUEST["company_id"], $adminAuthToken);
+    $contact = BitrixHelper::getContact($_REQUEST["contactId"], $adminAuthToken);
+    $company = BitrixHelper::getCompany($_REQUEST["companyId"], $adminAuthToken);
 
     $contactName = $contact["NAME"]." ".$contact["LAST_NAME"];
     $companyTitle = $company["TITLE"];
@@ -274,138 +274,21 @@ switch ($actionPerformed) {
         <div class="col-md-8 col-md-offset-2">
             <h1>Школы и лагеря</h1>
             <h3>Подтверждение заказа</h3>
-
-
-
-            <div id="tableToPrint">
-                <table class="table table-striped">
-
-                    <tr><th>Информация о сделке</th><td></td></tr>
-                    <?php
-                    if ($actionPerformed == "order_confirmed"){
-                        echo "<tr><td>ID заказа аренды (Консолидация 9-1)</td><td><b>".$order["Id"]."<b></td></tr>";
-                        echo "<tr><td>Номер сделки</td><td><a href='https://next.bitrix24.kz/crm/deal/show/".$order["DealId"]."/'>".$order["DealId"]."</a><b></td></tr>";
-                        echo "<tr><td>Компания</td><td><a href='https://next.bitrix24.kz/crm/company/show/".$_REQUEST["company_id"]."/' target='_blank'>".$contactName."</a></td></tr>";
-                        echo "<tr><td>Контакт</td><td><a href='https://next.bitrix24.kz/crm/contact/show/".$_REQUEST["contact_id"]."/' target='_blank'>".$companyTitle."</a></td></tr>";
-                    }
-                    ?>
-                    <tr><td>Тема урока</td><td><?= $_REQUEST["subject"]?></td></tr>
-                    <tr><td>Пакет</td><td><?= $packName?></td></tr>
-                    <tr><td>Кол-во учеников</td><td><?= $_REQUEST["pupil_count"]?></td></tr>
-                    <tr><td>Кол-во учителей</td><td><?= $_REQUEST["teacher_count"]?></td></tr>
-                    <tr><td>Дата</td><td><?= $_REQUEST["date"]?></td></tr>
-                    <tr><td>Время</td><td><?= $_REQUEST["time"]?></td></tr>
-                    <tr><td>Продолжительность</td><td><?= $_REQUEST["duration"]?></td></tr>
-                    <tr><td>Центр</td><td><?= $centerName?></td></tr>
-                    <hr>
-                    <tr><td>Комментарий к заказу</td><td><?= $_REQUEST["comment"]?></td></tr>
-                    <tr><td>Стоимость пакетов</td><td><?= $costs["packCost"]?></td></tr>
-
-                    <tr><th>Фуд-пакеты</th><td></td></tr>
-                    <?php
-                    if ($_REQUEST["has_food"] == "yes") {
-                        echo "<tr><td>Наличие фуд-пакетов</td><td><b>Есть</b></td></tr>".
-                        "<tr><td>Стоимость фуд-пакетов</td><td>".$costs["foodCost"]."</td></tr>";
-                    } else {
-                        echo "<tr><td>Наличие фуд-пакетов</td><td><b>Отсутствуют</b></td></tr>";
-                    }
-                    ?>
-                    <!--tr><td>Кол-во фуд-пакетов</td><td><?= $_REQUEST["foodpack_count"]?></td></tr-->
-
-
-                    <tr><th>Трансфер</th><td></td></tr>
-                    <?php
-                    if ($_REQUEST["has_transfer"] == "yes"){
-                        echo "<tr><td>Наличие трансфера</td><td><b>Есть</b></td></tr>";
-                        echo "<tr><td>Стоимость трансфера</td><td>".$costs["transferCost"]."</td></tr>";
-                    } else {
-                        echo "<tr><td>Наличие трансфера</td><td><b>Отсутствует</b></td></tr>";
-                    }
-                    ?>
-                    <!--tr><td>Деньги водителю</td><td><?= $costs["driverCost"]?></td></tr>
-                    <tr><td>Трансфер в кассу</td><td><?= $costs["transferToCash"]?></td></tr-->
-
-                    <tr><th>Информация о скидке</th><td></td></tr>
-                    <tr><td>Скидка</td><td><?= $_REQUEST["discount"]?></td></tr>
-                    <tr><td>Комментарий к скидке</td><td><?= $_REQUEST["discount_comment"]?></td></tr>
-
-                    <tr><th>Финансовая информация</th><td></td></tr>
-
-                    <tr><td>Процент Х</td><td><?= $costs["bribe"]?></td></tr>
-                    <tr><td>Полная стоимость заказа</td><td><?= $costs["totalCost"]?></td></tr>
-                    <tr><td>Полная стоимость заказа (с учетом скидки)</td><td><?= $costs["totalCostDiscount"]?></td></tr>
-                    <tr><td>Стоимость заказа (в кассу)</td><td><?= $costs["moneyToCash"]?></td></tr>
-                </table>
-            </div>
-
             <?php
+
+            require_once $_SERVER["DOCUMENT_ROOT"]."/sales/school/school-result-table.php";
             if ($actionPerformed == "order_saved"){
+
+                require_once $_SERVER["DOCUMENT_ROOT"]."/sales/school/school-hidden-form.php";
                 ?>
-                <form id="form" method="post" action="school.php">
-                    <input type="hidden" name="action_performed" value="order_confirmed">
-                    <input type="hidden" name="action" value="<?= $action ?>">
-                    <input type="hidden" name="auth_id" value="<?= $auth_id ?>">
-                    <input type="hidden" name="admin_token" value="<?= $adminAuthToken ?>">
-
-                    <input type="hidden" name="contact_id" value="<?= $_REQUEST["contact_id"] ?>">
-                    <input type="hidden" name="company_id" value="<?= $_REQUEST["company_id"]?>">
-
-                    <input type="hidden" name="deal_id" value="<?= $_REQUEST["deal_id"] ?>">
-                    <input type="hidden" name="order_id" value="<?= $_REQUEST["order_id"] ?>">
-
-                    <input type="hidden" name="contact_name" value="<?= $_REQUEST["contact_name"] ?>">
-                    <input type="hidden" name="contact_phone" value="<?= $_REQUEST["contact_phone"]?>">
-                    <input type="hidden" name="company_name" value="<?= $_REQUEST["company_name"]?>">
-
-                    <input type="hidden" name="pack" value="<?= $_REQUEST["pack"]?>">
-
-                    <input type="hidden" name="pupil_count" value="<?= $_REQUEST["pupil_count"]?>">
-                    <input type="hidden" name="teacher_count" value="<?= $_REQUEST["teacher_count"]?>">
-                    <input type="hidden" name="center" value="<?= $_REQUEST["center"]?>">
-
-                    <input type="hidden" name="pupil_age" value="<?= $_REQUEST["pupil_age"]?>">
-                    <input type="hidden" name="package_price" value="<?= $_REQUEST["package_price"]?>">
-                    <input type="hidden" name="has_transfer" value="<?= $_REQUEST["has_transfer"]?>">
-                    <input type="hidden" name="has_food" value="<?= $_REQUEST["has_food"]?>">
-
-                    <input type="hidden" name="date" value="<?= $_REQUEST["date"]?>">
-                    <input type="hidden" name="time" value="<?= $_REQUEST["time"]?>">
-                    <input type="hidden" name="duration" value="<?= $_REQUEST["duration"]?>">
-
-                    <input type="hidden" name="foodpack_count" value="<?= $_REQUEST["foodpack_count"]?>">
-                    <input type="hidden" name="transfer_cost" value="<?= $_REQUEST["transfer_cost"]?>">
-                    <!--input type="hidden" name="driver_cost" value="<?= $_REQUEST["driver_cost"]?>"-->
-
-
-                    <input type="hidden" name="bribe_percent" value="<?= $_REQUEST["bribe_percent"]?>">
-                    <input type="hidden" name="discount" value="<?= $_REQUEST["discount"]?>">
-                    <input type="hidden" name="discount_comment" value="<?= $_REQUEST["discount_comment"]?>">
-                    <input type="hidden" name="comment" value="<?= $_REQUEST["comment"]?>">
-                    <input type="hidden" name="subject" value="<?= $_REQUEST["subject"]?>">
-                    <input type="hidden" name="user_id" value="<?= $userId?>">
-
-                    <div class="form-group">
-                        <a href="#" id="back" class="btn btn-default">Вернуться</a>
-                        <button type="submit" id="submit-btn" class="btn btn-primary">Сохранить заказ</button>
-                    </div>
-                </form>
                 <div id="alert"></div>
                 <?php
+            }else {
+                echo "<a href=\"#\" id=\"print\" type=\"button\" class=\"btn btn-default\">Печать</a>".
+                "<a href=\"/sales/index.php?auth_id=<?= $auth_id ?>\" id=\"print\" type=\"button\" class=\"btn btn-primary\">В главное меню</a>";
             }
             ?>
         </div>
-        <?php
-        if ($actionPerformed == "order_confirmed"){
-            ?>
-            <div class="form-group">
-                <a href="#" id="print" type="button" class="btn btn-default">Печать</a>
-                <a href="/index.php?auth_id=<?= $auth_id ?>" id="print" type="button" class="btn btn-primary">В главное меню</a>
-            </div>
-
-        <?php } ?>
-
-
-
         <?php
 
         break;
@@ -429,16 +312,16 @@ switch ($actionPerformed) {
         });
 
         //---------------------
-        $('#has_transfer').change(function(){
+        $('#hasTransfer').change(function(){
 
             var html = "";
             if ($(this).val() == "yes"){
 
                 html =
-                    "<input type=\"number\" step=\"1\" min=\"0\" class=\"form-control\" id=\"transfer_cost\" name=\"transfer_cost\" " +
+                    "<input type=\"number\" step=\"1\" min=\"0\" class=\"form-control\" id=\"transferCost\" name=\"transferCost\" " +
                     "required placeholder=\"Стоимость трансфера\" >";
             } else {
-                html = "<input type=\"hidden\" name=\"transfer_cost\" value=\"0\">" +
+                html = "<input type=\"hidden\" name=\"transferCost\" value=\"0\">" +
                     "<input type=\"text\" class=\"form-control\" name=\"empty\"  value=\"Стоимость трансфера: 0\" disabled>";
             }
             $('#transfer-inputs').html(html);

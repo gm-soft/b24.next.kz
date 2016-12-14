@@ -406,8 +406,8 @@ switch ($actionPerformed) {
                         <!--input type="hidden" name="action_performed" value="contact_defined"-->
                         <input type="hidden" name="admin_token" value="<?= $adminAuthToken ?>">
 
-                        <input type="hidden" name="company_id" value="<?= $company["ID"] ?>">
-                        <input type="hidden" name="contact_id" value="<?= $contact["ID"] ?>">
+                        <input type="hidden" name="companyId" value="<?= $company["ID"] ?>">
+                        <input type="hidden" name="contactId" value="<?= $contact["ID"] ?>">
 
                         <div class="form-group">
                             <div class="dropdown div-inline">

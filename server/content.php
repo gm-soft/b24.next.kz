@@ -61,6 +61,7 @@
                             <option value="crm.contact.fields">Контакт</option>
                             <option value="crm.company.fields">Компания</option>
                             <option value="task.item.getmanifest">Задача</option>
+                            <option value="bizproc.activity.add">Установить активити</option>
                         </select>
                     </div>
 	                
