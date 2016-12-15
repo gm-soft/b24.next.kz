@@ -235,5 +235,142 @@ class OrderHelper
         return $order;
     }
 
+    public static function GetOrderEmailContent(array $order, $action = "created") {
+        $content = "";
+        "
+        <table border=0 cellspacing=0 cellpadding=5> 
+            <tr><td><br><br>Подпись клиента:</td> <td><br><br>___________________________</td> </tr>
+            <tr><td><br><br>Подпись менеджера:</td> <td><br><br>___________________________</td> </tr>
+          </table>
+        </p>" . "<h1>#TITLE ID#ORDER_ID</h1>
+        <h2>#EVENT</h2>
+        <hr>
+        <p>Информация о мероприятии в центре развлечения NEXT. Дата создания: #CREATED_AT</p>
+        
+        <p>
+          <table border=0 cellspacing=0 cellpadding=5> 
+            <tr><td>Клиент</td> <td>#CLIENT_NAME</td> </tr>
+            <tr><td>Номер телефона</td> <td>#PHONE</td> </tr>
+            <tr><td>Центр проведения</td> <td>#CENTER_NAME</td> </tr>
+            <tr><td>Дата мероприятия</td> <td>#EVENT_DATE</td> </tr>
+            <tr><td>Начало в</td> <td>#EVENT_TIME</td> </tr>
+            <tr><td>Приглашено гостей</td> <td>#GUEST_COUNT</td> </tr>
+          </table>
+        </p>
+        
+        <p>
+          <table border=1 bordercolor=#c0c0c0 cellspacing=0 cellpadding=5> 
+            <tr><th>Опция</th> <th>Описание</th> <th>Стоимость</th> </tr>
+            <tr><td>Мероприятие</td> <td>#EVENT (#EVENT_ZONE)</td> <td>#EVENT_COST</td> </tr>
+            <tr><td>Фуршет</td> <td>#BANQUET_TEXT</td> <td>#BANQUET_COST</td> </tr>
+            <tr><td>Дополнительные услуги</td> <td>#OPTIONAL_TEXT</td> <td>#OPTIONAL_COST</td> </tr>
+            <tr><td>Анимационная программа</td> <td>#ENTERTAINMENT</td> <td>#ENTERTAINMENT_COST</td> </tr>
+            <tr><td>Комментарий к заказу</td> <td>#ORDER_COMMENT</td> <td></td> </tr>
+            <tr><td>Скидки</td> <td>#DISCOUNTS_TEXT</td> <td>-#DISCOUTS_VALUE</td> </tr>
+            <tr><td>Надбавки к стоимости</td> <td>#INCREASE_TEXT</td> <td>+#INCREASE_VALUE</td> </tr>
+            <tr><td>ИТОГО</td> <td>Итоговая стоимость заказа</td> <td>#TOTAL_COST</td> </tr>
+          </table>
+        </p>
+        
+        #CHANGES_IF_NECCESSARY
+        
+        <p>Спасибо за размещение заказа в нашей компании!
+                Если у Вас возникнут вопросы или дополнения по Вашему заказу, обращайтесь по следующим телефонам:
+        </p>
+        
+        <p>
+          <b>Служба заботы о клиенте:</b> #SERVICE_PHONE
+          <br>
+          <br>
+          <b>#CENTER_NAME:</b> #CENTER_PHONE
+        </p>
+        
+        
+        <p><i>
+        
+        </i></p>
+        
+        <p>";
+    }
+
+    public static function GetOrderEmailContentOfFood(array $order, $action = "created"){
+        $content = "<h1>Заказ аренды ID#ORDER_ID</h1>
+            <h2>Сводка фуршета #BANQUET_ID</h2>
+            <hr>
+            <p>Информация о фуршете для заказа аренды</p>
+            
+            <p>
+              <table border=0 cellspacing=0 cellpadding=5> 
+                <tr><td>Клиент</td> <td>#CLIENT_NAME</td> </tr>
+                <tr><td>Номер телефона</td> <td>#PHONE</td> </tr>
+                <tr><td>Центр проведения</td> <td>#CENTER_NAME</td> </tr>
+                <tr><td>Дата мероприятия</td> <td>#EVENT_DATE</td> </tr>
+                <tr><td>Начало в</td> <td>#EVENT_TIME</td> </tr>
+                <tr><td>Приглашено гостей</td> <td>#GUEST_COUNT</td> </tr>
+              </table>
+            </p>
+            
+            <p>
+              #BANQUET_TABLE_TEXT
+            </p>
+            
+            <hr>
+            <p>
+               <b>Комментарий к заказу фуршета:</b> <br>
+               #BANQUET_COMMENT
+            </p>
+            <p>
+               <b>Комментарий к заказу:</b> <br>
+               #ORDER_COMMENT
+            </p>";
+    }
+
+    public static function GetPaymentEmailContent(array $order, $action = "created"){
+        $content = "<h2>Оплата за заказ ID#ORDER_ID</h2>
+<hr>
+<p>Внесена оплата за заказ ID#ORDER_ID. Информация о заказе и внесенной оплате:</p>
+<p>
+<table border=0 cellspacing=0 cellpadding=5> 
+    <tr><td>Сумма оплаты:</td> <td>#PAYMENT_VALUE</td> </tr>
+    <tr><td>Дата чека:</td> <td>#RECEIPT_DATE</td> </tr>
+    <tr><td>Номер чека:</td> <td>#RECEIPT_NUMBER</td> </tr>
+  </table>
+</p>
+
+#ORDER_INFO_TEMPLATE";
+    }
+
+
+    public static function GetOrderInfoEmail(array $order){
+        $content = "<p>
+<table border=1 bordercolor=#c0c0c0 cellspacing=0 cellpadding=5>
+   <tr><th>Опция</th> <th>Значение</th></tr>
+   <tr><td>Мероприятие</td> <td>#EVENT</td> </tr>
+   <tr><td>Клиент</td> <td>#CLIENT_NAME</td> </tr>
+   <tr><td>Номер телефона</td> <td>#PHONE</td> </tr>
+   <tr><td>Центр проведения</td> <td>#CENTER_NAME</td> </tr>
+   <tr><td>Дата мероприятия</td> <td>#EVENT_DATE</td> </tr>
+   
+   <tr> <td>Оплачено за заказ</td> <td>#PAYMENT_VALUE</td> </tr>
+   <tr> <td>Остаток по оплате</td> <td>#PAYMENT_REMAINDER</td> </tr>
+   <tr> <td>Итоговая сумма за заказ</td> <td>#TOTAL_COST</td> </tr>
+</table>
+</p>
+
+<p>
+  <b>Служба заботы о клиенте:</b> #SERVICE_PHONE
+  <br>
+  <br>
+  <b>#CENTER_NAME:</b> #CENTER_PHONE
+</p>
+
+<p>
+<table border=0 cellspacing=0 cellpadding=5> 
+    <tr><td><br><br>Подпись клиента:</td> <td><br><br>___________________________</td> </tr>
+    <tr><td><br><br>Подпись менеджера:</td> <td><br><br>___________________________</td> </tr>
+  </table>
+</p>";
+    }
+
 
 }
