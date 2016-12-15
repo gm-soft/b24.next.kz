@@ -4,31 +4,31 @@
     require($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
 
     $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
-    $auth_id = isset($_REQUEST["auth_id"]) ? $_REQUEST["auth_id"] : null;
+    $authId = isset($_REQUEST["authId"]) ? $_REQUEST["authId"] : null;
 
     if (is_null($action)) {
-        redirect("../sales/index.php?auth_id=".$auth_id);
+        redirect("../sales/index.php?authId=".$authId);
     }
 
-    $admin_auth_id = isset($_REQUEST["admin_token"]) ? $_REQUEST["admin_token"] : get_access_data(true);
+    $admin_authId = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);
 
-    $curr_user = BitrixHelper::getCurrentUser($auth_id);
+    $curr_user = BitrixHelper::getCurrentUser($authId);
     $_SESSION["user_name"] =  $curr_user["EMAIL"];
     $_SESSION["user_id"] =  $curr_user["ID"];
     $userId = $curr_user["ID"];
 
-    $contacts = BitrixHelper::searchContact(BitrixHelper::formatPhone($_REQUEST["contact_phone"]), $admin_auth_id);
+    $contacts = BitrixHelper::searchContact(BitrixHelper::formatPhone($_REQUEST["contact_phone"]), $admin_authId);
 
     $form_action = "preorder.php";
     require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
 
-    $actionPerformed = isset($_REQUEST["action_performed"]) ? $_REQUEST["action_performed"] : "initiated";
+    $actionPerformed = isset($_REQUEST["actionPerformed"]) ? $_REQUEST["actionPerformed"] : "initiated";
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
     switch ($actionPerformed) {
         case "contact_defined":
 
-            $curr_user = isset($curr_user) ? $curr_user : BitrixHelper::getCurrentUser($auth_id);
+            $curr_user = isset($curr_user) ? $curr_user : BitrixHelper::getCurrentUser($authId);
             $url = "https://script.google.com/macros/s/AKfycbxjyTPPbRdVZ-QJKcWLFyITXIeQ1GwI7fAi0FgATQ0PsoGKAdM/exec";
 
             $parameters = array(

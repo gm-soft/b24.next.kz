@@ -98,13 +98,15 @@ class OrderHelper
             'Subject' => $request["subject"],
 
             'HasTransfer' => $request["hasTransfer"],
-            'HasFood' => $request["hasTransfer"],
+            'HasFood' => $request["hasFood"],
             'TransferCost' => $request["transferCost"],
 
             'TeacherBribePercent' => $request["bribePercent"],
             'TeacherBribe' => $request["bribe"],
 
             'Comment' => $request["comment"],
+            'FoodPackCount' => $request["foodPackCount"],
+            'FoodPackPrice' => 0,
 
         );
         $order["Event"] = $event;
@@ -195,6 +197,7 @@ class OrderHelper
                 );
 
                 $order["BanquetInfo"] = $banquet;
+                $order["Event"]["FoodPackPrice"] = $tzf["price"];
             }
 
 

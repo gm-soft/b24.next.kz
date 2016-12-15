@@ -31,14 +31,14 @@
             echo "<tr><td>Наличие фуд-пакетов</td><td><b>Отсутствуют</b></td></tr>";
         }
         ?>
-        <!--tr><td>Кол-во фуд-пакетов</td><td><?= $_REQUEST["foodpackCount"]?></td></tr-->
+        <!--tr><td>Кол-во фуд-пакетов</td><td><?= $_REQUEST["foodPackCount"]?></td></tr-->
 
 
         <tr><th>Трансфер</th><td></td></tr>
         <?php
         if ($_REQUEST["hasTransfer"] == "yes"){
             echo "<tr><td>Наличие трансфера</td><td><b>Есть</b></td></tr>";
-            echo "<tr><td>Стоимость трансфера</td><td>".$costs["transferCost"]."</td></tr>";
+            echo "<tr><td>Оплата водителю</td><td>".$costs["transferCost"]."</td></tr>";
         } else {
             echo "<tr><td>Наличие трансфера</td><td><b>Отсутствует</b></td></tr>";
         }

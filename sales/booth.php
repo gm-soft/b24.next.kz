@@ -4,24 +4,24 @@
 	require($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
 
 	$action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
-	$auth_id = isset($_REQUEST["auth_id"]) ? $_REQUEST["auth_id"] : null;
+	$authId = isset($_REQUEST["authId"]) ? $_REQUEST["authId"] : null;
 
 	if (is_null($action)) {
-		redirect("../sales/index.php?auth_id=<?= $auth_id ?>");
+		redirect("../sales/index.php?authId=<?= $authId ?>");
 	}
 
-	$admin_auth_id = isset($_REQUEST["admin_token"]) ? $_REQUEST["admin_token"] : get_access_data(true);
+	$admin_authId = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);
 
 	
 
-	$curr_user = BitrixHelper::getCurrentUser($auth_id);
+	$curr_user = BitrixHelper::getCurrentUser($authId);
 	$_SESSION["user_name"] =  $curr_user["EMAIL"];
 	$_SESSION["user_id"] =  $curr_user["ID"];
 	$userId = $curr_user["ID"];
 
 	$form_action = "booth.php";
 
-	$actionPerformed = $_REQUEST["action_performed"];
+	$actionPerformed = $_REQUEST["actionPerformed"];
 
 	switch ($actionPerformed){
 
@@ -31,91 +31,112 @@
 
             ?>
             <div class="container ">
+
+                <h1>Продажа буса</h1>
                 <div class="row">
-                    <div class="content col-md-8 col-md-offset-2">
+                    <div class="col-sm-2"><b>Контакт:</b></div>
+                    <div class="col-sm-10"><?= $contact["NAME"]." ".$contact["LAST_NAME"]?> (<a href="https://next.bitrix24.kz/crm/contact/show/<?= $contact["ID"]?>/">ID<?= $contact["ID"]?></a>)</div>
+                </div>
+                <hr>
+                <form id="form" class="form-horizontal" method="post" action="">
+                    <input type="hidden" name="actionPerformed" value="price_get">
+                    <input type="hidden" name="authId" value="<?= $authId ?>">
+                    <input type="hidden" name="action" value="<?= $action ?>">
+                    <input type="hidden" name="adminToken" value="<?= $admin_authId ?>">
 
-                        <h1>Продажа буса</h1>
-                        <div class="row">
-                            <div class="col-sm-2"><b>Контакт:</b></div>
-                            <div class="col-sm-10"><?= $contact["NAME"]." ".$contact["LAST_NAME"]?> (<a href="https://next.bitrix24.kz/crm/contact/show/<?= $contact["ID"]?>/">ID<?= $contact["ID"]?></a>)</div>
-                        </div>
-                        <hr>
-                        <form id="form" class="form-horizontal" method="post" action="">
-                            <input type="hidden" name="action_performed" value="price_get">
-                            <input type="hidden" name="auth_id" value="<?= $auth_id ?>">
-                            <input type="hidden" name="action" value="<?= $action ?>">
-                            <input type="hidden" name="admin_token" value="<?= $admin_auth_id ?>">
+                    <input type="hidden" name="contact_name" value="">
+                    <input type="hidden" name="last_name" value="">
+                    <input type="hidden" name="contact_phone" value="">
+                    <input type="hidden" name="contact_id" value="<?= $_REQUEST["contact_id"] ?>">
 
-                            <input type="hidden" name="contact_name" value="">
-                            <input type="hidden" name="last_name" value="">
-                            <input type="hidden" name="contact_phone" value="">
-                            <input type="hidden" name="contact_id" value="<?= $_REQUEST["contact_id"] ?>">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="booth">Бус:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control " id="booth" name="booth" required>
+                                <option value="">Не выбран</option>
+                                <optgroup label="NEXT Aport">
+                                    <option value="apo_booth_1">Motion Booth 1 (158)</option>
+                                    <option value="apo_booth_2">Motion Booth 2 (159)</option>
+                                    <option value="apo_booth_3">Motion Booth 3 (160)</option>
+                                </optgroup>
 
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="booth">Бус:</label>
-                                <div class="col-sm-10">
-                                    <select class="form-control " id="booth" name="booth" required>
-                                        <option value="">Не выбран</option>
-                                        <optgroup label="NEXT Aport">
-                                            <option value="apo_booth_1">Motion Booth 1 (158)</option>
-                                            <option value="apo_booth_2">Motion Booth 2 (159)</option>
-                                            <option value="apo_booth_3">Motion Booth 3 (160)</option>
-                                        </optgroup>
+                                <optgroup label="NEXT Esentai">
+                                    <option value="ese_booth_1">Motion Booth 1 (181)</option>
+                                    <option value="ese_booth_2">Motion Booth 2 (182)</option>
+                                    <option value="ese_booth_3">Motion Booth 3 (183)</option>
+                                    <option value="ese_booth_4">Motion Booth 4 (184)</option>
+                                </optgroup>
 
-                                        <optgroup label="NEXT Esentai">
-                                            <option value="ese_booth_1">Motion Booth 1 (181)</option>
-                                            <option value="ese_booth_2">Motion Booth 2 (182)</option>
-                                            <option value="ese_booth_3">Motion Booth 3 (183)</option>
-                                            <option value="ese_booth_4">Motion Booth 4 (184)</option>
-                                        </optgroup>
-
-                                        <optgroup label="NEXT Promenade">
-                                            <option value="pro_booth_1">Motion Booth 1 (123)</option>
-                                            <option value="pro_booth_2">Motion Booth 2 (124)</option>
-                                            <option value="pro_music_booth_3">Music Booth (125)</option>
-                                            <option value="pro_double_booth_4">Double Booth (153)</option>
-                                        </optgroup>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <hr>
-                            <h3>Дата, время и продолжительность аренды</h3>
-                            <div class="form-group has-feedback">
-                                <label class="control-label col-sm-2" for="date">Дата:</label>
-                                <div class="col-sm-10">
-                                    <input type="date" class="form-control" id="date" name="date" required placeholder="Выберите дату">
-                                    <span class="glyphicon glyphicons-calendar form-control-feedback"></span>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="time">Время:</label>
-                                <div class="col-sm-10">
-                                    <input type="time" class="form-control" id="time" name="time" required
-                                           placeholder="Выберите время">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="duration">Время аренды (часов):</label>
-                                <div class="col-sm-10">
-                                    <input type="number" step="0.5" class="form-control" id="duration" name="duration" required
-                                           placeholder="Введите кол-во часов">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button id="submit" type="submit" class="btn btn-primary">Рассчитать стоимость</button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <div id="alert" class="alert alert-warning">
+                                <optgroup label="NEXT Promenade">
+                                    <option value="pro_booth_1">Motion Booth 1 (123)</option>
+                                    <option value="pro_booth_2">Motion Booth 2 (124)</option>
+                                    <option value="pro_music_booth_3">Music Booth (125)</option>
+                                    <option value="pro_double_booth_4">Double Booth (153)</option>
+                                </optgroup>
+                            </select>
                         </div>
                     </div>
+
+                    <hr>
+                    <h3>Дата, время и продолжительность аренды</h3>
+                    <?php
+                    $now = date("Y-m-d");
+
+                    ?>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">Дата</div>
+                                <input type="date" class="form-control" id="date" name="date" required placeholder="Выберите дату" value="<?= $now ?>">
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">Время</div>
+                                <input type="time" class="form-control" id="time" name="time" required placeholder="Выберите время">
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">Длительность</div>
+                                <input type="number" step="0.5" class="form-control" id="duration" name="duration" required
+                                       placeholder="Кол-во часов">
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--div class="form-group">
+                        <label class="control-label col-sm-2" for="time">Время:</label>
+                        <div class="col-sm-10">
+                            <input type="time" class="form-control" id="time" name="time" required
+                                   placeholder="Выберите время">
+                        </div>
+                    </div-->
+
+                    <!--div class="form-group">
+                        <label class="control-label col-sm-2" for="duration">Время аренды (часов):</label>
+                        <div class="col-sm-10">
+                            <input type="number" step="0.5" class="form-control" id="duration" name="duration" required
+                                   placeholder="Введите кол-во часов">
+                        </div>
+                    </div-->
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button id="submit" type="submit" class="btn btn-primary">Рассчитать стоимость</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div id="alert" class="alert alert-warning">
                 </div>
+            </div>
             <?php
             break;
 		//-------------------------------------
@@ -162,10 +183,10 @@
 							</tbody>
 						</table>
 							<form id="form" class="form-horizontal" method="post" action="">
-								<input type="hidden" name="action_performed" value="create_booth">
-								<input type="hidden" name="auth_id" value="<?= $auth_id ?>">
+								<input type="hidden" name="actionPerformed" value="create_booth">
+								<input type="hidden" name="authId" value="<?= $authId ?>">
 								<input type="hidden" name="action" value="<?= $action ?>">
-								<input type="hidden" name="ADMIN_AUTH_ID" value="<?= $admin_auth_id ?>">
+								<input type="hidden" name="ADMIN_AuthId" value="<?= $admin_authId ?>">
 
 
 								<input type="hidden" name="contact_name" value="<?= $_REQUEST["contact_name"] ?>">
@@ -217,7 +238,7 @@
 
 			$datetime_atom = $_REQUEST["date"]."T".$_REQUEST["time"]."+06:00";
 
-			$curr_user = isset($curr_user) ? $curr_user : BitrixHelper::getCurrentUser($auth_id);
+			$curr_user = isset($curr_user) ? $curr_user : BitrixHelper::getCurrentUser($authId);
 			$url = "https://script.google.com/macros/s/AKfycbxjyTPPbRdVZ-QJKcWLFyITXIeQ1GwI7fAi0FgATQ0PsoGKAdM/exec";
 			$parameters = array(
 				"event" => "OnBoothCreateRequested",
@@ -241,7 +262,7 @@
 			$process_data = query("POST", $url, $parameters);
 			$process_data = isset($process_data["result"]) ? $process_data["result"] : $process_data;
 
-            require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/header.php");
+            require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
 			if (!is_null($process_data) ) {
 				$deal_id = $process_data["deal_id"];
 				$order_id = $process_data["order_id"];

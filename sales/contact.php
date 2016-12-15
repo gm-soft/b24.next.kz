@@ -5,16 +5,16 @@
 
 
 	$action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
-	$auth_id = isset($_REQUEST["auth_id"]) ? $_REQUEST["auth_id"] : null;
+	$authId = isset($_REQUEST["authId"]) ? $_REQUEST["authId"] : null;
 	if (is_null($action)) {
-		redirect("../sales/index.php?auth_id=<?= $auth_id ?>");
+		redirect("../sales/index.php?authId=<?= $authId ?>");
 	}
 
 
 
-    $adminAuthToken = isset($_REQUEST["admin_token"]) ? $_REQUEST["admin_token"] : get_access_data(true);
+    $adminAuthToken = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);
 
-    $curr_user = BitrixHelper::getCurrentUser($auth_id);
+    $curr_user = BitrixHelper::getCurrentUser($authId);
     $_SESSION["user_name"] =  $curr_user["EMAIL"];
     $_SESSION["user_id"] =  $curr_user["ID"];
     $userId = $curr_user["ID"];
@@ -33,7 +33,7 @@
 			break;
 	}
 
-	$actionPerformed = isset($_REQUEST["action_performed"]) ? $_REQUEST["action_performed"] : "initiated";
+	$actionPerformed = isset($_REQUEST["actionPerformed"]) ? $_REQUEST["actionPerformed"] : "initiated";
 
 	switch ($actionPerformed){
         case "initiated":
@@ -46,9 +46,9 @@
                         <p>Введите номер телефона. Будет осуществлен поиск существующего контакта по этому номеру. Если номер телефона не будет найден, то будет создан новый контакт в Б24</p>
                         <form  id="form" class="form-horizontal" method="post" action="">
                             <input type="hidden" name="action" value="<?= $action ?>">
-                            <input type="hidden" name="auth_id" value="<?= $auth_id ?>">
-                            <input type="hidden" name="action_performed" value="contact_inputed">
-                            <input type="hidden" name="admin_token" value="<?= $adminAuthToken ?>">
+                            <input type="hidden" name="authId" value="<?= $authId ?>">
+                            <input type="hidden" name="actionPerformed" value="contact_inputed">
+                            <input type="hidden" name="adminToken" value="<?= $adminAuthToken ?>">
 
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="phone">Номер телефона:</label>
@@ -88,10 +88,10 @@
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                         <form id="form" class="form-horizontal" method="post" action="<?= $form_action ?>">
-                            <input type="hidden" name="action_performed" value="contact_defined">
+                            <input type="hidden" name="actionPerformed" value="contact_defined">
                             <input type="hidden" name="action" value="<?= $action ?>">
-                            <input type="hidden" name="auth_id" value="<?= $auth_id ?>">
-                            <input type="hidden" name="admin_token" value="<?= $adminAuthToken ?>">
+                            <input type="hidden" name="authId" value="<?= $authId ?>">
+                            <input type="hidden" name="adminToken" value="<?= $adminAuthToken ?>">
 
                             <h3>Выбор существующего контакта</h3>
                             <p>Контактов с указанным номером телефона в базе данных: <?= count($contacts) ?>. Выберите нужный</p>
@@ -122,7 +122,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <a href="https://b24.next.kz/sales/index.php?auth_id=<?= $auth_id ?>" type="button" class="btn btn-link"><< В главное меню</a>
+                                    <a href="https://b24.next.kz/sales/index.php?authId=<?= $authId ?>" type="button" class="btn btn-link"><< В главное меню</a>
                                     <button type="submit" id="submit-btn" class="btn btn-primary">Далее</button>
                                 </div>
                             </div>
@@ -133,9 +133,9 @@
             <?php
             } else {
                 $url = "../sales/contact.php?" .
-                    "auth_id=$auth_id&" .
+                    "authId=$authId&" .
                     "action=$action&" .
-                    "action_performed=contact_create&".
+                    "actionPerformed=contact_create&".
                     "contact_phone=$phone&" .
                     "error=Ни одного контакта с указанным телефоном не найдено. Создайте новый";
                 redirect($url);
@@ -153,9 +153,9 @@
                         <p>Создайте новый контакт в системе CRM</p>
                         <form id="form" class="form-horizontal" method="post" action="">
                             <input type="hidden" name="action" value="<?= $action ?>">
-                            <input type="hidden" name="auth_id" value="<?= $auth_id ?>">
-                            <input type="hidden" name="action_performed" value="contact_created">
-                            <input type="hidden" name="admin_token" value="<?= $adminAuthToken ?>">
+                            <input type="hidden" name="authId" value="<?= $authId ?>">
+                            <input type="hidden" name="actionPerformed" value="contact_created">
+                            <input type="hidden" name="adminToken" value="<?= $adminAuthToken ?>">
 
                             <h3>Создание нового контакта</h3>
                             <p>Контакт не был найден по номеру телефона. Будет создан новый контакт</p>
@@ -200,7 +200,7 @@
 
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <a href="https://b24.next.kz/sales/index.php?auth_id=<?= $auth_id ?>" type="button" class="btn btn-link"><< В главное меню</a>
+                                    <a href="https://b24.next.kz/sales/index.php?authId=<?= $authId ?>" type="button" class="btn btn-link"><< В главное меню</a>
                                     <button type="submit" id="submit-btn" class="btn btn-primary">Далее</button>
                                 </div>
                             </div>
@@ -236,9 +236,9 @@
             $contactId = $createResult["result"];
 
             $url = "../sales/preorder.php?".
-                "auth_id=$auth_id&".
+                "authId=$authId&".
                 "action=$action&".
-                "action_performed=contact_defined&".
+                "actionPerformed=contact_defined&".
                 "contact_id=$contactId&".
                 "success=Создан новый контакт ".$_REQUEST["name"]." ".$_REQUEST["last_name"]." [$contactId]";
             redirect($url);

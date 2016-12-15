@@ -4,17 +4,17 @@ require($_SERVER["DOCUMENT_ROOT"]."/include/help.php");
 require($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
 
 $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
-$auth_id = isset($_REQUEST["auth_id"]) ? $_REQUEST["auth_id"] : null;
+$authId = isset($_REQUEST["authId"]) ? $_REQUEST["authId"] : null;
 
 if (is_null($action)) {
-    redirect("../sales/index.php?auth_id=".$auth_id);
+    redirect("../sales/index.php?authId=".$authId);
 }
 
-$adminAuthToken = isset($_REQUEST["admin_token"]) ? $_REQUEST["admin_token"] : get_access_data(true);
+$adminAuthToken = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);
 
 
 
-$curr_user = BitrixHelper::getCurrentUser($auth_id);
+$curr_user = BitrixHelper::getCurrentUser($authId);
 $_SESSION["user_name"] =  $curr_user["EMAIL"];
 $_SESSION["user_id"] =  $curr_user["ID"];
 $userId = $curr_user["ID"];
@@ -24,7 +24,7 @@ $userId = $curr_user["ID"];
 
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
-$actionPerformed = isset($_REQUEST["action_performed"])  ? $_REQUEST["action_performed"] : "initiated";
+$actionPerformed = isset($_REQUEST["actionPerformed"])  ? $_REQUEST["actionPerformed"] : "initiated";
 $contactId = $_REQUEST["contactId"];
 $companyId = $_REQUEST["companyId"];
 
@@ -70,39 +70,6 @@ switch ($actionPerformed) {
     <?php
     break;
 
-    case "school_find":
-        require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
-        ?>
-        <div class="container">
-            <h1>Поиск заказа "Школы и лагеря"</h1>
-            <div class="">
-                <form id="form" class="form-horizontal" method="post" action="school.php">
-                    <input type="hidden" name="action_performed" value="school_edit">
-                    <input type="hidden" name="action" value="<?= $action ?>">
-                    <input type="hidden" name="auth_id" value="<?= $auth_id ?>">
-                    <input type="hidden" name="admin_token" value="<?= $adminAuthToken ?>">
-
-                    <div class="form-group">
-                        <label class="control-label col-sm-3" for="orderId">Номер заказа аренды</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="orderId" name="orderId" required placeholder="Номер заказа аренды (9-1)">
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-3">
-                            <button type="submit" id="submit-btn"  class="btn btn-primary">Найти заказ</button>
-                        </div>
-
-                    </div>
-
-                </form>
-            </div>
-        </div>
-
-      <?php
-        break;
-
     case "school_edit":
         $url = "http://b24.next.kz/rest/bitrix.php";
         $params = array(
@@ -116,20 +83,18 @@ switch ($actionPerformed) {
 
 
         if (is_null($order)){
-            $url = "../school/school.php?".
-                "auth_id=$auth_id&".
+            $url = "../findOrder.php?".
+                "authId=$authId&".
                 "action=$action&".
-                "action_performed=school_find&".
                 "orderId=".$_REQUEST["orderId"]."&".
                 "error=Заказ под номером ".$_REQUEST["orderId"]." не найден";
             redirect($url);
         }
 
         if ($order["Event"]["Event"] != "Школа/лагерь"){
-            $url = "../school/school.php?".
-                "auth_id=$auth_id&".
+            $url = "../findOrder.php?".
+                "authId=$authId&".
                 "action=$action&".
-                "action_performed=school_find&".
                 "orderId=".$_REQUEST["orderId"]."&".
                 "error=Заказ под номером ".$_REQUEST["orderId"]." не является продажой для школы/лагеря";
             redirect($url);
@@ -150,7 +115,7 @@ switch ($actionPerformed) {
         <div class="container">
             <h1>Школы и лагеря</h1>
 
-            <div class="row">
+            <!--div class="row">
                 <div class="col-sm-5">
 
                     <div class="panel panel-primary">
@@ -173,7 +138,7 @@ switch ($actionPerformed) {
                     </div>
 
                 </div>
-            </div>
+            </div-->
             <?php require_once $_SERVER["DOCUMENT_ROOT"]."/sales/school/school-form-template.php"; ?>
             <div id="alert"></div>
         </div>
@@ -185,16 +150,16 @@ switch ($actionPerformed) {
     case "order_confirmed":
     $packName = "";
     switch ($_REQUEST["pack"]) {
-        case 'basepack':
+        case 'basePack':
             $packName = "Базовый";
             break;
-        case 'standartpack':
+        case 'standardPack':
             $packName = "Стандартный";
             break;
-        case 'newyearpack':
+        case 'newYear':
             $packName = "Новогодний";
             break;
-        case 'allinclusive':
+        case 'allInclusive':
             $packName = "Все включено";
             break;
     }
@@ -237,7 +202,7 @@ switch ($actionPerformed) {
         "packagePrice" => $_REQUEST["packagePrice"],
 
         "teacherCount" => $_REQUEST["teacherCount"],
-        "foodpackCount" => $_REQUEST["foodpackCount"],
+        "foodPackCount" => $_REQUEST["foodPackCount"],
         //"foodpackPrice" => $_REQUEST["foodpackPrice"],
         "transferCost" => $_REQUEST["transferCost"],
         "hasTransfer" => $_REQUEST["hasTransfer"],
@@ -285,7 +250,7 @@ switch ($actionPerformed) {
                 <?php
             }else {
                 echo "<a href=\"#\" id=\"print\" type=\"button\" class=\"btn btn-default\">Печать</a>".
-                "<a href=\"/sales/index.php?auth_id=<?= $auth_id ?>\" id=\"print\" type=\"button\" class=\"btn btn-primary\">В главное меню</a>";
+                "<a href=\"/sales/index.php?authId=<?= $authId ?>\" id=\"print\" type=\"button\" class=\"btn btn-primary\">В главное меню</a>";
             }
             ?>
         </div>
@@ -312,7 +277,7 @@ switch ($actionPerformed) {
         });
 
         //---------------------
-        $('#hasTransfer').change(function(){
+        /*$('#hasTransfer').change(function(){
 
             var html = "";
             if ($(this).val() == "yes"){
@@ -326,6 +291,23 @@ switch ($actionPerformed) {
             }
             $('#transfer-inputs').html(html);
         });
+
+        $('#hasFood').change(function(){
+
+            var html = "";
+            if ($(this).val() == "yes"){
+
+                html =
+                    "<input type=\"number\" step=\"1\" min=\"0\" class=\"form-control\" id=\"foodPackPrice\" name=\"transferCost\" " +
+                    "required placeholder=\"Стоимость одного фуд-пакета:\" >";
+            } else {
+                html = "<input type=\"hidden\" name=\"foodPackPrice\" value=\"0\">" +
+                    "<input type=\"text\" class=\"form-control\" name=\"empty\"  value=\"Стоимость одного фуд-пакета: 0\" disabled>";
+            }
+            $('#food-inputs').html(html);
+        });*/
+
+
     </script>
 <?php
 require_once($_SERVER["DOCUMENT_ROOT"]."/sales/shared/footer.php");

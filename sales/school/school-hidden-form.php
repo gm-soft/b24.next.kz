@@ -1,8 +1,8 @@
 <form id="form" method="post" action="school.php">
-    <input type="hidden" name="action_performed" value="order_confirmed">
+    <input type="hidden" name="actionPerformed" value="order_confirmed">
     <input type="hidden" name="action" value="<?= $action ?>">
-    <input type="hidden" name="auth_id" value="<?= $auth_id ?>">
-    <input type="hidden" name="admin_token" value="<?= $adminAuthToken ?>">
+    <input type="hidden" name="authId" value="<?= $authId ?>">
+    <input type="hidden" name="adminToken" value="<?= $adminAuthToken ?>">
 
     <input type="hidden" name="contactId" value="<?= $_REQUEST["contactId"] ?>">
     <input type="hidden" name="companyId" value="<?= $_REQUEST["companyId"]?>">
@@ -25,12 +25,13 @@
     <input type="hidden" name="packagePrice" value="<?= $_REQUEST["packagePrice"]?>">
     <input type="hidden" name="hasTransfer" value="<?= $_REQUEST["hasTransfer"]?>">
     <input type="hidden" name="hasFood" value="<?= $_REQUEST["hasFood"]?>">
+    <input type="hidden" name="foodPackPrice" value="<?= $_REQUEST["foodPackPrice"]?>">
 
     <input type="hidden" name="date" value="<?= $_REQUEST["date"]?>">
     <input type="hidden" name="time" value="<?= $_REQUEST["time"]?>">
     <input type="hidden" name="duration" value="<?= $_REQUEST["duration"]?>">
 
-    <input type="hidden" name="foodpackCount" value="<?= $_REQUEST["foodpackCount"]?>">
+    <input type="hidden" name="foodPackCount" value="<?= $_REQUEST["foodPackCount"]?>">
     <input type="hidden" name="transferCost" value="<?= $_REQUEST["transferCost"]?>">
     <!--input type="hidden" name="driver_cost" value="<?= $_REQUEST["driver_cost"]?>"-->
 

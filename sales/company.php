@@ -4,22 +4,22 @@
     require ($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
 
     $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
-    $auth_id = isset($_REQUEST["auth_id"]) ? $_REQUEST["auth_id"] : null;
+    $authId = isset($_REQUEST["authId"]) ? $_REQUEST["authId"] : null;
     if (is_null($action)) {
-        redirect("../sales/index.php?auth_id=<?= $auth_id ?>");
+        redirect("../sales/index.php?authId=<?= $authId ?>");
     }
 
 
 
-    $adminAuthToken = isset($_REQUEST["admin_token"]) ? $_REQUEST["admin_token"] : get_access_data(true);
+    $adminAuthToken = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);
     //$userId = "72";
 
-    $curr_user = BitrixHelper::getCurrentUser($auth_id);
+    $curr_user = BitrixHelper::getCurrentUser($authId);
     $_SESSION["user_name"] =  $curr_user["EMAIL"];
     $_SESSION["user_id"] =  $curr_user["ID"];
     $userId = $curr_user["ID"];
 
-    $actionPerformed = isset($_REQUEST["action_performed"]) ? $_REQUEST["action_performed"] : "choose_company";
+    $actionPerformed = isset($_REQUEST["actionPerformed"]) ? $_REQUEST["actionPerformed"] : "choose_company";
     switch ($actionPerformed) {
 
 
@@ -31,7 +31,7 @@
 
             $companies = BitrixHelper::getCompanies($userId, $adminAuthToken);
             $header = "Мои компании";
-            $url = "https://b24.next.kz/sales/company.php?auth_id=$auth_id&action=$action&action_performed=all_companies";
+            $url = "https://b24.next.kz/sales/company.php?authId=$authId&action=$action&actionPerformed=all_companies";
             $urlHeader = "Все компании";
             $desc = "В списке представлены компании/школы, где ответственный - Вы.";
 
@@ -39,7 +39,7 @@
                 $companies = BitrixHelper::getCompanies(null, $adminAuthToken);
                 $header = "Все компании";
                 $desc = "В списке представлены все компании/школы, которые есть в Битрикс24";
-                $url = "https://b24.next.kz/sales/company.php?auth_id=$auth_id&action=$action&action_performed=choose_company";
+                $url = "https://b24.next.kz/sales/company.php?authId=$authId&action=$action&actionPerformed=choose_company";
                 $urlHeader = "Мои компании";
             }
             if (count($companies) == 0) {
@@ -47,9 +47,9 @@
                 $_SESSION["errors"] = array("Компаний, где Вы назначены ответственным, не найдено");
 
                 $url = "../sales/company.php?".
-                    "auth_id=$auth_id&".
+                    "authId=$authId&".
                     "action=$action&".
-                    "action_performed=company_create";
+                    "actionPerformed=company_create";
                 redirect($url);
             }
             // Если нет компаний в списке вообще, то редиректнуть на себя же, а в параметрах указать key = company_create
@@ -66,9 +66,9 @@
                         <form id="form" class="form-horizontal" method="post" action="company_contact.php">
 
                             <input type="hidden" name="action" value="<?= $action ?>">
-                            <input type="hidden" name="auth_id" value="<?= $auth_id ?>">
-                            <input type="hidden" name="action_performed" value="company_defined">
-                            <input type="hidden" name="admin_token" value="<?= $adminAuthToken ?>">
+                            <input type="hidden" name="authId" value="<?= $authId ?>">
+                            <input type="hidden" name="actionPerformed" value="company_defined">
+                            <input type="hidden" name="adminToken" value="<?= $adminAuthToken ?>">
 
                             <p>Было найдено <?= count($companies) ?> компаний. Выберите нужную</p>
                             <div class="form-group">
@@ -96,13 +96,13 @@
                                     <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="https://b24.next.kz/sales/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=company_create">Создать новую компанию</a>
+                                            <a href="https://b24.next.kz/sales/company.php?authId=<?= $authId ?>&action=<?=$action?>&actionPerformed=company_create">Создать новую компанию</a>
                                         </li>
                                         <li>
                                             <a href="<?= $url ?>"><?= $urlHeader ?></a>
                                         </li>
                                         <li>
-                                            <a href="/sales/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
+                                            <a href="/sales/index.php?authId=<?= $authId ?>">Отменить</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -134,9 +134,9 @@
                         <form id="form" class="form-horizontal" method="post" action="company.php">
 
                             <input type="hidden" name="action" value="<?= $action ?>">
-                            <input type="hidden" name="auth_id" value="<?= $auth_id ?>">
-                            <input type="hidden" name="action_performed" value="company_created">
-                            <input type="hidden" name="admin_token" value="<?= $adminAuthToken ?>">
+                            <input type="hidden" name="authId" value="<?= $authId ?>">
+                            <input type="hidden" name="actionPerformed" value="company_created">
+                            <input type="hidden" name="adminToken" value="<?= $adminAuthToken ?>">
 
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="company_title">Название компании: </label>
@@ -161,13 +161,13 @@
                                     <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="https://b24.next.kz/sales/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=initiated">Мои компании</a>
+                                            <a href="https://b24.next.kz/sales/company.php?authId=<?= $authId ?>&action=<?=$action?>&actionPerformed=initiated">Мои компании</a>
                                         </li>
                                         <li>
-                                            <a href="https://b24.next.kz/sales/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=all_companies">Выбрать компанию</a>
+                                            <a href="https://b24.next.kz/sales/company.php?authId=<?= $authId ?>&action=<?=$action?>&actionPerformed=all_companies">Выбрать компанию</a>
                                         </li>
                                         <li>
-                                            <a href="/sales/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
+                                            <a href="/sales/index.php?authId=<?= $authId ?>">Отменить</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -195,9 +195,9 @@
             $companyId = $createResult["result"];
 
             $url = "../sales/company_contact.php?".
-                "auth_id=".$auth_id."&".
+                "authId=".$authId."&".
                 "action=".$action."&".
-                "action_performed=company_defined&".
+                "actionPerformed=company_defined&".
                 "company_id=".$companyId;
             redirect($url);
 

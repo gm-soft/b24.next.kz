@@ -8,14 +8,14 @@
 
 
 
-	$auth_id = isset($_REQUEST["AUTH_ID"]) ? $_REQUEST["AUTH_ID"] : null;
-	$auth_id = isset($_REQUEST["auth_id"]) ? $_REQUEST["auth_id"] : $auth_id;
+	$authId = isset($_REQUEST["AUTH_ID"]) ? $_REQUEST["AUTH_ID"] : null;
+	$authId = isset($_REQUEST["authId"]) ? $_REQUEST["authId"] : $authId;
 
-	if (is_null($auth_id) || $auth_id == ""){
+	if (is_null($authId) || $authId == ""){
 		redirect("../sales/index.php?error=Нет авторизации через CRM Битрикс24!");
 	}
 
-	$curr_user = BitrixHelper::getCurrentUser($auth_id);
+	$curr_user = BitrixHelper::getCurrentUser($authId);
 	$_SESSION["user_name"] =  $curr_user["EMAIL"];
 	$_SESSION["user_id"] =  $curr_user["ID"];
 
@@ -25,52 +25,60 @@
 
 	<div class="container">
 
-        <!--a href="#" id="print" type="button" class="btn btn-default">Печать</a-->
-		<table id="tableToPrint" class="table table-striped">
-			<tr>
-				<td><b>Продажа буса</b></td>
-				<td>Продажа буса в одном из центров NEXT</td>
-				<td><a class="btn btn-default" href="/sales/contact.php?action=booth&auth_id=<?= $auth_id?>" role="button">Открыть &raquo;</a></td>
-			</tr>
+        <div id="action-cards">
 
-			<tr>
-				<td><b>Предзаказник аренды</b></td>
-				<td>Создать предзаказник аренды, сделки с существующим контактом</td>
-				<td><a class="btn btn-default" href="/sales/contact.php?action=preorder&auth_id=<?= $auth_id?>" role="button">Открыть &raquo;</a></td>
-			</tr>
+            <div class="row">
 
-			<?php if ($_SESSION["user_id"] == "30" || $_SESSION["user_id"] == "1" || $_SESSION["user_id"] == "98"){
-				?>
-				<tr>
-					<td><b>Школы и лагеря <span class="label label-info">beta</span></b></td>
-					<td>Форма продажи для школ и детских лагерей</td>
-					<td><a class="btn btn-default" href="/sales/company.php?action=school&auth_id=<?= $auth_id?>" role="button">Открыть &raquo;</a></td>
-				</tr>
+                <div class="col-sm-6">
 
-                <tr>
-                    <td><b>Школы и лагеря (Редактирование заказа)<span class="label label-info">beta</span></b></td>
-                    <td>Форма продажи для школ и детских лагерей</td>
-                    <td><a class="btn btn-default" href="/sales/school/school.php?action=school&action_performed=school_find&auth_id=<?= $auth_id?>" role="button">Открыть &raquo;</a></td>
-                </tr>
+                    <div class="action-card panel panel-default">
+                        <div class="panel-heading">Заказы аренды</div>
+                        <div class="panel-body">
+                            <a class="btn btn-default" href="/sales/contact.php?action=booth&authId=<?= $authId?>" role="button">Продажа буса</a>
+                            <br>
+                            <br>
+                            <a class="btn btn-default" href="/sales/contact.php?action=preorder&authId=<?= $authId?>" role="button">Предзаказник аренды</a> <br>
 
-				<tr>
-					<td><b>Корпоративная продажа</b></td>
-					<td>Форма продажи для предприятий. Создает заказ, сделку из существующей компании</td>
-					<td><a class="btn btn-default disabled" href="/sales/company.php?action=corporate&auth_id=<?= $auth_id?>" role="button" >Открыть &raquo;</a></td>
-				</tr>
-				<?php
-			}
-			?>
+                        </div>
+                    </div>
+                </div>
 
-		</table>
+                <div class="col-sm-6">
+
+                    <div class="action-card panel panel-default">
+                        <div class="panel-heading">Корпоративные продажи</div>
+                        <div class="panel-body">
+                            <?php
+                            $displayCondition =
+                                $_SESSION["user_id"] == "30" ||
+                                $_SESSION["user_id"] == "1" ||
+                                $_SESSION["user_id"] == "10" ||
+                                $_SESSION["user_id"] == "98";
+
+
+
+                            ?>
+                            <a class="btn btn-default <?= $displayCondition == true ? "" : "disabled" ?>"
+                               href="/sales/contact.php?action=school&authId=<?= $authId?>" role="button">Продажа для школы</a>
+                            <br>
+                            <br>
+                            <a class="btn btn-default <?= $displayCondition == true ? "" : "disabled" ?>"
+                                   href="/sales/findOrder.php?action=school&authId=<?= $authId?>" role="button">Продажа для школы (редактирование)</a>
+                            <br>
+                            <br>
+                            <a class="btn btn-default disabled" href="/sales/company.php?action=corporate&authId=<?= $authId?>" role="button" >Корпоративная продажа</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
 
 
 	</div>
-    <script>
-        $('#print').click(function(){
-            printContent("tableToPrint");
-        });
-    </script>
 	
 
 	

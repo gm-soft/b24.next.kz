@@ -1,10 +1,10 @@
 
 
 <form id="form" class="form-horizontal" method="post" action="school.php">
-    <input type="hidden" name="action_performed" value="order_saved">
+    <input type="hidden" name="actionPerformed" value="order_saved">
     <input type="hidden" name="action" value="<?= $action ?>">
-    <input type="hidden" name="auth_id" value="<?= $auth_id ?>">
-    <input type="hidden" name="admin_token" value="<?= $adminAuthToken ?>">
+    <input type="hidden" name="authId" value="<?= $authId ?>">
+    <input type="hidden" name="adminToken" value="<?= $adminAuthToken ?>">
 
     <input type="hidden" name="contactId" value="<?= $contactId ?>">
     <input type="hidden" name="companyId" value="<?= $companyId?>">
@@ -16,6 +16,19 @@
     <input type="hidden" name="contactPhone" value="<?= $contact["PHONE"][0]["VALUE"]?>">
     <input type="hidden" name="companyName" value="<?= $company["TITLE"]?>">
 
+    <div class="form-group">
+        <label class="control-label col-sm-3">Компания</label>
+        <div class="col-sm-9">
+            <?= $company["TITLE"]?> <a href="https://next.bitrix24.kz/crm/company/show/<?= $company["ID"]?>/">ID<?= $company["ID"]?></a> (<?= $company["PHONE"][0]["VALUE"]?>)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class=" control-label col-sm-3">Контакт</label>
+        <div class="col-sm-9">
+            Контакт <a href="https://next.bitrix24.kz/crm/contact/show/<?= $contact["ID"]?>/">ID<?= $contact["ID"]?></a> (<?= $contact["PHONE"][0]["VALUE"]?>)
+        </div>
+    </div>
 
 
     <div class="form-group">
@@ -27,17 +40,17 @@
                     if (!isset($order["Event"]["Pack"])){
                         ?>
                         <option value="">Выберите из списка</option>
-                        <option value="basepack">Базовый</option>
-                        <option value="standartpack">Стандартный</option>
-                        <option value="allinclusive">Все включено</option>
-                        <option value="newyear">Новогодний</option>
+                        <option value="basePack">Базовый</option>
+                        <option value="standardPack">Стандартный</option>
+                        <option value="allInclusive">Все включено</option>
+                        <!--option value="newYear">Новогодний</option-->
                     <?php } else {
                         $selectedOption = $order["Event"]["Pack"];
                         ?>
-                        <option value="basepack" <?= $selectedOption == "basepack" ? "selected" : "" ?>>Базовый</option>
-                        <option value="standartpack" <?= $selectedOption == "standartpack" ? "selected" : "" ?>>Стандартный</option>
-                        <option value="allinclusive" <?= $selectedOption == "allinclusive" ? "selected" : "" ?>>Все включено</option>
-                        <option value="newyear" <?= $selectedOption == "newyear" ? "selected" : "" ?>>Новогодний</option>
+                        <option value="basePack" <?= $selectedOption == "basePack" ? "selected" : "" ?>>Базовый</option>
+                        <option value="standardPack" <?= $selectedOption == "standardPack" ? "selected" : "" ?>>Стандартный</option>
+                        <option value="allInclusive" <?= $selectedOption == "allInclusive" ? "selected" : "" ?>>Все включено</option>
+                        <!--option value="newYear" <?= $selectedOption == "newYear" ? "selected" : "" ?>>Новогодний</option-->
 
                     <?php } ?>
 
@@ -75,42 +88,37 @@
         </div>
     </div>
 
+
+<?php
+
+    if (isset($order["Status"])){
+
+        switch ($order["Status"]){
+            case "Заказ подтвержден":
+                $value = "initiated";
+                break;
+
+            case "Аренда проведена":
+                $value = "conducted";
+                break;
+
+            case "Сделка закрыта":
+                $value = "closed";
+                break;
+
+            case "Аренда отменена":
+                $value = "canceled";
+                break;
+
+            default:
+                $value = "initiated";
+                break;
+        }
+        ?>
     <div class="form-group">
         <label class="control-label col-sm-3" for="status">Статус заказа:</label>
         <div class="col-sm-9">
             <div class="input-group">
-                <?php
-
-                    if (isset($order["Status"])){
-
-                        switch ($order["Status"]){
-                            case "Заказ подтвержден":
-                                $value = "initiated";
-                                break;
-
-                            case "Аренда проведена":
-                                $value = "conducted";
-                                break;
-
-                            case "Сделка закрыта":
-                                $value = "closed";
-                                break;
-
-                            case "Аренда отменена":
-                                $value = "canceled";
-                                break;
-
-                            default:
-                                $value = "initiated";
-                                break;
-                        }
-
-
-                    } else {
-                        $value = "initiated";
-                    }
-
-                ?>
                 <select class="form-control" id="status" name="status" required>
                     <option value="initiated" <?= $value == "initiated" ? "selected" : "" ?>>Заказ подтвержден</option>
                     <option value="conducted" <?= $value == "conducted" ? "selected" : "" ?>>Аренда проведена</option>
@@ -121,19 +129,40 @@
             </div>
         </div>
     </div>
+    <?php
+    } else {
+        ?>
+    <input type="hidden" name="status" value="initiated">
+
+<?php
+    }
+
+?>
+
+
     <hr>
     <div class="form-group">
         <label class="control-label col-sm-3" for="pupilCount">Количество детей:</label>
-        <div class="col-sm-9">
+        <div class="col-sm-3">
             <div class="input-group">
+                <span class="input-group-addon"></span>
                 <?php $value = isset($order["Event"]["PupilCount"]) ? $order["Event"]["PupilCount"] : "" ?>
                 <input type="number" step="1" min="0" class="form-control" id="pupilCount" name="pupilCount" required placeholder="Количество детей (учеников)" value="<?= $value ?>">
-                <span class="input-group-addon"><i class="glyphicon glyphicons-fire"></i></span>
             </div>
         </div>
+
+        <div class="col-sm-6">
+            <div class="input-group">
+                <span class="input-group-addon">Возраст детей</span>
+                <?php $value = isset($order["Event"]["PupilAge"]) ? $order["Event"]["PupilAge"] : "" ?>
+                <input type="text" class="form-control" id="pupilAge" name="pupilAge" required placeholder="Пример: 6-7 класс, 12-14 лет" value="<?= $value ?>">
+
+            </div>
+        </div>
+
     </div>
 
-    <div class="form-group">
+    <!--div class="form-group">
         <label class="control-label col-sm-3" for="pupilAge">Возраст детей:</label>
         <div class="col-sm-9">
             <div class="input-group">
@@ -142,7 +171,7 @@
                 <span class="input-group-addon"><i class="glyphicon glyphicon-fire"></i></span>
             </div>
         </div>
-    </div>
+    </div-->
 
     <hr>
 
@@ -181,101 +210,110 @@
     <hr>
     <div class="form-group">
         <label class="control-label col-sm-3" for="date">Дата:</label>
-        <div class="col-sm-9">
+        <div class="col-sm-3">
             <div class="input-group">
 
                 <?php
                 if (isset($order["DateAtom"])) {
                     $date = strtotime($order["DateAtom"]);
                     $date = $date + 6 * 3600;
-                    $value = date("Y-m-d", $date);
+                    $dateValue = date("Y-m-d", $date);
+                    $timeValue = date("H:m", $date);
                 } else {
-                    $value = "";
+                    $dateValue = "";
+                    $timeValue = "";
                 }
 
                     //echo $date. " " .$value;
                 ?>
-                <input type="date" class="form-control" id="date" name="date" required placeholder="Выберите дату" value="<?= $value ?>">
-                <span class="input-group-addon"><i class="glyphicon glyphicons-calendar"></i></span>
+                <span class="input-group-addon">Дата:</i></span>
+                <input type="date" class="form-control" id="date" name="date" required placeholder="Выберите дату" value="<?= $dateValue ?>">
             </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label class="control-label col-sm-3" for="time">Начало в:</label>
-        <div class="col-sm-9">
+        <div class="col-sm-3">
             <div class="input-group">
-                <?php
-
-                if (isset($order["DateAtom"])){
-                    // 2016-12-13T11:00:00+06:00
-                    $date = strtotime($order["DateAtom"]);
-                    $date = $date + 6 * 3600;
-                    $value = date("H:m", $date);
-                    //echo $date. " " .$value;
-                } else {
-                    $value = "";
-                }
-
-                ?>
+                <span class="input-group-addon">Начало в:</span>
                 <input type="time" class="form-control" id="time" name="time" required
-                       placeholder="Время" value="<?= $value ?>">
-                <span class="input-group-addon"><i class="glyphicon glyphicons-clock"></i></span>
+                       placeholder="Время" value="<?= $timeValue ?>">
+
             </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label class="control-label col-sm-3" for="duration">Длительность аренды (часов):</label>
-        <div class="col-sm-9">
+        <div class="col-sm-3">
             <div class="input-group">
+                <span class="input-group-addon">Длительность:</span>
                 <?php $value = isset($order["Event"]["Duration"]) ? $order["Event"]["Duration"] : "3" ?>
                 <input type="number" step="1" min="0" class="form-control" id="duration" name="duration" required placeholder="Продолжительность мероприятия" value="<?= $value ?>">
-                <span class="input-group-addon"><i class="glyphicon glyphicons-clock"></i></span>
             </div>
         </div>
+
+
     </div>
     <hr>
     <div class="form-group">
-        <label class="control-label col-sm-3" for="hasFood">С фуд-пакетом:</label>
+        <label class="control-label col-sm-3" for="foodPackCount">Фуд-пакет:</label>
         <div class="col-sm-9">
-            <?php
-                $selectedOption = isset($order["BanquetInfo"]) && !is_null($order["BanquetInfo"]) ? "yes" : "no";
-            ?>
-            <select class="form-control" id="hasFood" name="hasFood" required>
-                <option value="no" <?= $selectedOption == "no" ? "selected" : "" ?>>Нет</option>
-                <option value="yes" <?= $selectedOption == "yes" ? "selected" : "" ?>>Да</option>
-            </select>
+            <div id="food-input" class="input-group">
+                <?php
+                if (isset($order["Event"]["FoodPackCount"]) && $order["Event"]["FoodPackCount"] > 0) {
+                   ?>
+                    <input type="number" step="1" min="0" class="form-control" id="foodPackCount" name="foodPackCount"
+                           required placeholder="Количество фуд-пакетов: " value="<?= $order["Event"]["FoodPackCount"] ?>">
+
+                    <input type="hidden" name="hasFood" value="yes">
+                    <span class="input-group-addon">Кол-во пакетов</span>
+                    <?php
+                }
+                else {
+                    ?>
+
+                    <input type="text" class="form-control" value="Количество фуд-пакетов: 0" disabled>
+                    <span class="input-group-addon">Кол-во пакетов</span>
+
+                    <input type="hidden" name="foodPackCount" value="0">
+                    <input type="hidden" name="hasFood" value="yes">
+
+                <?php
+                }
+
+                ?>
+            </div>
         </div>
     </div>
 
     <div class="form-group">
-        <label class="control-label col-sm-3" for="hasTransfer">С трансфером:</label>
-        <div class="col-sm-3">
-            <?php
-                $selectedOption = isset($order["Event"]["HasTransfer"]) ? $order["Event"]["HasTransfer"]  : "no";
-            ?>
-            <select class="form-control" id="hasTransfer" name="hasTransfer" required>
-                <option value="no" <?= $selectedOption == "no" ? "selected" : "" ?>>Нет</option>
-                <option value="yes" <?= $selectedOption == "yes" ? "selected" : "" ?>>Да</option>
-            </select>
-        </div>
-        <div id="transfer-inputs" class="col-sm-6">
+        <label class="control-label col-sm-3" for="transferCost">Оплата водителю:</label>
 
-            <?php
-            if (isset($order["Event"]["TransferCost"]) && $order["Event"]["TransferCost"] != 0){
-            ?>
-                <input type="number" step="1" min="0" class="form-control" id="transferCost" name="transferCost"
-                       required placeholder="Стоимость трансфера" value="<?= $order["Event"]["TransferCost"] ?>">
-            <?php } else {
+
+        <div class="col-sm-9">
+            <div id="transfer-input" class="input-group">
+
+                <?php
+                if (isset($order["Event"]["TransferCost"]) && $order["Event"]["TransferCost"] > 0) {
+                    ?>
+                    <input type="number" step="1" min="0" class="form-control" id="transferCost" name="transferCost"
+                           required placeholder="Стоимость трансфера: " value="<?= $order["Event"]["TransferCost"] ?>">
+
+                    <input type="hidden" name="hasTransfer" value="yes">
+                    <span class="input-group-addon">Кол-во пакетов</span>
+                    <?php
+                }
+                else {
+                    ?>
+
+                    <input type="text" class="form-control" value="Стоимость трансфера: 0" disabled>
+                    <span class="input-group-addon">Кол-во пакетов</span>
+
+                    <input type="hidden" name="transferCost" value="0">
+                    <input type="hidden" name="hasTransfer" value="yes">
+
+                    <?php
+                }
+
                 ?>
-                <input type="hidden" name="transferCost" value="0">
-                <input type="text" class="form-control" name="empty" value="Стоимость трансфера: 0" disabled >
-            <?php } ?>
-
+            </div>
         </div>
-
-
     </div>
     <hr>
 
@@ -326,3 +364,62 @@
         </div>
     </div>
 </form>
+
+<script>
+    $('#pack').change(function(){
+
+        var transferHtml = "";
+        var foodHtml = "";
+        var value = $(this).val();
+        switch (value){
+            case "standardPack":
+                transferHtml =
+                    "<input type=\"text\" class=\"form-control\" value=\"Стоимость трансфера: 0\" disabled>"+
+                    "<span class=\"input-group-addon\">Кол-во пакетов</span>"+
+                    "<input type=\"hidden\" name=\"transferCost\" value=\"0\">"+
+                    "<input type=\"hidden\" name=\"hasTransfer\" value=\"no\">";
+                foodHtml =
+                    "<input type=\"number\" step=\"1\" min=\"0\" class=\"form-control\" id=\"foodPackCount\" name=\"foodPackCount\""+
+                    "required placeholder=\"Количество фуд-пакетов: \" value=\"<?= $order["Event"]["FoodPackCount"] ?>\">"+
+                    "<input type=\"hidden\" name=\"hasFood\" value=\"yes\">"+
+                    "<span class=\"input-group-addon\">Кол-во пакетов</span>";
+
+                break;
+            case "allInclusive":
+                transferHtml =
+                    "<input type=\"number\" step=\"1\" min=\"0\" class=\"form-control\" id=\"transferCost\" name=\"transferCost\" required"+
+                    "placeholder=\"Стоимость трансфера: \" value=\"<?= $order["Event"]["TransferCost"] ?>\">"+
+                    "<input type=\"hidden\" name=\"hasTransfer\" value=\"yes\">"+
+                    "<span class=\"input-group-addon\">Кол-во пакетов</span>";
+
+                foodHtml =
+                    "<input type=\"number\" step=\"1\" min=\"0\" class=\"form-control\" id=\"foodPackCount\" name=\"foodPackCount\""+
+                    "required placeholder=\"Количество фуд-пакетов: \" value=\"<?= $order["Event"]["FoodPackCount"] ?>\">"+
+                    "<input type=\"hidden\" name=\"hasFood\" value=\"yes\">"+
+                    "<span class=\"input-group-addon\">Кол-во пакетов</span>";
+
+
+                break;
+
+
+            case "basePack":
+            default:
+                transferHtml =
+                    "<input type=\"text\" class=\"form-control\" value=\"Стоимость трансфера: 0\" disabled>"+
+                    "<span class=\"input-group-addon\">Кол-во пакетов</span>"+
+                    "<input type=\"hidden\" name=\"transferCost\" value=\"0\">"+
+                    "<input type=\"hidden\" name=\"hasTransfer\" value=\"no\">";
+
+                foodHtml =
+                    "<input type=\"text\" class=\"form-control\" value=\"Количество фуд-пакетов: 0\" disabled>"+
+                    "<span class=\"input-group-addon\">Кол-во пакетов</span>"+
+                    "<input type=\"hidden\" name=\"foodPackCount\" value=\"0\">"+
+                    "<input type=\"hidden\" name=\"hasFood\" value=\"no\">";
+                break;
+        }
+
+        $('#food-input').html(foodHtml);
+        $('#transfer-input').html(transferHtml);
+
+    });
+</script>

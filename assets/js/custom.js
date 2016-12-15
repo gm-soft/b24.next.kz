@@ -7,7 +7,7 @@ $('#updatePageButton').on('click', function(){
     location.reload();
 });
 
-
+//--------------------------------------------------
 function printContent(id) {
     var printElement = document.getElementById(id);
     var restorePage = document.body.innerHTML;

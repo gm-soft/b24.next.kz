@@ -4,31 +4,31 @@ require($_SERVER["DOCUMENT_ROOT"]."/include/help.php");
 require ($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
 
 $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
-$auth_id = isset($_REQUEST["auth_id"]) ? $_REQUEST["auth_id"] : null;
+$authId = isset($_REQUEST["authId"]) ? $_REQUEST["authId"] : null;
 if (is_null($action)) {
-    redirect("../sales/index.php?auth_id=<?= $auth_id ?>");
+    redirect("../sales/index.php?authId=<?= $authId ?>");
 }
 
 
 
-$adminAuthToken = isset($_REQUEST["admin_token"]) ? $_REQUEST["admin_token"] : get_access_data(true);
+$adminAuthToken = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);
 
-$curr_user = BitrixHelper::getCurrentUser($auth_id);
+$curr_user = BitrixHelper::getCurrentUser($authId);
 $_SESSION["user_name"] =  $curr_user["EMAIL"];
 $_SESSION["user_id"] =  $curr_user["ID"];
 $userId = $curr_user["ID"];
 
 /*if (!isset($_REQUEST["company_id"])) {
     $url = "../sales/company.php?".
-                "auth_id=$auth_id&".
+                "authId=$authId&".
                 "action=$action&".
-                "action_performed=choose_company";
+                "actionPerformed=choose_company";
     redirect($url);
 }*/
 
 
 $companyId = $_REQUEST["company_id"];
-$actionPerformed = isset($_REQUEST["action_performed"]) ? $_REQUEST["action_performed"] : "initiated";
+$actionPerformed = isset($_REQUEST["actionPerformed"]) ? $_REQUEST["actionPerformed"] : "initiated";
 switch ($actionPerformed) {
 
 
@@ -48,9 +48,9 @@ switch ($actionPerformed) {
 
             if (count($contacts) == 0) {
                 $url = "../sales/company_contact.php?".
-                    "auth_id=$auth_id&".
+                    "authId=$authId&".
                     "action=$action&".
-                    "action_performed=search_contact&".
+                    "actionPerformed=search_contact&".
                     "company_id=$companyId&".
                     "warning=<strong>Внимание!</strong> В компании нет прикрепленных контактов. Выберите нужный из списка или найдите по номеру телефона";
                 redirect($url);
@@ -70,9 +70,9 @@ switch ($actionPerformed) {
                     <form id="form" class="form-horizontal" method="post" action="company_contact.php">
 
                         <input type="hidden" name="action" value="<?= $action ?>">
-                        <input type="hidden" name="auth_id" value="<?= $auth_id ?>">
-                        <input type="hidden" name="action_performed" value="contact_defined">
-                        <input type="hidden" name="admin_token" value="<?= $adminAuthToken ?>">
+                        <input type="hidden" name="authId" value="<?= $authId ?>">
+                        <input type="hidden" name="actionPerformed" value="contact_defined">
+                        <input type="hidden" name="adminToken" value="<?= $adminAuthToken ?>">
 
                         <input type="hidden" name="company_id" value="<?= $company["ID"] ?>">
 
@@ -107,16 +107,16 @@ switch ($actionPerformed) {
                                 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="https://b24.next.kz/sales/company_contact.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=search_contact&company_id=<?= $companyId ?>">Найти контакт</a>
+                                        <a href="https://b24.next.kz/sales/company_contact.php?authId=<?= $authId ?>&action=<?=$action?>&actionPerformed=search_contact&company_id=<?= $companyId ?>">Найти контакт</a>
                                     </li>
                                     <li>
                                         <?php
-                                        $url = "https://b24.next.kz/sales/company_contact.php?auth_id=$auth_id&action=$action&action_performed=create_contact&company_id=$companyId";
+                                        $url = "https://b24.next.kz/sales/company_contact.php?authId=$authId&action=$action&actionPerformed=create_contact&company_id=$companyId";
                                         ?>
                                         <a href="<?=$url?>">Создать контакт</a>
                                     </li>
                                     <li>
-                                        <a href="/sales/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
+                                        <a href="/sales/index.php?authId=<?= $authId ?>">Отменить</a>
                                     </li>
                                 </ul>
                             </div>
@@ -151,9 +151,9 @@ switch ($actionPerformed) {
                     <form id="form" class="form-horizontal" method="post" action="company_contact.php">
 
                         <input type="hidden" name="action" value="<?= $action ?>">
-                        <input type="hidden" name="auth_id" value="<?= $auth_id ?>">
-                        <input type="hidden" name="action_performed" value="contact_found">
-                        <input type="hidden" name="admin_token" value="<?= $adminAuthToken ?>">
+                        <input type="hidden" name="authId" value="<?= $authId ?>">
+                        <input type="hidden" name="actionPerformed" value="contact_found">
+                        <input type="hidden" name="adminToken" value="<?= $adminAuthToken ?>">
                         <input type="hidden" name="company_id" value="<?= $companyId ?>">
 
                         <div class="form-group">
@@ -173,22 +173,22 @@ switch ($actionPerformed) {
                                 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="https://b24.next.kz/sales/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=choose_company">Выбрать компанию</a>
+                                        <a href="https://b24.next.kz/sales/company.php?authId=<?= $authId ?>&action=<?=$action?>&actionPerformed=choose_company">Выбрать компанию</a>
                                     </li>
                                     <li>
                                         <?php
-                                        $url = "https://b24.next.kz/sales/company_contact.php?auth_id=$auth_id&action=$action&action_performed=company_defined&company_id=$companyId";
+                                        $url = "https://b24.next.kz/sales/company_contact.php?authId=$authId&action=$action&actionPerformed=company_defined&company_id=$companyId";
                                         ?>
                                         <a href="<?=$url?>">Выбрать контакт</a>
                                     </li>
                                     <li>
                                         <?php
-                                        $url = "https://b24.next.kz/sales/company_contact.php?auth_id=$auth_id&action=$action&action_performed=create_contact&company_id=$companyId";
+                                        $url = "https://b24.next.kz/sales/company_contact.php?authId=$authId&action=$action&actionPerformed=create_contact&company_id=$companyId";
                                         ?>
                                         <a href="<?=$url?>">Создать контакт</a>
                                     </li>
                                     <li>
-                                        <a href="/sales/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
+                                        <a href="/sales/index.php?authId=<?= $authId ?>">Отменить</a>
                                     </li>
                                 </ul>
                             </div>
@@ -208,9 +208,9 @@ switch ($actionPerformed) {
         //log_debug("PHONE = ".$_REQUEST["contact_phone"].". Count=".count($contacts)." ".var_export($contacts, true));
         if (count($contacts) == 0) {
             $url = "../sales/company_contact.php?".
-                "auth_id=$auth_id&".
+                "authId=$authId&".
                 "action=$action&".
-                "action_performed=create_contact&".
+                "actionPerformed=create_contact&".
                 "company_id=$companyId&".
                 "contact_phone=$phone&" .
                 "error=<strong>Внимание!</strong> Контакт по номеру телефона не найден";
@@ -221,9 +221,9 @@ switch ($actionPerformed) {
 
         if (count($contacts) > 1){
             $url = "../sales/company_contact.php?".
-                "auth_id=$auth_id&".
+                "authId=$authId&".
                 "action=$action&".
-                "action_performed=choose_contact&".
+                "actionPerformed=choose_contact&".
                 // "contact_id=".$contact["ID"]."&".
                 "company_phone=".$_REQUEST["contact_phone"]."&".
                 "company_id=$companyId";
@@ -233,9 +233,9 @@ switch ($actionPerformed) {
             }
         } else {
             $url = "../sales/company_contact.php?".
-                "auth_id=$auth_id&".
+                "authId=$authId&".
                 "action=$action&".
-                "action_performed=contact_defined&".
+                "actionPerformed=contact_defined&".
                 "contact_id=".$contacts[0]["ID"]."&".
                 "company_phone=".$_REQUEST["contact_phone"]."&".
                 "company_id=$companyId";
@@ -263,9 +263,9 @@ switch ($actionPerformed) {
                     <form id="form" class="form-horizontal" method="post" action="company_contact.php">
 
                         <input type="hidden" name="action" value="<?= $action ?>">
-                        <input type="hidden" name="auth_id" value="<?= $auth_id ?>">
-                        <input type="hidden" name="action_performed" value="contact_created">
-                        <input type="hidden" name="admin_token" value="<?= $adminAuthToken ?>">
+                        <input type="hidden" name="authId" value="<?= $authId ?>">
+                        <input type="hidden" name="actionPerformed" value="contact_created">
+                        <input type="hidden" name="adminToken" value="<?= $adminAuthToken ?>">
                         <input type="hidden" name="company_id" value="<?= $companyId ?>">
 
                         <div class="form-group">
@@ -299,16 +299,16 @@ switch ($actionPerformed) {
                                 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="https://b24.next.kz/sales/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=choose_company">Выбрать компанию</a>
+                                        <a href="https://b24.next.kz/sales/company.php?authId=<?= $authId ?>&action=<?=$action?>&actionPerformed=choose_company">Выбрать компанию</a>
                                     </li>
                                     <li>
                                         <?php
-                                        $url = "https://b24.next.kz/sales/company_contact.php?auth_id=$auth_id&action=$action&action_performed=company_defined&company_id=$companyId";
+                                        $url = "https://b24.next.kz/sales/company_contact.php?authId=$authId&action=$action&actionPerformed=company_defined&company_id=$companyId";
                                         ?>
                                         <a href="<?=$url?>">Выбрать контакт</a>
                                     </li>
                                     <li>
-                                        <a href="/sales/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
+                                        <a href="/sales/index.php?authId=<?= $authId ?>">Отменить</a>
                                     </li>
                                 </ul>
                             </div>
@@ -338,9 +338,9 @@ switch ($actionPerformed) {
         $contactId = $createResult["result"];
 
         $url = "../sales/company_contact.php?".
-            "auth_id=$auth_id&".
+            "authId=$authId&".
             "action=$action&".
-            "action_performed=contact_defined&".
+            "actionPerformed=contact_defined&".
             "company_id=$companyId&".
             "contact_id=$contactId&".
             "success=Создан новый контакт ".$_REQUEST["name"]." ".$_REQUEST["last_name"]." [$contactId]";
@@ -402,9 +402,9 @@ switch ($actionPerformed) {
                     <form id="form" class="form-horizontal" method="post" action="<?= $formAction ?>">
 
                         <input type="hidden" name="action" value="<?= $action ?>">
-                        <input type="hidden" name="auth_id" value="<?= $auth_id ?>">
-                        <!--input type="hidden" name="action_performed" value="contact_defined"-->
-                        <input type="hidden" name="admin_token" value="<?= $adminAuthToken ?>">
+                        <input type="hidden" name="authId" value="<?= $authId ?>">
+                        <!--input type="hidden" name="actionPerformed" value="contact_defined"-->
+                        <input type="hidden" name="adminToken" value="<?= $adminAuthToken ?>">
 
                         <input type="hidden" name="companyId" value="<?= $company["ID"] ?>">
                         <input type="hidden" name="contactId" value="<?= $contact["ID"] ?>">
@@ -415,16 +415,16 @@ switch ($actionPerformed) {
                                 <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="https://b24.next.kz/sales/company.php?auth_id=<?= $auth_id ?>&action=<?=$action?>&action_performed=choose_company">Выбрать компанию</a>
+                                        <a href="https://b24.next.kz/sales/company.php?authId=<?= $authId ?>&action=<?=$action?>&actionPerformed=choose_company">Выбрать компанию</a>
                                     </li>
                                     <li>
                                         <?php
-                                        $url = "https://b24.next.kz/sales/company_contact.php?auth_id=$auth_id&action=$action&action_performed=company_defined&company_id=$companyId";
+                                        $url = "https://b24.next.kz/sales/company_contact.php?authId=$authId&action=$action&actionPerformed=company_defined&company_id=$companyId";
                                         ?>
                                         <a href="<?=$url?>">Выбрать контакт</a>
                                     </li>
                                     <li>
-                                        <a href="/sales/index.php?auth_id=<?= $auth_id ?>">Отменить</a>
+                                        <a href="/sales/index.php?authId=<?= $authId ?>">Отменить</a>
                                     </li>
                                 </ul>
                             </div>

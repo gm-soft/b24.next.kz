@@ -23,16 +23,16 @@
 
 
             switch ($_REQUEST["pack"]) {
-                case 'basepack':
+                case 'basePack':
                     $_REQUEST["packName"] = "Базовый";
                     break;
-                case 'standartpack':
+                case 'standardPack':
                     $_REQUEST["packName"] = "Стандартный";
                     break;
-                case 'newyear':
+                case 'newYear':
                     $_REQUEST["packName"] = "Новогодний";
                     break;
-                case 'allinclusive':
+                case 'allInclusive':
                     $_REQUEST["packName"] = "Все включено";
                     break;
                 default:
@@ -56,20 +56,26 @@
                     break;
             }
             $_REQUEST["packagePrice"] = floatval($_REQUEST["packagePrice"]);
+            $_REQUEST["foodPackPrice"] = floatval($_REQUEST["foodPackPrice"]);
 
             $_REQUEST["pupilCount"] = intval($_REQUEST["pupilCount"]);
             $_REQUEST["teacherCount"] = intval($_REQUEST["teacherCount"]);
+            $_REQUEST["foodPackCount"] = intval($_REQUEST["foodPackCount"]);
 
-            // $pupilAge = $_REQUEST["pupilAge"];
 
             $_REQUEST["packCost"] = $_REQUEST["packagePrice"] * $_REQUEST["pupilCount"];
             $_REQUEST["teacherPackCost"] = $_REQUEST["teacherCount"] * TEACHERPACK_COST;
 
-            if ($_REQUEST["hasFood"] == "yes") {
-                $_REQUEST["foodPackCost"] = $_REQUEST["pupilCount"] * FOODPACK_COST;
+            $_REQUEST["foodPackCost"] = $_REQUEST["foodPackCount"] * FOODPACK_COST;
+
+
+            /*if ($_REQUEST["hasFood"] == "yes") {
+
+                //$_REQUEST["foodPackCost"] = $_REQUEST["pupilCount"] * FOODPACK_COST;
+
             } else {
                 $_REQUEST["foodPackCost"] = 0;
-            }
+            }*/
 
             $_REQUEST["transferCost"] = floatval($_REQUEST["transferCost"]);
 
@@ -86,7 +92,7 @@
             $_REQUEST["totalCost"] = $_REQUEST["orderCost"] - $_REQUEST["transferCost"];
             $_REQUEST["moneyToCash"] = $_REQUEST["totalCost"] - $_REQUEST["bribe"];
 
-
+            log_debug(var_export($_REQUEST, true));
             $result = array(
                 "totalCost" => $_REQUEST["totalCost"] + $_REQUEST["discount"],
                 "totalCostDiscount" => $_REQUEST["totalCost"],
