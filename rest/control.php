@@ -60,7 +60,7 @@
             $datetime = BitrixHelper::constructDatetime($dateString, $time);
             //log_debug(var_export($datetime, true));
             $json_array["result"] = $datetime;
-            $json_array["isHoliday"] = isDateHoliday($datetime);
+            $json_array["isHoliday"] = OrderHelper::isDateHoliday($datetime);
             $strToCons = gettype($datetime) != "string" ?  str_replace(" ", "T", formatDate($datetime, "Y-m-d H:i+03:00")) : $datetime;
             $json_array["atom_format"] = $strToCons;
 			break;

@@ -6,7 +6,7 @@
     $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
     $authId = isset($_REQUEST["authId"]) ? $_REQUEST["authId"] : null;
     if (is_null($action)) {
-        redirect("../sales/index.php?authId=<?= $authId ?>");
+        redirect("../sales/index.php");
     }
 
 

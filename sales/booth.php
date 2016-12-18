@@ -4,10 +4,11 @@
 	require($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
 
 	$action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
-	$authId = isset($_REQUEST["authId"]) ? $_REQUEST["authId"] : null;
+	$authId = isset($_REQUEST["authId"]) && !empty($_REQUEST["authId"]) ? $_REQUEST["authId"] : null;
 
-	if (is_null($action)) {
-		redirect("../sales/index.php?authId=<?= $authId ?>");
+	if (!isset($_REQUEST["authId"]) || empty($_REQUEST["authId"])) {
+		
+		redirect("https://b24.next.kz/sales/index.php");
 	}
 
 	$admin_authId = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);

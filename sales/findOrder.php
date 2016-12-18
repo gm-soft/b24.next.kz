@@ -6,8 +6,8 @@ require($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
 $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
 $authId = isset($_REQUEST["authId"]) ? $_REQUEST["authId"] : null;
 
-if (is_null($action)) {
-    redirect("../sales/index.php?authId=".$authId);
+if (!isset($_REQUEST["authId"]) || empty($_REQUEST["authId"])) {
+    redirect("../sales/index.php");
 }
 
 $adminAuthToken = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);

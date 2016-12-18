@@ -5,11 +5,10 @@
 
 
 	$action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
-	$authId = isset($_REQUEST["authId"]) ? $_REQUEST["authId"] : null;
-	if (is_null($action)) {
-		redirect("../sales/index.php?authId=<?= $authId ?>");
+	$authId = isset($_REQUEST["authId"]) && !empty($_REQUEST["authId"]) ? $_REQUEST["authId"] : null;
+	if (!isset($_REQUEST["authId"]) || empty($_REQUEST["authId"])) {
+		redirect("https://b24.next.kz/sales/index.php");
 	}
-
 
 
     $adminAuthToken = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);
@@ -40,39 +39,33 @@
             require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
             ?>
             <div class="container">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <h2><?= $form_title ?></h2>
-                        <p>Введите номер телефона. Будет осуществлен поиск существующего контакта по этому номеру. Если номер телефона не будет найден, то будет создан новый контакт в Б24</p>
-                        <form  id="form" class="form-horizontal" method="post" action="">
-                            <input type="hidden" name="action" value="<?= $action ?>">
-                            <input type="hidden" name="authId" value="<?= $authId ?>">
-                            <input type="hidden" name="actionPerformed" value="contact_inputed">
-                            <input type="hidden" name="adminToken" value="<?= $adminAuthToken ?>">
+                <h2><?= $form_title ?></h2>
+                <p>Введите номер телефона. Будет осуществлен поиск существующего контакта по этому номеру. Если номер телефона не будет найден, то будет создан новый контакт в Б24</p>
+                <form  id="form" class="form-horizontal" method="post" action="">
+                    <input type="hidden" name="action" value="<?= $action ?>">
+                    <input type="hidden" name="authId" value="<?= $authId ?>">
+                    <input type="hidden" name="actionPerformed" value="contact_inputed">
+                    <input type="hidden" name="adminToken" value="<?= $adminAuthToken ?>">
 
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="phone">Номер телефона:</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group">
-                                        <input type="tel" class="form-control" id="phone" name="contact_phone" pattern="^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$" required placeholder="8(701)111-2233">
-                                        <span class="input-group-addon"> <i class="glyphicon glyphicon-earphone"></i></span>
-                                    </div>
-                                </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="phone">Номер телефона:</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="tel" class="form-control" id="phone" name="contact_phone" pattern="^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$" required placeholder="8(701)111-2233">
+                                <span class="input-group-addon"> <i class="glyphicon glyphicon-earphone"></i></span>
                             </div>
-
-                            <input type="hidden" name="contact_name" value="">
-                            <input type="hidden" name="last_name" value="">
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" class="btn btn-primary">Найти по номеру телефона</button>
-                                </div>
-                            </div>
-                        </form>
-
-
+                        </div>
                     </div>
-                </div>
+
+                    <input type="hidden" name="contact_name" value="">
+                    <input type="hidden" name="last_name" value="">
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary">Найти по номеру телефона</button>
+                        </div>
+                    </div>
+                </form>
 
             </div>
             <?php

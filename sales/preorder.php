@@ -6,8 +6,9 @@
     $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
     $authId = isset($_REQUEST["authId"]) ? $_REQUEST["authId"] : null;
 
-    if (is_null($action)) {
-        redirect("../sales/index.php?authId=".$authId);
+    if (is_null($authId)) {
+        
+        redirect("../sales/index.php");
     }
 
     $admin_authId = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);

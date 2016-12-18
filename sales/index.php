@@ -12,12 +12,14 @@
 	$authId = isset($_REQUEST["authId"]) ? $_REQUEST["authId"] : $authId;
 
 	if (is_null($authId) || $authId == ""){
-		redirect("../sales/index.php?error=Нет авторизации через CRM Битрикс24!");
-	}
+	    $_GET["error"] = "Нет авторизации через CRM Битрикс24!";
+	} else {
+        $curr_user = BitrixHelper::getCurrentUser($authId);
+        $_SESSION["user_name"] =  $curr_user["EMAIL"];
+        $_SESSION["user_id"] =  $curr_user["ID"];
+    }
 
-	$curr_user = BitrixHelper::getCurrentUser($authId);
-	$_SESSION["user_name"] =  $curr_user["EMAIL"];
-	$_SESSION["user_id"] =  $curr_user["ID"];
+
 
 	require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
 ?>
@@ -59,7 +61,7 @@
 
                             ?>
                             <a class="btn btn-default <?= $displayCondition == true ? "" : "disabled" ?>"
-                               href="/sales/contact.php?action=school&authId=<?= $authId?>" role="button">Продажа для школы</a>
+                               href="/sales/company.php?action=school&authId=<?= $authId?>" role="button">Продажа для школы</a>
                             <br>
                             <br>
                             <a class="btn btn-default <?= $displayCondition == true ? "" : "disabled" ?>"

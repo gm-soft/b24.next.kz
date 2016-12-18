@@ -7,7 +7,7 @@ $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
 $authId = isset($_REQUEST["authId"]) ? $_REQUEST["authId"] : null;
 
 if (is_null($action)) {
-    redirect("../sales/index.php?authId=".$authId);
+    redirect("../sales/index.php");
 }
 
 $adminAuthToken = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);
@@ -37,32 +37,7 @@ switch ($actionPerformed) {
 
         ?>
         <div class="container">
-            <h1>Школы и лагеря</h1>
-
-            <div class="row">
-                <div class="col-sm-5">
-
-                    <div class="panel panel-primary">
-                        <div class="panel-heading panel-custom"><i><?= $company["TITLE"]?></i></div>
-                        <div class="panel-body">
-                            Компания <a href="https://next.bitrix24.kz/crm/company/show/<?= $company["ID"]?>/">ID<?= $company["ID"]?></a><br>
-                            Телефон: <?= $company["PHONE"][0]["VALUE"]?>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-sm-5 col-md-offset-2">
-
-                    <div class="panel panel-primary">
-                        <div class="panel-heading panel-custom"><i><?= $contact["NAME"]?> <?= $contact["LAST_NAME"]?></i></div>
-                        <div class="panel-body">
-                            Контакт <a href="https://next.bitrix24.kz/crm/contact/show/<?= $contact["ID"]?>/">ID<?= $contact["ID"]?></a><br>
-                            Телефон: <?= $contact["PHONE"][0]["VALUE"]?>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+            <h1>Школы и лагеря - создание нового заказа</h1>
             <?php require_once $_SERVER["DOCUMENT_ROOT"]."/sales/school/school-form-template.php"; ?>
             <div id="alert"></div>
         </div>
@@ -77,7 +52,6 @@ switch ($actionPerformed) {
                 "id" => $_REQUEST["orderId"]
         );
         $order = query("GET", $url, $params);
-        log_debug(var_export($order, true));
         $order = isset($order["result"]) ? $order["result"] : null;
 
 
@@ -113,32 +87,7 @@ switch ($actionPerformed) {
 
         ?>
         <div class="container">
-            <h1>Школы и лагеря</h1>
-
-            <!--div class="row">
-                <div class="col-sm-5">
-
-                    <div class="panel panel-primary">
-                        <div class="panel-heading panel-custom"><i><?= $company["TITLE"]?></i></div>
-                        <div class="panel-body">
-                            Компания <a href="https://next.bitrix24.kz/crm/company/show/<?= $company["ID"]?>/">ID<?= $company["ID"]?></a><br>
-                            Телефон: <?= $company["PHONE"][0]["VALUE"]?>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-sm-5 col-md-offset-2">
-
-                    <div class="panel panel-primary">
-                        <div class="panel-heading panel-custom"><i><?= $contact["NAME"]?> <?= $contact["LAST_NAME"]?></i></div>
-                        <div class="panel-body">
-                            Контакт <a href="https://next.bitrix24.kz/crm/contact/show/<?= $contact["ID"]?>/">ID<?= $contact["ID"]?></a><br>
-                            Телефон: <?= $contact["PHONE"][0]["VALUE"]?>
-                        </div>
-                    </div>
-
-                </div>
-            </div-->
+            <h1>Школы и лагеря - редактирование заказа</h1>
             <?php require_once $_SERVER["DOCUMENT_ROOT"]."/sales/school/school-form-template.php"; ?>
             <div id="alert"></div>
         </div>
@@ -189,7 +138,7 @@ switch ($actionPerformed) {
         "orderId" => $_REQUEST["orderId"],
         "dealId" => $_REQUEST["dealId"],
 
-        "company_name" => $_REQUEST["company_name"],
+        "companyName" => $_REQUEST["companyName"],
         "status" => $_REQUEST["status"],
         "center" => $_REQUEST["center"],
 
@@ -235,8 +184,6 @@ switch ($actionPerformed) {
     require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
     ?>
         <div class="container">
-        <div class="row">
-        <div class="col-md-8 col-md-offset-2">
             <h1>Школы и лагеря</h1>
             <h3>Подтверждение заказа</h3>
             <?php
@@ -250,7 +197,7 @@ switch ($actionPerformed) {
                 <?php
             }else {
                 echo "<a href=\"#\" id=\"print\" type=\"button\" class=\"btn btn-default\">Печать</a>".
-                "<a href=\"/sales/index.php?authId=<?= $authId ?>\" id=\"print\" type=\"button\" class=\"btn btn-primary\">В главное меню</a>";
+                "<a href=\"/sales/index.php?authId=$authId\" id=\"print\" type=\"button\" class=\"btn btn-primary\">В главное меню</a>";
             }
             ?>
         </div>

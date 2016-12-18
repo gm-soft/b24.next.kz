@@ -32,8 +32,8 @@
 
 
     <div class="form-group">
-        <label class="control-label col-sm-3" for="pack">Выберите пакет:</label>
-        <div class="col-sm-9">
+        <label class="control-label col-sm-3" for="pack">Выберите пакет и центр:</label>
+        <div class="col-sm-4">
             <div class="input-group">
                 <select class="form-control" id="pack" name="pack" required>
                     <?php
@@ -59,12 +59,10 @@
                 <span class="input-group-addon"><span class="glyphicon glyphicon-building"></span></span>
             </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label class="control-label col-sm-3" for="center">Центр:</label>
-        <div class="col-sm-9">
+        <div class="col-sm-5">
             <div class="input-group">
+                <span class="input-group-addon">Центр проведения</span>
                 <select class="form-control" id="center" name="center" required>
 
                     <?php
@@ -83,7 +81,7 @@
 
                     <?php } ?>
                 </select>
-                <span class="input-group-addon"><i class="glyphicon glyphicon-building"></i></span>
+
             </div>
         </div>
     </div>
@@ -143,15 +141,16 @@
     <hr>
     <div class="form-group">
         <label class="control-label col-sm-3" for="pupilCount">Количество детей:</label>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="input-group">
-                <span class="input-group-addon"></span>
+                
                 <?php $value = isset($order["Event"]["PupilCount"]) ? $order["Event"]["PupilCount"] : "" ?>
                 <input type="number" step="1" min="0" class="form-control" id="pupilCount" name="pupilCount" required placeholder="Количество детей (учеников)" value="<?= $value ?>">
+                <span class="input-group-addon"></span>
             </div>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-5">
             <div class="input-group">
                 <span class="input-group-addon">Возраст детей</span>
                 <?php $value = isset($order["Event"]["PupilAge"]) ? $order["Event"]["PupilAge"] : "" ?>
@@ -252,7 +251,7 @@
     </div>
     <hr>
     <div class="form-group">
-        <label class="control-label col-sm-3" for="foodPackCount">Фуд-пакет:</label>
+        <label class="control-label col-sm-3" for="foodPackCount">Кол-во фуд-пакетов:</label>
         <div class="col-sm-9">
             <div id="food-input" class="input-group">
                 <?php
@@ -374,8 +373,8 @@
         switch (value){
             case "standardPack":
                 transferHtml =
-                    "<input type=\"text\" class=\"form-control\" value=\"Стоимость трансфера: 0\" disabled>"+
-                    "<span class=\"input-group-addon\">Кол-во пакетов</span>"+
+                    "<input type=\"text\" class=\"form-control\" value=\"Оплата водителю: 0\" disabled>"+
+                    "<span class=\"input-group-addon\">Оплата водителю</span>"+
                     "<input type=\"hidden\" name=\"transferCost\" value=\"0\">"+
                     "<input type=\"hidden\" name=\"hasTransfer\" value=\"no\">";
                 foodHtml =
@@ -388,9 +387,9 @@
             case "allInclusive":
                 transferHtml =
                     "<input type=\"number\" step=\"1\" min=\"0\" class=\"form-control\" id=\"transferCost\" name=\"transferCost\" required"+
-                    "placeholder=\"Стоимость трансфера: \" value=\"<?= $order["Event"]["TransferCost"] ?>\">"+
+                    "placeholder=\"Оплата водителю: \" value=\"<?= $order["Event"]["TransferCost"] ?>\">"+
                     "<input type=\"hidden\" name=\"hasTransfer\" value=\"yes\">"+
-                    "<span class=\"input-group-addon\">Кол-во пакетов</span>";
+                    "<span class=\"input-group-addon\">Оплата водителю</span>";
 
                 foodHtml =
                     "<input type=\"number\" step=\"1\" min=\"0\" class=\"form-control\" id=\"foodPackCount\" name=\"foodPackCount\""+
@@ -405,8 +404,8 @@
             case "basePack":
             default:
                 transferHtml =
-                    "<input type=\"text\" class=\"form-control\" value=\"Стоимость трансфера: 0\" disabled>"+
-                    "<span class=\"input-group-addon\">Кол-во пакетов</span>"+
+                    "<input type=\"text\" class=\"form-control\" value=\"Оплата водителю: 0\" disabled>"+
+                    "<span class=\"input-group-addon\">Оплата водителю</span>"+
                     "<input type=\"hidden\" name=\"transferCost\" value=\"0\">"+
                     "<input type=\"hidden\" name=\"hasTransfer\" value=\"no\">";
 

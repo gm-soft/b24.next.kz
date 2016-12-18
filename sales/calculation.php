@@ -3,7 +3,6 @@
     require($_SERVER["DOCUMENT_ROOT"]."/include/help.php");
     require($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
     require($_SERVER["DOCUMENT_ROOT"]."/Helpers/OrderHelperClass.php");
-    require($_SERVER["DOCUMENT_ROOT"]."/include/order_helper.php");
 
 
     $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
@@ -110,239 +109,32 @@
 
             if ($action == "schoolGetCostSave") {
 
+                $currentOrder = null;
+                if (isset($_REQUEST["orderId"]) && !empty($_REQUEST["orderId"])){
+                    $url = "http://b24.next.kz/rest/bitrix.php";
+                    $params = array(
+                        "action" => "order.get.google",
+                        "id" => $_REQUEST["orderId"]
+                    );
+                    $data = query("GET", $url, $params);
+                    $currentOrder = isset($data["result"]) ? $data["result"] : null;
+                }
+
                 $adminToken = get_access_data(true);
                 $order = OrderHelper::ConstructSchoolOrder($_REQUEST, $adminToken);
-                /*
-                if ($_REQUEST["orderId"] == "" ){
-                    $url = "https://script.google.com/macros/s/AKfycbxjyTPPbRdVZ-QJKcWLFyITXIeQ1GwI7fAi0FgATQ0PsoGKAdM/exec";
-                    $idData = query("GET", $url, array(
-                        "event" => "OnIdIncrementedRequested"
-                    ));
 
-                    $id = $idData["result"];
-                    $order = array();
-                    $order["Id"] = $id;
-
-
-
-                } else {
-                    $id = $_REQUEST["orderId"];
-                    $data = queryGoogleScript(array(
-                        "event" => "OnOrderRequested",
-                        "id" => $id
-                    ));
-                    $order = $data["result"];
-                    //$order["Id"] = $id;
+                if (!is_null($currentOrder)){
+                    $order["FinanceInfo"] = $currentOrder["FinanceInfo"];
                 }
-                log_debug(var_export($order , true));
-
-                switch ($_REQUEST["status"]){
-                    case "initiated":
-                        $status = "Заказ подтвержден";
-                        break;
-                    case "conducted":
-                        $status = "Аренда проведена";
-                        break;
-                    case "closed":
-                        $status = "Сделка закрыта";
-                        break;
-                    case "canceled":
-                        $status = "Аренда отменена";
-                        break;
-
-                    default:
-                        $status = "Заказ подтвержден";
-                        break;
-                }
-                $order["Status"] = "Заказ подтвержден";
-
-                $order["DealId"] = $_REQUEST["dealId"];
-                $order["ContactId"] = $_REQUEST["contactId"];
-                $order["CompanyId"] = $_REQUEST["companyId"];
-                //--------------------------------------------
-                $order["ClientName"] = $_REQUEST["contactName"];
-                $order["KidName"] = $_REQUEST["companyName"];
-                $order["Phone"] = $_REQUEST["contactPhone"];
-                $order["Center"] = $centerName;
-
-                $datetime = BitrixHelper::constructDatetime($_REQUEST["date"], $_REQUEST["time"]);
-                $ts = BitrixHelper::constructTimestamp($_REQUEST["date"], $_REQUEST["time"]);
-
-                $order["ts"] = $ts;
-                $order["DateOfEvent"] = $datetime; //sourceOrder["DateOfEvent"];
-                $time = strtotime($datetime);
-                $time = $time - (3 * 3600);
-
-
-                $order["Date"] = str_replace(" ", "T", formatDate($datetime, "Y-m-d H:i:s+06:00"));
-                $order["DateAtom"] = str_replace(" ", "T", formatDate($datetime, "Y-m-d H:i:s+06:00"));
-
-                $order["TotalCost"] = $_REQUEST["moneyToCash"];
-                $order["UserId"] = $_REQUEST["userId"];
-                $order["User"] = $_REQUEST["userFullname"];
-                $order["FullPriceType"] = isDateHoliday($datetime);
-                //------------------------------------
-                $event = array(
-                    'Event' => "Школа/лагерь",
-                    'Zone' => "Без зоны",
-                    'Date' => $ts,
-                    'StartTime' => str_replace(":", "-", $_REQUEST["time"]),
-                    'Duration' => $_REQUEST["duration"],
-                    'GuestCount' => $_REQUEST["pupilCount"],
-                    'Cost' => $_REQUEST["moneyToCash"],
-                    //------------------------------
-                    // дополнительные данные для школ
-                    'TeacherCount' => $_REQUEST["teacherCount"],
-                    'Pack' => $_REQUEST["pack"],
-                    'PackPrice' => $_REQUEST["packPrice"],
-                    'PupilCount' => $_REQUEST["pupilCount"],
-                    'PupilAge' => $_REQUEST["pupilAge"],
-                    'Subject' => $_REQUEST["subject"],
-
-                    'HasTransfer' => $_REQUEST["hasTransfer"],
-                    'HasFood' => $_REQUEST["hasTransfer"],
-                    'TransferCost' => $_REQUEST["transferCost"],
-
-                    'TeacherBribePercent' => $_REQUEST["bribePercent"],
-                    'TeacherBribe' => $_REQUEST["bribe"],
-
-                    'Comment' => $_REQUEST["comment"],
-                    
-                );
-                $order["Event"] = $event;
-                //----------------------------
-                $clientInfo = array(
-                    'Id' => $id,
-                    'ClientName' => $order["ClientName"],
-                    'KidName' => $order["KidName"],
-                    'Code' => "No code",
-                    'Status' => "Не требуется",
-                    'Date' => "",
-                    'CompanyId' => $_REQUEST["companyId"],
-                );
-                $order["VerifyInfo"] = $clientInfo;
-                //----------------------------
-                $paymentDate = formatDate($datetime, "Y-m-d H:i");
-                $financeInfo = array (
-                    'Id' => $id,
-                    'Remainder' =>  0,
-                    'Payed' => $_REQUEST["moneyToCash"],
-                    'PaymentsView' => "[".$paymentDate."] Сумма ".$_REQUEST["moneyToCash"]."\n",
-                    'Payments' => array(),
-                    'TotalDiscount' => $_REQUEST["discount"],
-                    'Increase' => 0,
-                    'IncreaseComment' => "",
-                    'Discount' => $_REQUEST["discount"],
-                    'DiscountComment' => $_REQUEST["discountComment"],
-                    'LoyaltyCode' => "",
-                    'LoyaltyDiscount' => 0,
-                    'AgentCode' => "",
-                    'AgentDiscount' => 0,
-                );
-                if ($financeInfo["DiscountComment"] == "") $financeInfo["Discount"] = 0;
-                $order["FinanceInfo"] = $financeInfo;
-                //--------------------------------------------
-                if ($_REQUEST["has_food"] == "yes") {
-
-                    if (is_null($order["BanquetInfo"])) {
-                        $isNew = "1";
-                        $tzfId = "";
-                    }
-                    else {
-                        $isNew = "0";
-                        $tzfId = $order["BanquetInfo"]["BanquetId"];
-                    }
-
-                    $tzfData = queryGoogleScript(array(
-                        "event" => "OnTzfSchoolCreateRequested",
-                        "user" => $_REQUEST["userFullname"],
-                        "itemCount" => $_REQUEST["pupilCount"],
-                        "center" => $centerNameRu,
-                        "date" => str_replace(" ", ".", formatDate($datetime, "d m Y")),
-                        "orderId" => $id,
-                        "isNew" => $isNew,
-                    ));
-                    $tzf = $tzfData["result"];
-                    log_debug(var_export($tzf, true));
-                    if (is_null($tzf)) $order["BanquetInfo"] = null;
-                    else {
-
-                        if ($isNew == "1") $tzfId = $tzf["tzfId"];
-                        $banquet = array(
-                            'BanquetId' => $tzfId,
-                            'Comment' => "",
-                            'TranscriptStr' => "Фуд пакет для школ (цена ".$tzf["price"].", кол-во ".$_REQUEST["pupilCount"].") - ".$tzf["cost"],
-                            'Items' => array(
-                                0 => array(
-                                    'name' => 'Фуд пакет для школ',
-                                    'price' => $tzf["price"],
-                                    'measure' => 'шт',
-                                    'note' => '',
-                                    'increasePercent' => 0,
-                                    'itemId' => $tzf["bitrixId"],
-                                    'count' => $_REQUEST["pupilCount"],
-                                    'cost' => $tzf["cost"],
-                                )
-                            ),
-                            'Cost' => $tzf["cost"],
-                            'Cake' => "",
-                            'Candybar' => "",
-                            'Pinata' => "",
-                            'Date' => date("d.m.Y", $datetime),
-
-                            'CandybarCost' => 0,
-                            'CakeCost' => 0,
-                            'PinataCost' => 0,
-
-                        );
-
-                        $order["BanquetInfo"] = $banquet;
-                    }
-
-
-                } else {
-                    $order["BanquetInfo"] = null;
-                }
-
-                $order["OptionalInfo"] = null;
-
-                $comment = $_REQUEST["comment"] != "" ? $_REQUEST["comment"]."\n" : "";
-                $comment .= "--- Служебная информация ---\n";
-                $comment .= "Возраст детей: ".$_REQUEST["pupilAge"]."\n";
-                $comment .= "Тема урока: ".$_REQUEST["subject"]."\n";
-                $comment .= "Выбранный пакет: ".$_REQUEST["packName"]."\n";
-
-                if ($_REQUEST["has_food"] == "yes"){
-                    $comment .= "Фуд-пакет, наличие: есть\n";
-                    $comment .= "Фуд-пакет, стоимость: ".$_REQUEST["foodPackCost"]."\n";
-                } else $comment .= "Фуд-пакет, наличие: отсутствует\n";
-
-
-                $comment .= "Процент учителю: ".$_REQUEST["bribe"]."\n";
-                $comment .= "Стоимость трансфера: ".$_REQUEST["transferCost"]."\n";
-
-                $order["Comment"] = $comment;
-                //--------------------------------
-                $order["CreatedAt"] = str_replace(" ", "T", date("Y-m-d H:i:s+06:00", time() + 3600*6));
-                $order["UpdatedAt"] = $order["CreatedAt"];
-                $order["TaskId"] = null;
-
-                $admin_token = get_access_data(true);
-
-                $contact = BitrixHelper::getContact($_REQUEST["contactId"], $admin_token);
-                $order["ContactSource"] = !is_null($contact) ?  BitrixHelper::getInstanceSource($contact["ID"], "contact", $admin_token) : "Ошибка. Контакт не существует";
-                $order["LeadSource"] = !is_null($contact) && !is_null($contact["LEAD_ID"]) ?  BitrixHelper::getInstanceSource($contact["LEAD_ID"], "lead", $admin_token) : "Лид отсутствует";
-                */
-
 
                 if ($_REQUEST["dealId"] != "") {
-                    $updateResult = updateOrderDeal($order, $adminToken, true, $_REQUEST["dealId"]);
+                    $updateResult = OrderHelper::updateOrderDeal($order, $adminToken, true, $_REQUEST["dealId"]);
                     
                 } else {
-                    $order["DealId"] = updateOrderDeal($order, $adminToken);
+                    $order["DealId"] = OrderHelper::updateOrderDeal($order, $adminToken);
                 }
                 
-                $updateProductsResult = updateDealProductSet($order, $adminToken);
+                $updateProductsResult = OrderHelper::updateDealProductSet($order, $adminToken);
                 $response["order"] = $order;
                 
 
