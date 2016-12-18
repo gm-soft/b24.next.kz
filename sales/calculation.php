@@ -123,6 +123,10 @@
                 $adminToken = get_access_data(true);
                 $order = OrderHelper::ConstructSchoolOrder($_REQUEST, $adminToken);
 
+
+
+
+
                 if (!is_null($currentOrder)){
                     $order["FinanceInfo"] = $currentOrder["FinanceInfo"];
                 }
