@@ -28,13 +28,18 @@
                 ),
             )*/
             $startDate = strtotime($properties["startDate"]);
+            $startDateFilter = $startDate - 12 * 3600;
+
+
             $endDate = strtotime($properties["endDate"]);
+            $endDateFilter = $endDate + 12 * 3600;
+
             $calendarType = $properties["calendarType"];
             $sectionId = $properties["sectionId"];
             $userId = $properties["userId"];
 
-            $startAtom = str_replace(" ", "T", date("Y-m-d H:m:s+06:00", $startDate)); // Y-m-d H:m:s+06:00
-            $sendAtom = str_replace(" ", "T", date("Y-m-d H:m:s+06:00", $endDate));
+            $startAtom = str_replace(" ", "T", date("Y-m-d H:m:s+06:00", $startDateFilter)); // Y-m-d H:m:s+06:00
+            $sendAtom = str_replace(" ", "T", date("Y-m-d H:m:s+06:00", $endDateFilter));
 
             $calendarEvents = BitrixHelper::callMethod("calendar.event.get", array(
                 "type" => $calendarType,
@@ -53,6 +58,12 @@
 
                 $events = $calendarEvents["result"];
                 foreach ($events as $event){
+
+                    $startTs = strtotime($event["DATE_FROM"]);
+                    $endTs = strtotime($event["DATE_TO"]);
+
+                    if ($startTs > $endDate || $endTs < $startDate) continue;
+
                     $title = $event["NAME"]." (".$event["DATE_FROM"]." - ".$event["DATE_TO"].". ID ".$event["ID"].")";
                     $titleArray[] = $title;
                 }

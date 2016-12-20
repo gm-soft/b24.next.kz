@@ -361,6 +361,8 @@
             ];
             $result = BitrixHelper::callMethod("crm.lead.add", $params);
             $response["result"] = isset($result["result"]);
+            header("Access-Control-Allow-Origin: http://new-landing.next.kz");
+            header("Access-Control-Allow-Headers: *");
             //$response["result"] = $result;
             break;
 
@@ -380,6 +382,7 @@
             $openDeals = BitrixHelper::getDeals($fields, $values, $access_data["access_token"]);
             $response["total"] = count($openDeals);
             $response["result"] = $openDeals;
+
             break;
 
         case "order.get.google":
