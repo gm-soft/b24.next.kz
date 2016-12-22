@@ -1,11 +1,13 @@
 <form id="form" method="post" action="school.php">
     <input type="hidden" name="actionPerformed" value="order_confirmed">
-    <input type="hidden" name="action" value="<?= $action ?>">
-    <input type="hidden" name="authId" value="<?= $authId ?>">
-    <input type="hidden" name="adminToken" value="<?= $adminAuthToken ?>">
+    <input type="hidden" name="action" value="<?= $_REQUEST["action"] ?>">
+    <input type="hidden" name="authId" value="<?= $_REQUEST["authId"] ?>">
+    <input type="hidden" name="adminToken" value="<?= $_REQUEST["adminToken"] ?>">
 
     <input type="hidden" name="contactId" value="<?= $_REQUEST["contactId"] ?>">
     <input type="hidden" name="companyId" value="<?= $_REQUEST["companyId"]?>">
+
+
 
     <input type="hidden" name="dealId" value="<?= $_REQUEST["dealId"] ?>">
     <input type="hidden" name="orderId" value="<?= $_REQUEST["orderId"] ?>">
@@ -41,7 +43,22 @@
     <input type="hidden" name="discountComment" value="<?= $_REQUEST["discountComment"]?>">
     <input type="hidden" name="comment" value="<?= $_REQUEST["comment"]?>">
     <input type="hidden" name="subject" value="<?= $_REQUEST["subject"]?>">
-    <input type="hidden" name="userId" value="<?= $userId?>">
+    <input type="hidden" name="userId" value="<?= $_REQUEST["userId"] ?>">
+    <input type="hidden" name="userFullName" value="<?= $_REQUEST["userFullName"] ?>">
+
+    <input type="hidden" name="totalCost" value="<?= $costs["totalCost"] ?>">
+    <input type="hidden" name="totalCostDiscount" value="<?= $costs["totalCostDiscount"] ?>">
+    <input type="hidden" name="moneyToCash" value="<?= $costs["moneyToCash"] ?>">
+    <input type="hidden" name="foodCost" value="<?= $costs["foodCost"] ?>">
+    <input type="hidden" name="orderCost" value="<?= $costs["orderCost"] ?>">
+    <input type="hidden" name="packCost" value="<?= $costs["packCost"] ?>">
+    <input type="hidden" name="packPrice" value="<?= $costs["packPrice"] ?>">
+    <input type="hidden" name="transferCost" value="<?= $costs["transferCost"] ?>">
+    <input type="hidden" name="bribe" value="<?= $costs["bribe"] ?>">
+
+    <input type="hidden" name="packName" value="<?= $costs["packName"] ?>">
+    <input type="hidden" name="centerName" value="<?= $costs["centerName"] ?>">
+    <input type="hidden" name="centerNameRu" value="<?= $costs["centerNameRu"] ?>">
 
     <div class="form-group">
         <a href="#" id="back" class="btn btn-default">Вернуться</a>

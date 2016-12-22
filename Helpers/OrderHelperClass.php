@@ -198,29 +198,9 @@ class OrderHelper
         return $order;
     }
 
-    public static function ConstructSchoolOrder(array $request, $adminToken){
-        if ($request["orderId"] == "" ){
-            $url = "https://script.google.com/macros/s/AKfycbxjyTPPbRdVZ-QJKcWLFyITXIeQ1GwI7fAi0FgATQ0PsoGKAdM/exec";
-            $idData = query("GET", $url, array(
-                "event" => "OnIdIncrementedRequested"
-            ));
-
-            $id = $idData["result"];
-            $order = array();
-            $order["Id"] = $id;
-
-
-
-        } else {
-            $id = $request["orderId"];
-            $data = queryGoogleScript(array(
-                "event" => "OnOrderRequested",
-                "id" => $id
-            ));
-            $order = $data["result"];
-            //$order["Id"] = $id;
-        }
-
+    public static function ConstructSchoolOrder($id, array $request, $adminToken){
+        $order = array();
+        $order["Id"] = $id;
         switch ($request["status"]){
             case "initiated":
                 $order["Status"] = "Заказ подтвержден";
@@ -263,7 +243,7 @@ class OrderHelper
 
         $order["TotalCost"] = $request["moneyToCash"];
         $order["UserId"] = $request["userId"];
-        $order["User"] = $request["userFullname"];
+        $order["User"] = $request["userFullName"];
         $order["FullPriceType"] = OrderHelper::isDateHoliday($datetime);
         //------------------------------------
         $event = array(
@@ -341,7 +321,7 @@ class OrderHelper
 
             $tzfData = queryGoogleScript(array(
                 "event" => "OnTzfSchoolCreateRequested",
-                "user" => $request["userFullname"],
+                "user" => $request["userFullName"],
                 "itemCount" => $request["pupilCount"],
                 "center" => $request["centerNameRu"],
                 "date" => str_replace(" ", ".", formatDate($datetime, "d m Y")),

@@ -17,7 +17,7 @@
 
     switch ($action) {
         case 'schoolGetCost':
-        case 'schoolGetCostSave':
+
             include $_SERVER["DOCUMENT_ROOT"]."/sales/shared/prices.php";
 
 
@@ -67,15 +67,6 @@
 
             $_REQUEST["foodPackCost"] = $_REQUEST["foodPackCount"] * FOODPACK_COST;
 
-
-            /*if ($_REQUEST["hasFood"] == "yes") {
-
-                //$_REQUEST["foodPackCost"] = $_REQUEST["pupilCount"] * FOODPACK_COST;
-
-            } else {
-                $_REQUEST["foodPackCost"] = 0;
-            }*/
-
             $_REQUEST["transferCost"] = floatval($_REQUEST["transferCost"]);
 
             $_REQUEST["discount"] = floatval($_REQUEST["discount"]);
@@ -91,7 +82,7 @@
             $_REQUEST["totalCost"] = $_REQUEST["orderCost"] - $_REQUEST["transferCost"];
             $_REQUEST["moneyToCash"] = $_REQUEST["totalCost"] - $_REQUEST["bribe"];
 
-            log_debug(var_export($_REQUEST, true));
+
             $result = array(
                 "totalCost" => $_REQUEST["totalCost"] + $_REQUEST["discount"],
                 "totalCostDiscount" => $_REQUEST["totalCost"],
@@ -102,55 +93,65 @@
                 "packCost" => $_REQUEST["packCost"],
                 "packPrice" => $_REQUEST["packPrice"],
                 "transferCost" => $_REQUEST["transferCost"],
-                "bribe" => $_REQUEST["bribe"]
+                "bribe" => $_REQUEST["bribe"],
+
+                "packName" => $_REQUEST["packName"],
+                "centerName" => $_REQUEST["centerName"],
+                "centerNameRu" => $_REQUEST["centerNameRu"]
+
             );
             $response["result"] = $result;
+            break;
 
+        case 'schoolCreate':
 
-            if ($action == "schoolGetCostSave") {
-
-                $currentOrder = null;
-                if (isset($_REQUEST["orderId"]) && !empty($_REQUEST["orderId"])){
-                    $url = "http://b24.next.kz/rest/bitrix.php";
-                    $params = array(
-                        "action" => "order.get.google",
-                        "id" => $_REQUEST["orderId"]
-                    );
-                    $data = query("GET", $url, $params);
-                    $currentOrder = isset($data["result"]) ? $data["result"] : null;
-                }
-
-                $adminToken = get_access_data(true);
-                $order = OrderHelper::ConstructSchoolOrder($_REQUEST, $adminToken);
+            $adminToken = get_access_data(true);
+            $url = "https://script.google.com/macros/s/AKfycbxjyTPPbRdVZ-QJKcWLFyITXIeQ1GwI7fAi0FgATQ0PsoGKAdM/exec";
+            $idData = query("GET", $url, array(
+                "event" => "OnIdIncrementedRequested"
+            ));
+            $id = $idData["result"];
+            $order = OrderHelper::ConstructSchoolOrder($id, $_REQUEST, $adminToken);
+            $order["DealId"] = OrderHelper::updateOrderDeal($order, $adminToken);
+            $updateProductsResult = OrderHelper::updateDealProductSet($order, $adminToken);
+            $response["order"] = $order;
 
 
 
+            $saveResult = queryGoogleScript(array(
+                "event" => "OnOrderSaveRequested",
+                "orderJson" => json_encode($order),
+                "order" => $order,
+            ));
+
+            $response["saveResult"] = $saveResult;
+            break;
+
+        case 'schoolSaveChanges':
+            $url = "http://b24.next.kz/rest/bitrix.php";
+            $params = array(
+                "action" => "order.get.google",
+                "id" => $_REQUEST["orderId"]
+            );
+            $data = query("GET", $url, $params);
+            $order = isset($data["result"]) ? $data["result"] : null;
+            log_debug(var_export($_REQUEST, true));
+            $changedOrder = OrderHelper::ConstructSchoolOrder($order["Id"], $_REQUEST, $adminToken);
+            $adminToken = get_access_data(true);
+
+            $updateResult = OrderHelper::updateOrderDeal($changedOrder, $adminToken, true, $_REQUEST["dealId"]);
+            $updateProductsResult = OrderHelper::updateDealProductSet($changedOrder, $adminToken);
+
+            $response["order"] = $changedOrder;
 
 
-                if (!is_null($currentOrder)){
-                    $order["FinanceInfo"] = $currentOrder["FinanceInfo"];
-                }
+            $saveResult = queryGoogleScript(array(
+                "event" => "OnOrderSaveRequested",
+                "orderJson" => json_encode($changedOrder),
+                "order" => $changedOrder,
+            ));
 
-                if ($_REQUEST["dealId"] != "") {
-                    $updateResult = OrderHelper::updateOrderDeal($order, $adminToken, true, $_REQUEST["dealId"]);
-                    
-                } else {
-                    $order["DealId"] = OrderHelper::updateOrderDeal($order, $adminToken);
-                }
-                
-                $updateProductsResult = OrderHelper::updateDealProductSet($order, $adminToken);
-                $response["order"] = $order;
-                
-
-
-                $saveResult = queryGoogleScript(array(
-                    "event" => "OnOrderSaveRequested",
-                    "orderJson" => json_encode($order),
-                    "order" => $order,
-                ));
-
-                $response["saveResult"] = $saveResult;
-            }
+            $response["saveResult"] = $saveResult;
             break;
         
     }

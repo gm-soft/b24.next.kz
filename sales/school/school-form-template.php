@@ -2,19 +2,23 @@
 
 <form id="form" class="form-horizontal" method="post" action="school.php">
     <input type="hidden" name="actionPerformed" value="order_saved">
-    <input type="hidden" name="action" value="<?= $action ?>">
-    <input type="hidden" name="authId" value="<?= $authId ?>">
-    <input type="hidden" name="adminToken" value="<?= $adminAuthToken ?>">
+    <input type="hidden" name="action" value="<?= $actionRequest ?>">
+    <input type="hidden" name="authId" value="<?= $_REQUEST["authId"] ?>">
+    <input type="hidden" name="adminToken" value="<?= $_REQUEST["adminToken"] ?>">
 
-    <input type="hidden" name="contactId" value="<?= $contactId ?>">
-    <input type="hidden" name="companyId" value="<?= $companyId?>">
+    <input type="hidden" name="contactId" value="<?= $_REQUEST["contactId"]?>">
+    <input type="hidden" name="companyId" value="<?= $_REQUEST["companyId"]?>">
 
-    <input type="hidden" name="dealId" value="<?= $dealId?>">
-    <input type="hidden" name="orderId" value="<?= $orderId?>">
+    <input type="hidden" name="dealId" value="<?= $_REQUEST["dealId"] ?>">
+    <input type="hidden" name="orderId" value="<?= $_REQUEST["orderId"] ?>">
 
     <input type="hidden" name="contactName" value="<?= $contact["NAME"]." ".$contact["LAST_NAME"] ?>">
     <input type="hidden" name="contactPhone" value="<?= $contact["PHONE"][0]["VALUE"]?>">
     <input type="hidden" name="companyName" value="<?= $company["TITLE"]?>">
+
+    <input type="hidden" name="userId" value="<?= $_REQUEST["userId"] ?>">
+    <input type="hidden" name="userFullName" value="<?= $_REQUEST["userFullName"] ?>">
+
 
     <div class="form-group">
         <label class="control-label col-sm-3">Компания</label>
@@ -123,7 +127,7 @@
                     <option value="closed" <?= $value == "closed" ? "selected" : "" ?>>Сделка закрыта</option>
                     <option value="canceled" <?= $value == "canceled" ? "selected" : "" ?>>Аренда отменена</option>
                 </select>
-                <span class="input-group-addon"><i class="glyphicon glyphicon-building"></i></span>
+                <span class="input-group-addon"><i class="glyphicon glyphicons-building"></i></span>
             </div>
         </div>
     </div>

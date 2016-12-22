@@ -6,11 +6,11 @@ require($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
 $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
 $authId = isset($_REQUEST["authId"]) ? $_REQUEST["authId"] : null;
 
-if (is_null($action)) {
+if (is_null($authId)) {
     redirect("../sales/index.php");
 }
 
-$adminAuthToken = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);
+$_REQUEST["adminToken"] = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);
 
 
 
@@ -30,10 +30,17 @@ $companyId = $_REQUEST["companyId"];
 
 switch ($actionPerformed) {
     case "initiated":
-        $company = BitrixHelper::getCompany($companyId, $adminAuthToken);
-        $contact = BitrixHelper::getContact($contactId, $adminAuthToken);
-        require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
+        $company = BitrixHelper::getCompany($companyId, $_REQUEST["adminToken"]);
+        $contact = BitrixHelper::getContact($contactId, $_REQUEST["adminToken"]);
+        $userFullName = $curr_user["LAST_NAME"]." ".$curr_user["NAME"];
 
+        require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
+        $actionRequest = "school_created";
+
+
+        $_REQUEST["orderId"] = "";
+        $_REQUEST["userId"] = $_SESSION["user_id"];
+        $_REQUEST["userFullName"] = $userFullName;
 
         ?>
         <div class="container">
@@ -74,17 +81,19 @@ switch ($actionPerformed) {
             redirect($url);
         }
 
-        $companyId = $order["CompanyId"];
-        $contactId = $order["ContactId"];
+        $_REQUEST["companyId"] = $order["CompanyId"];
+        $_REQUEST["contactId"] = $order["ContactId"];
 
-        $dealId = isset($order["DealId"]) ? $order["DealId"] : "";
-        $orderId = $_REQUEST["orderId"];
+        $_REQUEST["dealId"] = isset($order["DealId"]) ? $order["DealId"] : "";
 
-        $company = BitrixHelper::getCompany($companyId, $adminAuthToken);
-        $contact = BitrixHelper::getContact($contactId, $adminAuthToken);
+        $company = BitrixHelper::getCompany($_REQUEST["companyId"], $_REQUEST["adminToken"]);
+        $contact = BitrixHelper::getContact($_REQUEST["contactId"], $_REQUEST["adminToken"]);
         require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
+        $actionRequest = "school_edited";
 
-
+        $userFullName = $curr_user["LAST_NAME"]." ".$curr_user["NAME"];
+        $_REQUEST["userId"] = $_SESSION["user_id"];
+        $_REQUEST["userFullName"] = $order["User"];
         ?>
         <div class="container">
             <h1>Школы и лагеря - редактирование заказа</h1>
@@ -96,93 +105,69 @@ switch ($actionPerformed) {
         break;
 
     case "order_saved":
-    case "order_confirmed":
-    $packName = "";
-    switch ($_REQUEST["pack"]) {
-        case 'basePack':
-            $packName = "Базовый";
-            break;
-        case 'standardPack':
-            $packName = "Стандартный";
-            break;
-        case 'newYear':
-            $packName = "Новогодний";
-            break;
-        case 'allInclusive':
-            $packName = "Все включено";
-            break;
-    }
 
-    switch ($_REQUEST["center"]) {
-        case 'nextEse':
-            $centerName = "NEXT Esentai";
-            break;
-        case 'nextApo':
-            $centerName = "NEXT Aport";
-            break;
 
-        case 'nextPro':
-            $centerName = "NEXT Promenade";
-            break;
-        default:
-            $centerName = "Не известен";
-            break;
-    }
+        $url = "http://b24.next.kz/sales/calculation.php";
+        $parameters = array(
+            "action" => "schoolGetCost",
+            "pack" => $_REQUEST["pack"],
+            "contactId" => $_REQUEST["contactId"],
+            "companyId" => $_REQUEST["companyId"],
+            "orderId" => $_REQUEST["orderId"],
+            "dealId" => $_REQUEST["dealId"],
 
-    $url = "http://b24.next.kz/sales/calculation.php";
-    $parameters = array(
-        "action" => $actionPerformed == "order_saved" ? "schoolGetCost" : "schoolGetCostSave",
-        "pack" => $_REQUEST["pack"],
-        "contactId" => $_REQUEST["contactId"],
-        "companyId" => $_REQUEST["companyId"],
-        "orderId" => $_REQUEST["orderId"],
-        "dealId" => $_REQUEST["dealId"],
+            "companyName" => $_REQUEST["companyName"],
+            "status" => $_REQUEST["status"],
+            "center" => $_REQUEST["center"],
 
-        "companyName" => $_REQUEST["companyName"],
-        "status" => $_REQUEST["status"],
-        "center" => $_REQUEST["center"],
+            "date" => $_REQUEST["date"],
+            "time" => $_REQUEST["time"],
+            "duration" => $_REQUEST["duration"],
 
-        "date" => $_REQUEST["date"],
-        "time" => $_REQUEST["time"],
-        "duration" => $_REQUEST["duration"],
+            "pupilCount" => $_REQUEST["pupilCount"],
+            "pupilAge" => $_REQUEST["pupilAge"],
+            "packagePrice" => $_REQUEST["packagePrice"],
 
-        "pupilCount" => $_REQUEST["pupilCount"],
-        "pupilAge" => $_REQUEST["pupilAge"],
-        "packagePrice" => $_REQUEST["packagePrice"],
+            "teacherCount" => $_REQUEST["teacherCount"],
+            "foodPackCount" => $_REQUEST["foodPackCount"],
+            "transferCost" => $_REQUEST["transferCost"],
+            "hasTransfer" => $_REQUEST["hasTransfer"],
+            "hasFood" => $_REQUEST["hasFood"],
+            "discount" => $_REQUEST["discount"],
 
-        "teacherCount" => $_REQUEST["teacherCount"],
-        "foodPackCount" => $_REQUEST["foodPackCount"],
-        //"foodpackPrice" => $_REQUEST["foodpackPrice"],
-        "transferCost" => $_REQUEST["transferCost"],
-        "hasTransfer" => $_REQUEST["hasTransfer"],
-        "hasFood" => $_REQUEST["hasFood"],
-        "discount" => $_REQUEST["discount"],
+            "discountComment" => $_REQUEST["discountComment"],
+            "bribePercent" => $_REQUEST["bribePercent"],
 
-        "discountComment" => $_REQUEST["discountComment"],
-        "bribePercent" => $_REQUEST["bribePercent"],
+            "contactName" => $_REQUEST["contactName"],
+            "contactPhone" => $_REQUEST["contactPhone"],
 
-        "contactName" => $_REQUEST["contactName"],
-        "contactPhone" => $_REQUEST["contactPhone"],
+            "comment" => $_REQUEST["comment"],
+            "subject" => $_REQUEST["subject"],
 
-        "comment" => $_REQUEST["comment"],
-        "subject" => $_REQUEST["subject"],
+            "userId" => $_REQUEST["userId"],
+            "userFullName" => $_REQUEST["userFullName"],
+        );
 
-        "userId" => $_SESSION["user_id"],
-        "userFullname" => $curr_user["LAST_NAME"]." ".$curr_user["NAME"],
-    );
+        $response = query("POST", $url, $parameters);
+        $costs = $response["result"];
+        $_REQUEST["totalCost"] = $costs["totalCost"];
+        $_REQUEST["totalCostDiscount"] = $costs["totalCostDiscount"];
+        $_REQUEST["moneyToCash"] = $costs["moneyToCash"];
+        $_REQUEST["foodCost"] = $costs["foodCost"];
+        $_REQUEST["orderCost"] = $costs["orderCost"];
+        $_REQUEST["packCost"] = $costs["packCost"];
+        $_REQUEST["packPrice"] = $costs["packPrice"];
+        $_REQUEST["transferCost"] = $costs["transferCost"];
+        $_REQUEST["bribe"] = $costs["bribe"];
+        $_REQUEST["packName"] = $costs["packName"];
+        $_REQUEST["centerName"] = $costs["centerName"];
+        $_REQUEST["centerNameRu"] = $costs["centerNameRu"];
 
-    $response = query("POST", $url, $parameters);
-    $costs = $response["result"];
-    $order = isset($response["order"]) ? $response["order"] : null;
 
-    $contact = BitrixHelper::getContact($_REQUEST["contactId"], $adminAuthToken);
-    $company = BitrixHelper::getCompany($_REQUEST["companyId"], $adminAuthToken);
 
-    $contactName = $contact["NAME"]." ".$contact["LAST_NAME"];
-    $companyTitle = $company["TITLE"];
-
-    require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
-    ?>
+        $order = isset($response["order"]) ? $response["order"] : null;
+        require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
+        ?>
         <div class="container">
             <h1>Школы и лагеря</h1>
             <h3>Подтверждение заказа</h3>
@@ -196,11 +181,81 @@ switch ($actionPerformed) {
                 <div id="alert"></div>
                 <?php
             }else {
-                echo "<a href=\"#\" id=\"print\" type=\"button\" class=\"btn btn-default\">Печать</a>".
-                "<a href=\"/sales/index.php?authId=$authId\" id=\"print\" type=\"button\" class=\"btn btn-primary\">В главное меню</a>";
+                echo "";
             }
             ?>
         </div>
+        <?php
+
+        break;
+
+    case "order_confirmed":
+
+        $url = "http://b24.next.kz/sales/calculation.php";
+        $actionRequest = $action == "school_created" ? "schoolCreate" : "schoolSaveChanges";
+        $_REQUEST["action"] = $actionRequest;
+        /*$parameters = array(
+            "action" => $actionRequest,
+            "pack" => $_REQUEST["pack"],
+            "contactId" => $_REQUEST["contactId"],
+            "companyId" => $_REQUEST["companyId"],
+            "orderId" => $_REQUEST["orderId"],
+            "dealId" => $_REQUEST["dealId"],
+
+            "companyName" => $_REQUEST["companyName"],
+            "status" => $_REQUEST["status"],
+            "center" => $_REQUEST["center"],
+
+            "date" => $_REQUEST["date"],
+            "time" => $_REQUEST["time"],
+            "duration" => $_REQUEST["duration"],
+
+            "pupilCount" => $_REQUEST["pupilCount"],
+            "pupilAge" => $_REQUEST["pupilAge"],
+            "packagePrice" => $_REQUEST["packagePrice"],
+
+            "teacherCount" => $_REQUEST["teacherCount"],
+            "foodPackCount" => $_REQUEST["foodPackCount"],
+            "transferCost" => $_REQUEST["transferCost"],
+            "hasTransfer" => $_REQUEST["hasTransfer"],
+            "hasFood" => $_REQUEST["hasFood"],
+            "discount" => $_REQUEST["discount"],
+
+            "discountComment" => $_REQUEST["discountComment"],
+            "bribePercent" => $_REQUEST["bribePercent"],
+
+            "contactName" => $_REQUEST["contactName"],
+            "contactPhone" => $_REQUEST["contactPhone"],
+
+            "comment" => $_REQUEST["comment"],
+            "subject" => $_REQUEST["subject"],
+
+            "userId" => $_SESSION["user_id"],
+            "userFullName" => $curr_user["LAST_NAME"]." ".$curr_user["NAME"],
+        );*/
+
+        $response = query("POST", $url, $_REQUEST);
+        $costs = $response["result"];
+        $order = isset($response["order"]) ? $response["order"] : null;
+        $_REQUEST["dealId"] = $order["DealId"] ;
+        $_REQUEST["orderId"] = $order["Id"] ;
+
+        // $contact = BitrixHelper::getContact($_REQUEST["contactId"], $_REQUEST["adminToken"]);
+        //$company = BitrixHelper::getCompany($_REQUEST["companyId"], $_REQUEST["adminToken"]);
+
+        //$contactName = $contact["NAME"]." ".$contact["LAST_NAME"];
+        //$companyTitle = $company["TITLE"];
+        require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
+        ?>
+        <div class="container">
+            <h1>Школы и лагеря</h1>
+            <h3>заказ сохранен</h3>
+
+            <?php require_once $_SERVER["DOCUMENT_ROOT"]."/sales/school/school-result-table.php"; ?>
+            <a href="#" id="print" type="button" class="btn btn-default">Печать</a>
+            <a href="/sales/index.php?authId=<?= $authId ?>" id="print" type="button" class="btn btn-primary">В главное меню</a>
+        </div>
+
         <?php
 
         break;
