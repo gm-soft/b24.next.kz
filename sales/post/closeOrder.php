@@ -24,8 +24,8 @@ $filterFields = [
     "STAGE_ID"
 ];
 $filterValues = [
-    //$userId,
-    "24",
+    $userId,
+    //"24",
     "2"
 ];
 

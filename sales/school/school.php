@@ -201,45 +201,6 @@ switch ($actionPerformed) {
         $url = "http://b24.next.kz/sales/calculation.php";
         $actionRequest = $action == "school_created" ? "schoolCreate" : "schoolSaveChanges";
         $_REQUEST["action"] = $actionRequest;
-        /*$parameters = array(
-            "action" => $actionRequest,
-            "pack" => $_REQUEST["pack"],
-            "contactId" => $_REQUEST["contactId"],
-            "companyId" => $_REQUEST["companyId"],
-            "orderId" => $_REQUEST["orderId"],
-            "dealId" => $_REQUEST["dealId"],
-
-            "companyName" => $_REQUEST["companyName"],
-            "status" => $_REQUEST["status"],
-            "center" => $_REQUEST["center"],
-
-            "date" => $_REQUEST["date"],
-            "time" => $_REQUEST["time"],
-            "duration" => $_REQUEST["duration"],
-
-            "pupilCount" => $_REQUEST["pupilCount"],
-            "pupilAge" => $_REQUEST["pupilAge"],
-            "packagePrice" => $_REQUEST["packagePrice"],
-
-            "teacherCount" => $_REQUEST["teacherCount"],
-            "foodPackCount" => $_REQUEST["foodPackCount"],
-            "transferCost" => $_REQUEST["transferCost"],
-            "hasTransfer" => $_REQUEST["hasTransfer"],
-            "hasFood" => $_REQUEST["hasFood"],
-            "discount" => $_REQUEST["discount"],
-
-            "discountComment" => $_REQUEST["discountComment"],
-            "bribePercent" => $_REQUEST["bribePercent"],
-
-            "contactName" => $_REQUEST["contactName"],
-            "contactPhone" => $_REQUEST["contactPhone"],
-
-            "comment" => $_REQUEST["comment"],
-            "subject" => $_REQUEST["subject"],
-
-            "userId" => $_SESSION["user_id"],
-            "userFullName" => $curr_user["LAST_NAME"]." ".$curr_user["NAME"],
-        );*/
 
         $response = query("POST", $url, $_REQUEST);
         $costs = $response["result"];
@@ -247,12 +208,6 @@ switch ($actionPerformed) {
         $order = isset($response["order"]) ? $response["order"] : null;
         $_REQUEST["dealId"] = $order["DealId"] ;
         $_REQUEST["orderId"] = $order["Id"] ;
-
-        // $contact = BitrixHelper::getContact($_REQUEST["contactId"], $_REQUEST["adminToken"]);
-        //$company = BitrixHelper::getCompany($_REQUEST["companyId"], $_REQUEST["adminToken"]);
-
-        //$contactName = $contact["NAME"]." ".$contact["LAST_NAME"];
-        //$companyTitle = $company["TITLE"];
         require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
         ?>
         <div class="container">
@@ -322,4 +277,3 @@ switch ($actionPerformed) {
 <?php
 require_once($_SERVER["DOCUMENT_ROOT"]."/sales/shared/footer.php");
 
-?>

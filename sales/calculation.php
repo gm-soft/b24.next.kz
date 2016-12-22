@@ -136,6 +136,7 @@
             ));
             $response["order"] = $order;
             $response["saveResult"] = $saveResult;
+            $response["emailRes"] = sendEmailForFood($order);
             break;
 
         case 'schoolSaveChanges':
@@ -163,6 +164,11 @@
             ));
             $response["order"] = $changedOrder;
             $response["saveResult"] = $saveResult;
+
+            if ($changedOrder["Event"]["FoodPackCount"] != $order["Event"]["FoodPackCount"])
+            {
+                $response["emailRes"] = sendEmailForFood($changedOrder);
+            }
             break;
         
     }
@@ -173,6 +179,41 @@
     header('Content-Type: application/json');
     echo json_encode($response);
 
+    function sendEmailForFood($order){
+        $content = "<h1>Продажа для школы ID".$order["Id"]."</h1>";
+        $content .= "<h2>Сводка фуршета ".$order["BanquetInfo"]["BanquetId"]."</h2>";
+        $content .= "<hr>";
+        $content .= "<p>Информация о запрошенных фуд-пакетах</p>";
+
+        $content .= "<p>";
+        $content .= "<table border=0 cellspacing=0 cellpadding=5> ";
+        $content .= "<tr><td>Клиент</td> <td>".$order["Id"]."</td> </tr>";
+        $content .= "<tr><td>Номер телефона</td> <td>".$order["Phone"]."</td> </tr>";
+        $content .= "<tr><td>Центр проведения</td> <td>".$order["Center"]."</td> </tr>";
+        $content .= "<tr><td>Дата мероприятия</td> <td>".$order["DateAtom"]."</td> </tr>";
+        $content .= "<tr><td>Начало в</td> <td>".$order["Event"]["StartTime"]."</td> </tr>";
+        $content .= "<tr><td>Приглашено гостей</td> <td>".$order["Event"]["GuestCount"]."</td> </tr>";
+        $content .= "</table>";
+        $content .= "</p>";
+
+        $content .= "<p>Для заказа было запрошено ".$order["Event"]["FoodPackCount"]." фуд-пакетов по заказу ".$order["BanquetInfo"]["BanquetId"]."</p>";
+
+        $content .= "<hr>";
+        $content .= "<p><b>Комментарий к заказу:</b> <br>".$order["Comment"]."</p>";
+
+        $subject = "Сводка фуршета ID".$order["Id"];
+        $mailTo = "coordinator@next.kz";
+
+        include $_SERVER["DOCUMENT_ROOT"]."/Helpers/SendMailSmtpClass.php";
+        $smtp = new SendMailSmtpClass(EMAIL_LOGIN, EMAIL_PASSWORD, EMAIL_SMTP, EMAIL_FROM, EMAIL_PORT);
+        $headers= "MIME-Version: 1.0\r\n";
+        $headers .= "Content-type: text/html; charset=utf-8\r\n"; // кодировка письма
+        $headers .= "From: Next.kz <noreply@next.kz>\r\n"; // от кого письмо
+        $headers .= "Bcc: m.poyarel@next.kz, y.alimbetova@next.kz, m.gorbatyuk@next.kz\r\n";
+
+        $result =  $smtp->send($mailTo, $subject, $content, $headers);
+        return $result;
+    }
 
 
 /*

@@ -12,8 +12,8 @@
     define('DATABASE_USERNAME', "root");
     define('DATABASE_PASSWORD', "st1744as");
 
-    define('EMAIL_LOGIN', "idhabb@gmail.com");
-    define('EMAIL_PASSWORD', "habbnovember1");
+    define('EMAIL_LOGIN', "m.gorbatyuk@next.kz");
+    define('EMAIL_PASSWORD', "VFRcbv1993");
     define('EMAIL_SMTP', "ssl://smtp.gmail.com");
-    define('EMAIL_FROM', "HABB.KZ");
+    define('EMAIL_FROM', "noreply@next.kz");
     define('EMAIL_PORT', 465);
