@@ -37,7 +37,7 @@
 
     <div class="form-group">
         <label class="control-label col-sm-3" for="pack">Выберите пакет и центр:</label>
-        <div class="col-sm-4">
+        <div class="col-sm-2">
             <div class="input-group">
                 <select class="form-control" id="pack" name="pack" required>
                     <?php
@@ -47,7 +47,6 @@
                         <option value="basePack">Базовый</option>
                         <option value="standardPack">Стандартный</option>
                         <option value="allInclusive">Все включено</option>
-                        <!--option value="newYear">Новогодний</option-->
                     <?php } else {
                         $selectedOption = $order["Event"]["Pack"];
                         ?>
@@ -64,9 +63,9 @@
             </div>
         </div>
 
-        <div class="col-sm-5">
+        <div class="col-sm-3">
             <div class="input-group">
-                <span class="input-group-addon">Центр проведения</span>
+                <span class="input-group-addon">Центр</span>
                 <select class="form-control" id="center" name="center" required>
 
                     <?php
@@ -82,6 +81,31 @@
                         <option value="nextEse" <?= $selectedOption == "nextEse" ? "selected" : "" ?>>NEXT Esentai</option>
                         <option value="nextApo" <?= $selectedOption == "nextApo" ? "selected" : "" ?>>NEXT Aport</option>
                         <option value="nextPro" <?= $selectedOption == "nextPro" ? "selected" : "" ?>>NEXT Promenade</option>
+
+                    <?php } ?>
+                </select>
+
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="input-group">
+                <span class="input-group-addon">Спец-название</span>
+                <select class="form-control" id="packNameCode" name="packNameCode" required>
+
+                    <?php
+                    if (!isset($order["Event"]["PackNameCode"])){
+                        ?>
+                        <option value="">Выберите из списка</option>
+                        <option value="without">Без спец-названия</option>
+                        <option value="newYear">Новогодний</option>
+                        <option value="holidays">Каникулярный</option>
+                    <?php } else {
+                        $selectedOption = $order["Event"]["PackNameCode"];
+                        ?>
+                        <option value="without" <?= $selectedOption == "without" ? "selected" : "" ?>>Без спец-названия</option>
+                        <option value="newYear" <?= $selectedOption == "newYear" ? "selected" : "" ?>>Новогодний</option>
+                        <option value="holidays" <?= $selectedOption == "holidays" ? "selected" : "" ?>>Каникулярный</option>
 
                     <?php } ?>
                 </select>

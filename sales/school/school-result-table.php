@@ -11,7 +11,7 @@
         }
         ?>
         <tr><td>Тема урока</td><td><?= $_REQUEST["subject"]?></td></tr>
-        <tr><td>Пакет</td><td><?= $_REQUEST["packName"]?></td></tr>
+        <tr><td>Пакет</td><td><?= $_REQUEST["packName"]?> (<?= $_REQUEST["packType"]?>)</td></tr>
         <tr><td>Кол-во учеников</td><td><?= $_REQUEST["pupilCount"]?></td></tr>
         <tr><td>Кол-во учителей</td><td><?= $_REQUEST["teacherCount"]?></td></tr>
         <tr><td>Дата</td><td><?= $_REQUEST["date"]?></td></tr>

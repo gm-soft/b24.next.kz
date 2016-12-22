@@ -46,19 +46,22 @@
     <input type="hidden" name="userId" value="<?= $_REQUEST["userId"] ?>">
     <input type="hidden" name="userFullName" value="<?= $_REQUEST["userFullName"] ?>">
 
-    <input type="hidden" name="totalCost" value="<?= $costs["totalCost"] ?>">
-    <input type="hidden" name="totalCostDiscount" value="<?= $costs["totalCostDiscount"] ?>">
-    <input type="hidden" name="moneyToCash" value="<?= $costs["moneyToCash"] ?>">
-    <input type="hidden" name="foodCost" value="<?= $costs["foodCost"] ?>">
-    <input type="hidden" name="orderCost" value="<?= $costs["orderCost"] ?>">
-    <input type="hidden" name="packCost" value="<?= $costs["packCost"] ?>">
-    <input type="hidden" name="packPrice" value="<?= $costs["packPrice"] ?>">
-    <input type="hidden" name="transferCost" value="<?= $costs["transferCost"] ?>">
-    <input type="hidden" name="bribe" value="<?= $costs["bribe"] ?>">
+    <input type="hidden" name="totalCost" value="<?= $_REQUEST["totalCost"] ?>">
+    <input type="hidden" name="totalCostDiscount" value="<?= $_REQUEST["totalCostDiscount"] ?>">
+    <input type="hidden" name="moneyToCash" value="<?= $_REQUEST["moneyToCash"] ?>">
+    <input type="hidden" name="foodCost" value="<?= $_REQUEST["foodCost"] ?>">
+    <input type="hidden" name="orderCost" value="<?= $_REQUEST["orderCost"] ?>">
+    <input type="hidden" name="packCost" value="<?= $_REQUEST["packCost"] ?>">
+    <input type="hidden" name="packPrice" value="<?= $_REQUEST["packPrice"] ?>">
+    <input type="hidden" name="transferCost" value="<?= $_REQUEST["transferCost"] ?>">
+    <input type="hidden" name="bribe" value="<?= $_REQUEST["bribe"] ?>">
 
-    <input type="hidden" name="packName" value="<?= $costs["packName"] ?>">
-    <input type="hidden" name="centerName" value="<?= $costs["centerName"] ?>">
-    <input type="hidden" name="centerNameRu" value="<?= $costs["centerNameRu"] ?>">
+    <input type="hidden" name="packType" value="<?= $_REQUEST["packType"] ?>">
+    <input type="hidden" name="packName" value="<?= $_REQUEST["packName"] ?>">
+    <input type="hidden" name="packNameCode" value="<?= $_REQUEST["packNameCode"] ?>">
+
+    <input type="hidden" name="centerName" value="<?= $_REQUEST["centerName"] ?>">
+    <input type="hidden" name="centerNameRu" value="<?= $_REQUEST["centerNameRu"] ?>">
 
     <div class="form-group">
         <a href="#" id="back" class="btn btn-default">Вернуться</a>

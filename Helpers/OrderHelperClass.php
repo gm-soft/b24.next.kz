@@ -198,9 +198,10 @@ class OrderHelper
         return $order;
     }
 
-    public static function ConstructSchoolOrder($id, array $request, $adminToken){
-        $order = array();
-        $order["Id"] = $id;
+    public static function ConstructSchoolOrder($id, array $request, $adminToken, $order = null){
+
+        $order["Id"] = is_null($order) ? $id : $order["Id"];
+
         switch ($request["status"]){
             case "initiated":
                 $order["Status"] = "Заказ подтвержден";
@@ -248,7 +249,7 @@ class OrderHelper
         //------------------------------------
         $event = array(
             'Event' => "Школа/лагерь",
-            'Zone' => "Без зоны",
+            'Zone' => $request["packName"],
             'Date' => str_replace(" ", ".", formatDate($datetime, "d m Y")),
             'StartTime' => str_replace(":", "-", $request["time"]),
             'Duration' => $request["duration"],
@@ -258,6 +259,11 @@ class OrderHelper
             // дополнительные данные для школ
             'TeacherCount' => $request["teacherCount"],
             'Pack' => $request["pack"],
+            'PackType' => $request["packType"],
+
+            'PackNameCode' => $request["packNameCode"],
+            'PackName' => $request["packName"],
+
             'PackPrice' => $request["packagePrice"],
             'PupilCount' => $request["pupilCount"],
             'PupilAge' => $request["pupilAge"],
@@ -376,7 +382,7 @@ class OrderHelper
         $comment .= "--- Служебная информация ---\n";
         $comment .= "Возраст детей: ".$request["pupilAge"]."\n";
         $comment .= "Тема урока: ".$request["subject"]."\n";
-        $comment .= "Выбранный пакет: ".$request["packName"]."\n";
+        $comment .= "Выбранный пакет: ".$request["packName"]." (".$request["packType"].")\n";
 
         if ($request["hasFood"] == "yes"){
             $comment .= "Фуд-пакет, наличие: есть\n";

@@ -23,19 +23,28 @@
 
             switch ($_REQUEST["pack"]) {
                 case 'basePack':
-                    $_REQUEST["packName"] = "Базовый";
+                    $_REQUEST["packType"] = "Базовый";
                     break;
                 case 'standardPack':
-                    $_REQUEST["packName"] = "Стандартный";
+                    $_REQUEST["packType"] = "Стандартный";
                     break;
+                case 'allInclusive':
+                    $_REQUEST["packType"] = "Все включено";
+                    break;
+                default:
+                    $_REQUEST["packType"] = "Пакет не определен";
+                    break;
+            }
+
+            switch ($_REQUEST["packNameCode"]) {
                 case 'newYear':
                     $_REQUEST["packName"] = "Новогодний";
                     break;
-                case 'allInclusive':
-                    $_REQUEST["packName"] = "Все включено";
+                case 'holidays':
+                    $_REQUEST["packName"] = "Каникулярный";
                     break;
                 default:
-                    $_REQUEST["packName"] = "Пакет не определен";
+                    $_REQUEST["packName"] = "Спец-пакет не выбран";
                     break;
             }
 
@@ -96,6 +105,8 @@
                 "bribe" => $_REQUEST["bribe"],
 
                 "packName" => $_REQUEST["packName"],
+                "packType" => $_REQUEST["packType"],
+
                 "centerName" => $_REQUEST["centerName"],
                 "centerNameRu" => $_REQUEST["centerNameRu"]
 
@@ -111,10 +122,10 @@
                 "event" => "OnIdIncrementedRequested"
             ));
             $id = $idData["result"];
-            $order = OrderHelper::ConstructSchoolOrder($id, $_REQUEST, $adminToken);
+            $order = OrderHelper::ConstructSchoolOrder($id, null, $_REQUEST, $adminToken);
             $order["DealId"] = OrderHelper::updateOrderDeal($order, $adminToken);
             $updateProductsResult = OrderHelper::updateDealProductSet($order, $adminToken);
-            $response["order"] = $order;
+
 
 
 
@@ -123,7 +134,7 @@
                 "orderJson" => json_encode($order),
                 "order" => $order,
             ));
-
+            $response["order"] = $order;
             $response["saveResult"] = $saveResult;
             break;
 
@@ -135,14 +146,14 @@
             );
             $data = query("GET", $url, $params);
             $order = isset($data["result"]) ? $data["result"] : null;
-            log_debug(var_export($_REQUEST, true));
-            $changedOrder = OrderHelper::ConstructSchoolOrder($order["Id"], $_REQUEST, $adminToken);
+
+            $changedOrder = OrderHelper::ConstructSchoolOrder($order["Id"], $_REQUEST, $adminToken, $order);
             $adminToken = get_access_data(true);
 
             $updateResult = OrderHelper::updateOrderDeal($changedOrder, $adminToken, true, $_REQUEST["dealId"]);
             $updateProductsResult = OrderHelper::updateDealProductSet($changedOrder, $adminToken);
 
-            $response["order"] = $changedOrder;
+
 
 
             $saveResult = queryGoogleScript(array(
@@ -150,7 +161,7 @@
                 "orderJson" => json_encode($changedOrder),
                 "order" => $changedOrder,
             ));
-
+            $response["order"] = $changedOrder;
             $response["saveResult"] = $saveResult;
             break;
         

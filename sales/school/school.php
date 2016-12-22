@@ -111,6 +111,8 @@ switch ($actionPerformed) {
         $parameters = array(
             "action" => "schoolGetCost",
             "pack" => $_REQUEST["pack"],
+            "packNameCode" => $_REQUEST["packNameCode"],
+
             "contactId" => $_REQUEST["contactId"],
             "companyId" => $_REQUEST["companyId"],
             "orderId" => $_REQUEST["orderId"],
@@ -146,6 +148,8 @@ switch ($actionPerformed) {
 
             "userId" => $_REQUEST["userId"],
             "userFullName" => $_REQUEST["userFullName"],
+
+
         );
 
         $response = query("POST", $url, $parameters);
@@ -159,7 +163,10 @@ switch ($actionPerformed) {
         $_REQUEST["packPrice"] = $costs["packPrice"];
         $_REQUEST["transferCost"] = $costs["transferCost"];
         $_REQUEST["bribe"] = $costs["bribe"];
+
+        $_REQUEST["packType"] = $costs["packType"];
         $_REQUEST["packName"] = $costs["packName"];
+        //$_REQUEST["packNameCode"] = $costs["packNameCode"];
         $_REQUEST["centerName"] = $costs["centerName"];
         $_REQUEST["centerNameRu"] = $costs["centerNameRu"];
 
@@ -236,6 +243,7 @@ switch ($actionPerformed) {
 
         $response = query("POST", $url, $_REQUEST);
         $costs = $response["result"];
+        log_debug(var_export($response, true));
         $order = isset($response["order"]) ? $response["order"] : null;
         $_REQUEST["dealId"] = $order["DealId"] ;
         $_REQUEST["orderId"] = $order["Id"] ;
