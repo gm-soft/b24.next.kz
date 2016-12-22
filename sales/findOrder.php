@@ -30,6 +30,10 @@ switch ($action){
         $actionPage = "../sales/school/school.php";
         break;
 
+    case "closeOrder":
+        $actionPage = "../sales/post/closeOrder.php";
+        break;
+
     default:
         $actionPage = null;
         break;
