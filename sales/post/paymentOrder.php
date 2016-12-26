@@ -20,6 +20,7 @@ $_SESSION["user_id"] =  $curr_user["ID"];
 $userId = $curr_user["ID"];
 
 $filterFields = [
+    "ASSIGNED_BY_ID",
     "STAGE_ID"
 ];
 $filterValues = [
@@ -28,9 +29,7 @@ $filterValues = [
     "2"
 ];
 
-//$openDeals = BitrixHelper::getDeals(array("STAGE_ID"), array("2"), $_REQUEST["adminToken"]);
-//$closedOrders = BitrixHelper::getDeals(array("STAGE_ID"), array("7"), $_REQUEST["adminToken"]);
-
+$openDeals = BitrixHelper::getDeals($filterFields, $filterValues, $_REQUEST["adminToken"]);
 $actionPerformed = isset($_REQUEST["actionPerformed"]) ? $_REQUEST["actionPerformed"] : "initiated";
 switch ($actionPerformed){
     case "initiated":
@@ -38,9 +37,9 @@ switch ($actionPerformed){
         require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
         ?>
         <div class="container">
-            <h1>Закрытие аренды и подсчет доп.заказа</h1>
+            <h1>Внесение оплаты за заказ</h1>
             <div>
-                Выберите из списка нужный номер заказа и осуществите подсчет доп.заказа, чтобы узнать, какие заказы были совершены на баре и сколько необходимо взять денег с клиента.
+                Выберите из списка нужный номер заказа и введите данные оплаты
             </div>
 
             <div>
@@ -51,21 +50,38 @@ switch ($actionPerformed){
                     <input type="hidden" name="authId" value="<?= $_REQUEST["authId"] ?>">
                     <input type="hidden" name="adminToken" value="<?= $_REQUEST["adminToken"] ?>">
 
-                    <div class="form-group">
-                        <label class="control-label col-sm-3" for="filterSelect">Выберите центр</label>
-                        <div class="col-sm-9">
-                            <div class="input-group">
-                                <select class="form-control" id="filterSelect" name="filterSelect">
-                                    <option value="">Центр</option>
-                                    <option value="128">NEXT Aport</option>
-                                    <option value="130">NEXT Esentai</option>
-                                    <option value="132">NEXT Promenade</option>
+                    <?php
+                    if ($userId == "30" || $userId == "1" || $userId == "12"){
 
-                                </select>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-building"></span></span>
+
+                        $managers = BitrixHelper::getUsers(array("UF_DEPARTMENT"), array("5"), $_REQUEST["adminToken"]);
+                        $managers = array_merge($managers, BitrixHelper::getUsers(array("UF_DEPARTMENT"), array("224"), $_REQUEST["adminToken"]));
+                        $managers = array_merge($managers, BitrixHelper::getUsers(array("UF_DEPARTMENT"), array("226"), $_REQUEST["adminToken"]));
+                        $managers = array_merge($managers, BitrixHelper::getUsers(array("UF_DEPARTMENT"), array("222"), $_REQUEST["adminToken"]));
+
+                        ?>
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" for="managerSelect">Выберите менеджера</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <select class="form-control" id="managerSelect" name="managerSelect" required>
+                                        <option value="<?= $userId ?>">Мои сделки</option>
+                                        <?php
+                                        foreach ($managers as $instance){
+                                            echo "<option value='".$instance["ID"]."'>".$instance["NAME"]." ".$instance["LAST_NAME"]."</option>\n";
+                                        }
+                                        ?>
+
+                                    </select>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-building"></span></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+
+                        <?php
+                    }
+
+                    ?>
 
 
                     <div class="form-group">
@@ -73,25 +89,25 @@ switch ($actionPerformed){
                         <div class="col-sm-9">
                             <div class="input-group">
                                 <select class="form-control" id="dealSelect" name="dealSelect" required>
-                                    <option value="">Нет данных</option>
-                                    <!--optgroup label="Заказ подтвержден">
-                                        <?php
-                                        foreach ($openDeals as $deal){
-                                            echo "<option value='".$deal["ID"]."'>".$deal["TITLE"]."</option>\n";
-                                        }
-                                        ?>
-                                    </optgroup>
-
-                                    <optgroup label="Аренда проведена">
-                                        <?php
-                                        foreach ($closedOrders as $deal){
-                                            echo "<option value='".$deal["ID"]."'>".$deal["TITLE"]."</option>\n";
-                                        }
-                                        ?>
-                                    </optgroup-->
+                                    <?php
+                                    foreach ($openDeals as $deal){
+                                        echo "<option value='".$deal["ID"]."'>".$deal["TITLE"]."</option>\n";
+                                    }
+                                    ?>
 
                                 </select>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-building"></span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            Информация об оплате заказа
+                        </div>
+                        <div class="col-sm-9 col-sm-offset-3">
+                            <div class="alert alert-info">
+
                             </div>
                         </div>
                     </div>
@@ -100,16 +116,15 @@ switch ($actionPerformed){
 
                         <div class="col-sm-9 col-sm-offset-3">
                             <div class="checkbox">
-                                <label><input type="checkbox" id="confirmAction" name="confirmAction" required> Подтвердить закрытие</label>
+                                <label><input type="checkbox" id="confirmAction" name="confirmAction" required> Подтвердить внесение оплаты</label>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="form-group">
                         <div class="col-sm-offset-3">
                             <a href="https://b24.next.kz/sales/index.php?authId=<?= $_REQUEST["authId"] ?>" id="back" class="btn btn-default">Отменить</a>
-                            <button type="submit" id="submit-btn" class="btn btn-primary">Закрыть аренду</button>
+                            <button type="submit" id="submit-btn" class="btn btn-primary">Закрыть заказ</button>
                         </div>
                     </div>
 
@@ -126,60 +141,37 @@ switch ($actionPerformed){
                 $('#confirmAction').prop('checked', false);
             });
 
-            $('#filterSelect').change(function(){
+            $('#managerSelect').change(function(){
 
-                var filterSelect = $('#filterSelect');
+                var managerSelect = $('#managerSelect');
                 var dealSelect = $('#dealSelect');
-                var filterValue = filterSelect.val();
+                var managerId = managerSelect.val();
 
-                filterSelect.prop("disabled", "disabled");
+                managerSelect.prop("disabled", "disabled");
                 dealSelect.prop("disabled", "disabled");
 
                 $.ajax({
                     type: 'POST',
                     url: 'https://b24.next.kz/rest/bitrix.php',
-
-                    // UF_CRM_1468830187
                     data: {
-                        'action': 'center.deals.get',
-                        'center' : filterValue,
-                        "period" : 2
+                        'action': 'user.deals.get',
+                        'userId' : managerId,
+                        'stageId' : '2',
                     },
                     success: function(res){
 
-                        //var deals = res["result"];
+                        var deals = res["result"];
                         var total = res["total"];
-                        var openOrders = res["openOrders"];
-                        var closedOrders = res["closedOrders"];
+                        dealSelect.find('option').remove().end().append('<option value="">Выберите заказ</option>')
+                            .val('');
+                        for (var i = 0; i < deals.length; i++){
 
-                        dealSelect.find('optgroup').remove().end();
-                        dealSelect.find('option').remove().end();
-                        dealSelect.append('<option value="">Выберите заказ</option>').val('');
-                        //----------------------------------
-                        var optGroup;
-                        var deal;
-                        var option;
-                        //----------------
-                        optGroup = $('<optgroup></optgroup>').attr("label", "Заказ подтвержден");
-                        for (var i = 0; i < openOrders.length; i++){
-
-                            deal = openOrders[i];
-                            option = $("<option></option>").attr("value", deal["ID"]).text(deal["TITLE"]);
-                            optGroup.append(option);
+                            var deal = deals[i];
+                            var option = $("<option></option>").attr("value", deal["ID"]).text(deal["TITLE"]);
+                            dealSelect.append(option);
                         }
-                        dealSelect.append(optGroup);
-                        //---------------------------------
-                        optGroup = $('<optgroup></optgroup>').attr("label", "Аренда проведена");
-                        for (var i = 0; i < closedOrders.length; i++){
 
-                            deal = closedOrders[i];
-                            option = $("<option></option>").attr("value", deal["ID"]).text(deal["TITLE"]);
-                            optGroup.append(option);
-                        }
-                        dealSelect.append(optGroup);
-                        //---------------------------------
-
-                        filterSelect.prop("disabled", false);
+                        managerSelect.prop("disabled", false);
                         dealSelect.prop("disabled", false);
                     }
                 });
@@ -221,21 +213,12 @@ switch ($actionPerformed){
                 <h1>Результат подсчета доп.заказа</h1>
                 <div id="toPrint">
                     <h3>Заказ ID<?= $orderId?></h3>
-
-                    <div class="text-center">
-                        <p>Стоимость заказа: <?= $totalCost ?></p>
-                        <p>Оплачено: <?= $payed ?></p>
-                        <h3>Остаток по оплате: <?= $remainder ?></h3>
-                        <p>Статус заказа: <i><?= $closeResponse["status"] ?></i></p>
-                        <p>Доп.заказов, кол-во: <?= $barItemsCount ?></p>
-                    </div>
-
-                    <!--dl class="dl-horizontal">
+                    <dl class="dl-horizontal">
                         <dt>Стоиомсть заказа</dt> <dd><?= $totalCost ?></dd>
                         <dt>Оплачено</dt> <dd><?= $payed ?></dd>
                         <dt>Остаток по оплате</dt> <dd><?= $remainder ?></dd>
                         <dt>Доп.заказов, кол-во</dt> <dd><?= $barItemsCount ?></dd>
-                    </dl-->
+                    </dl>
                     <?php
                     if ($barItemsCount > 0){
                         ?>
@@ -280,17 +263,8 @@ switch ($actionPerformed){
                 </div>
 
                 <div class="text-center">
-                    <a href="#" id="print" class="btn btn-default">Печать</a>
+                    <a href="#" id="print" class="btn btn-primary">Печать</a>
                     <a href="https://b24.next.kz/sales/index.php?authId=<?= $_REQUEST["authId"] ?>" id="back" class="btn btn-default">В главное меню</a>
-                    <?php
-                    if ($remainder > 0){
-                        $url = "https://b24.next.kz/sales/index.php?".
-                            "authId=".$_REQUEST["authId"]."&".
-                            "orderId=".$orderId."&".
-                            "dealId=".$_REQUEST["dealSelect"]."";
-
-                    }
-                    ?>
                 </div>
 
             </div>
@@ -327,7 +301,7 @@ switch ($actionPerformed){
     $('#print').click(function(){
         printContent("toPrint");
     });
-    </script>
+</script>
 <?php
-    require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/footer.php");
+require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/footer.php");
 ?>

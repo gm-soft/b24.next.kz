@@ -848,4 +848,35 @@ class BitrixHelper
         if (isset($result["error"])) process_error("Ошибка отправки уведомления: ".var_export($result));
         return $result;
     }
+
+    public static function getUsers(Array $filterFields = array(), Array $filterValues =  array(), $auth = null){
+        $auth = is_null($auth) ? get_access_data(true) : $auth;
+
+        $params = array(
+            "auth" => $auth
+        );
+        if (count($filterFields) > 0 && count($filterValues) > 0 && count($filterFields) == count($filterValues)) {
+
+            for ($i = 0; $i < count($filterFields); $i++){
+                $field = $filterFields[$i];
+                $value = $filterValues[$i];
+                $params["FILTER[$field]"] = $value;
+            }
+
+        }
+        $data = BitrixHelper::callMethod("user.get", $params );
+
+        $dealArray = $data["result"];
+
+        if ($data["total"] > 50) {
+            $iterationCount = ((int) $data["total"] / 50);
+            for ($iter = 0; $iter < $iterationCount; $iter++){
+
+                $params["start"] = $data["next"];
+                $data = BitrixHelper::callMethod("crm.deal.list", $params );
+                $dealArray = array_merge($dealArray, $data["result"]);
+            }
+        }
+        return $dealArray;
+    }
 }

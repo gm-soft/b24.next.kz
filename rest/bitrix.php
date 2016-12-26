@@ -26,7 +26,8 @@
 
     $ip = $_SERVER['REMOTE_ADDR'];
     $browser = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "unknown";
-    log_event("bitrix.php: \$_REQUEST[\"action\"]=".$action.". Client: ".$ip.", (".$browser.")");
+    $req = json_encode($_REQUEST);
+    log_event("bitrix.php: \$_REQUEST[\"action\"]=".$action.". Client: ".$ip.", (".$req.")");
 
     /*if (!isset($_REQUEST["deal_id"])) {
         $response["error"] = "BAD REQUEST";
@@ -370,20 +371,27 @@
             $filterField = isset($_REQUEST["field"]) ? $_REQUEST["field"] : null;
             $filterValue = isset($_REQUEST["value"]) ? $_REQUEST["value"] : null;
 
-            $fields = array(
-                0 => $filterField, 
-                //1 => "STATUS"
-            );
-            $values = array(
-                0 => $filterValue, 
-                //1 => "WON"
-            );
+            $fields = !is_null($filterField) ? array($filterField) : array();
+            $values = !is_null($filterValue) ? array($filterValue) : array();
 
             $openDeals = BitrixHelper::getDeals($fields, $values, $access_data["access_token"]);
             $response["total"] = count($openDeals);
             $response["result"] = $openDeals;
 
             break;
+
+        /*case "deals.multifields.get":
+            $filterFields = isset($_REQUEST["fields"]) ? $_REQUEST["fields"] : null;
+            $filterValues = isset($_REQUEST["values"]) ? $_REQUEST["values"] : null;
+
+            $fields = !is_null($filterFields) ? $filterFields : array();
+            $values = !is_null($filterValues) ? $filterValues : array();
+
+            $openDeals = BitrixHelper::getDeals($fields, $values, $access_data["access_token"]);
+            $response["total"] = count($openDeals);
+            $response["result"] = $openDeals;
+
+            break;*/
 
         case "order.get.google":
             $res = queryGoogleScript(array(
@@ -395,7 +403,52 @@
 
             $response["result"] = isset($res["result"]) ? $res["result"] : $res;
             break;
+
+        case "center.deals.get":
+
+            $stage = isset($_REQUEST["stageId"]) ? $_REQUEST["stageId"] : "2";
+            $filterFields = isset($_REQUEST["filterFields"]) ? $_REQUEST["filterFields"] : [
+                "UF_CRM_1468830187",
+                "STAGE_ID"
+            ];
+            $filterValues = isset($_REQUEST["filterValues"]) ? $_REQUEST["filterValues"] : [
+                $_REQUEST["center"],
+                $stage
+            ];
+
+            $openOrders = BitrixHelper::getDeals($filterFields, $filterValues, $access_data["access_token"]);
+            $closedOrders = BitrixHelper::getDeals(array("UF_CRM_1468830187", "STAGE_ID"), array($_REQUEST["center"], "7"), $_REQUEST["adminToken"]);
+
+            if (isset($_REQUEST["period"])){
+
+                $period = intval($_REQUEST["period"]) * 24 * 3600;
+                $openOrders = filterByPeriod($openOrders, $period);
+                $closedOrders = filterByPeriod($closedOrders, $period);
+            }
+
+            $response["total"] = count($openDeals);
+            $response["result"] = $openOrders;
+            $response["openOrders"] = $openOrders;
+            $response["closedOrders"] = $closedOrders;
+
+            break;
     }
 
 
 	echo json_encode($response);
+
+	function filterByPeriod($orders, $ms){
+        $now = time();
+        $tmp = [];
+        foreach ($orders as $deal){
+
+            $date = new DateTime($deal["UF_CRM_1467690712"]);
+
+            log_debug(var_export($date,true));
+
+            if ($now - $date->getTimestamp() > $ms) continue;
+            $tmp[] = $deal;
+        }
+        $orders = $tmp;
+        return $orders;
+    }
