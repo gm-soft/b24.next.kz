@@ -25,6 +25,10 @@
         case "debug":
             $log_filename = $_SERVER["DOCUMENT_ROOT"]."/log/debug.log";
             break;
+
+        case "order":
+            $log_filename = $_SERVER["DOCUMENT_ROOT"]."/log/order.php.log";
+            break;
         default:
             $log_filename = null;
             break;
@@ -51,24 +55,22 @@
 <div class="container">
     <h1><?= $page_header ?></h1>
 
-    <?php 
-        if (!is_null($log_filename)) { ?>
-        <p>Здесь выводятся ошибки программы. Записи генерируются скриптами, не апачем. <a href="..<?= $link_to_file ?>">Открыть</a> текст логов</p>
-        <pre><?= $log_text ?></pre>
+    <div class="row">
+        <div class="col-sm-10">
+            <p><a href="..<?= $link_to_file ?>">Открыть</a> текст логов</p>
+            <pre><?= $log_text ?></pre>
+        </div>
 
-        <?php 
-        } else {
-            ?>
-            <p>Выберите из списка файл логов, чтобы открыть его</p>
+        <div class="col-sm-2">
             <div class="list-group">
-              <a href="../server/log_page.php?type=errors" class="list-group-item">errors.log</a>
-              <a href="../server/log_page.php?type=process_events" class="list-group-item">events.log</a>
-              <a href="../server/log_page.php?type=auth_events" class="list-group-item">auth.log</a>
-              <a href="../server/log_page.php?type=debug" class="list-group-item">debug.log</a>
+                <a href="../server/log_page.php?type=errors" class="list-group-item">errors.log</a>
+                <a href="../server/log_page.php?type=process_events" class="list-group-item">events.log</a>
+                <a href="../server/log_page.php?type=auth_events" class="list-group-item">auth.log</a>
+                <a href="../server/log_page.php?type=debug" class="list-group-item">debug.log</a>
+                <a href="../server/log_page.php?type=order" class="list-group-item">order.log</a>
             </div>
-        <?php
-        }
-        ?>
+        </div>
+    </div>
 </div>
 
 

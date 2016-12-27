@@ -9,6 +9,54 @@
 class OrderHelper
 {
 
+    public static function GetOrder($orderId){
+        $data = queryGoogleScript([
+            "event" => "OnOrderRequested",
+            "id" => $orderId
+        ]);
+        $order = $data["result"];
+        return $order;
+    }
+
+    public static function SaveOrder($order){
+        $saveResult = queryGoogleScript([
+            "event" => "OnOrderSaveRequested",
+            "orderJson" => json_encode($order),
+        ]);
+        $saveResult = $saveResult["result"];
+        return $saveResult;
+    }
+
+    public static function GetBarItemsByRequest($orderId){
+        $result = queryGoogleScript([
+            "event" => "GetBarItemsByRequest",
+            "orderId" => $orderId,
+        ]);
+        $result = $result["result"];
+        return $result;
+    }
+
+    public static function GetLoyaltyAccountByRequest($code){
+        $result = queryGoogleScript([
+            "event" => "GetLoyaltyAccountByRequest",
+            "orderId" => $code,
+        ]);
+        $result = $result["result"];
+        return $result;
+    }
+
+    public static function SaveLoyaltyAccountByRequest($account){
+        $result = queryGoogleScript([
+            "event" => "SaveLoyaltyAccountByRequest",
+            "account" => $account,
+        ]);
+        $result = $result["result"];
+        return $result;
+    }
+
+
+
+
     public static function ConstructOrder(array $request, $adminToken){
         if ($request["orderId"] == "" ){
             $url = "https://script.google.com/macros/s/AKfycbxjyTPPbRdVZ-QJKcWLFyITXIeQ1GwI7fAi0FgATQ0PsoGKAdM/exec";
@@ -573,8 +621,9 @@ class OrderHelper
         $content .= "</p>";
     }
 
-    public static function updateOrderDeal($order, $admin_token, $isExisted = false, $id = 0) {
+    public static function updateOrderDeal($order, $admin_token, $isExisted = false) {
         $payload = array();
+
         $payload["fields[CONTACT_ID]"] = $order["ContactId"];
         switch ($order["Event"]["Event"]){
             case "Аренда зоны":
@@ -672,7 +721,7 @@ class OrderHelper
 
         if ($isExisted == true) {
             $method = "crm.deal.update";
-            $payload["id"] = $id;
+            $payload["id"] = $order["DealId"];
         } else {
             $method = "crm.deal.add";
         }

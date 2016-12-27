@@ -151,7 +151,7 @@
             $changedOrder = OrderHelper::ConstructSchoolOrder($order["Id"], $_REQUEST, $adminToken, $order);
             $adminToken = get_access_data(true);
 
-            $updateResult = OrderHelper::updateOrderDeal($changedOrder, $adminToken, true, $_REQUEST["dealId"]);
+            $updateResult = OrderHelper::updateOrderDeal($changedOrder, $adminToken, true);
             $updateProductsResult = OrderHelper::updateDealProductSet($changedOrder, $adminToken);
 
 

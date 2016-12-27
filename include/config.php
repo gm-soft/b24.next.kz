@@ -64,7 +64,7 @@
             curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt_array($curl, $curlOptions);
             $result = curl_exec($curl);
-            //log_debug($result);
+            log_debug($result);
             return json_decode($result, 1);
 
         } catch (Exception $ex){
@@ -214,11 +214,13 @@
         $text = "[".format_current_time("atom")."] ".$error_text."\n";
         error_log($text, 3, $filename);
     }
-    
-    /**
-     * 
-     * 
-     */
+
+/**
+ *
+ * @param $event_text
+ * @param string $filename
+ * @return bool
+ */
     function log_event($event_text, $filename = "/log/process_events.log") {
         if ($event_text == "") return false;
 

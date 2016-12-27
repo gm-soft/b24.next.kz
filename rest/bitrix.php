@@ -442,7 +442,7 @@
         $tmp = [];
         foreach ($orders as $deal){
 
-            $date = new DateTime($deal["UF_CRM_1467690712"]);
+            $date = new DateTime($deal["BEGINDATE"]); // BEGINDATE UF_CRM_1467690712
 
             log_debug(var_export($date,true));
 

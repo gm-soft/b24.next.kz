@@ -1,34 +1,14 @@
 <?php
-// SMSC.KZ API (smsc.kz) версия 3.4 (05.03.2015)
+// SMSC.KZ API (smsc.kz) ?????? 3.4 (05.03.2015)
 
-define("SMSC_LOGIN", "s.zhilenko");			// логин клиента
-define("SMSC_PASSWORD", "3e2c509e8c3d9a4fb2f679cba6df760c");	// пароль или MD5-хеш пароля в нижнем регистре
-define("SMSC_POST", 0);					// использовать метод POST
-define("SMSC_HTTPS", 0);				// использовать HTTPS протокол
-define("SMSC_CHARSET", "utf-8");	// кодировка сообщения: utf-8, koi8-r или windows-1251 (по умолчанию)
-define("SMSC_DEBUG", 0);				// флаг отладки
-define("SMTP_FROM", "api@smsc.kz");     // e-mail адрес отправителя
+define("SMSC_LOGIN", "s.zhilenko");			// ????? ???????
+define("SMSC_PASSWORD", "3e2c509e8c3d9a4fb2f679cba6df760c");	// ?????? ??? MD5-??? ?????? ? ?????? ????????
+define("SMSC_POST", 0);					// ???????????? ????? POST
+define("SMSC_HTTPS", 0);				// ???????????? HTTPS ????????
+define("SMSC_CHARSET", "utf-8");	// ????????? ?????????: utf-8, koi8-r ??? windows-1251 (?? ?????????)
+define("SMSC_DEBUG", 0);				// ???? ???????
+define("SMTP_FROM", "api@smsc.kz");     // e-mail ????? ???????????
 
-// Функция отправки SMS
-//
-// обязательные параметры:
-//
-// $phones - список телефонов через запятую или точку с запятой
-// $message - отправляемое сообщение
-//
-// необязательные параметры:
-//
-// $translit - переводить или нет в транслит (1,2 или 0)
-// $time - необходимое время доставки в виде строки (DDMMYYhhmm, h1-h2, 0ts, +m)
-// $id - идентификатор сообщения. Представляет собой 32-битное число в диапазоне от 1 до 2147483647.
-// $format - формат сообщения (0 - обычное sms, 1 - flash-sms, 2 - wap-push, 3 - hlr, 4 - bin, 5 - bin-hex, 6 - ping-sms, 7 - mms, 8 - mail, 9 - call)
-// $sender - имя отправителя (Sender ID). Для отключения Sender ID по умолчанию необходимо в качестве имени
-// передать пустую строку или точку.
-// $query - строка дополнительных параметров, добавляемая в URL-запрос ("valid=01:00&maxsms=3&tz=2")
-// $files - массив путей к файлам для отправки mms или e-mail сообщений
-//
-// возвращает массив (<id>, <количество sms>, <стоимость>, <баланс>) в случае успешной отправки
-// либо массив (<id>, -<код ошибки>) в случае ошибки
 
 function send_sms($phones, $message, $translit = 0, $time = 0, $id = 0, $format = 0, $sender = false, $query = "", $files = array())
 {
@@ -39,40 +19,24 @@ function send_sms($phones, $message, $translit = 0, $time = 0, $id = 0, $format 
 					($sender === false ? "" : "&sender=".urlencode($sender)).
 					($time ? "&time=".urlencode($time) : "").($query ? "&$query" : ""), $files);
 
-	// (id, cnt, cost, balance) или (id, -error)
+	// (id, cnt, cost, balance) ??? (id, -error)
 
 	if (SMSC_DEBUG) {
 		if ($m[1] > 0)
-			echo "Сообщение отправлено успешно. ID: $m[0], всего SMS: $m[1], стоимость: $m[2], баланс: $m[3].\n";
+			echo "????????? ?????????? ???????. ID: $m[0], ????? SMS: $m[1], ?????????: $m[2], ??????: $m[3].\n";
 		else
-			echo "Ошибка №", -$m[1], $m[0] ? ", ID: ".$m[0] : "", "\n";
+			echo "?????? ?", -$m[1], $m[0] ? ", ID: ".$m[0] : "", "\n";
 	}
 
 	return $m;
 }
 
-// SMTP версия функции отправки SMS
+// SMTP ?????? ??????? ???????? SMS
 
 function send_sms_mail($phones, $message, $translit = 0, $time = 0, $id = 0, $format = 0, $sender = "")
 {
 	return mail("send@send.smsc.kz", "", SMSC_LOGIN.":".SMSC_PASSWORD.":$id:$time:$translit,$format,$sender:$phones:$message", "From: ".SMTP_FROM."\nContent-Type: text/plain; charset=".SMSC_CHARSET."\n");
 }
-
-// Функция получения стоимости SMS
-//
-// обязательные параметры:
-//
-// $phones - список телефонов через запятую или точку с запятой
-// $message - отправляемое сообщение
-//
-// необязательные параметры:
-//
-// $translit - переводить или нет в транслит (1,2 или 0)
-// $format - формат сообщения (0 - обычное sms, 1 - flash-sms, 2 - wap-push, 3 - hlr, 4 - bin, 5 - bin-hex, 6 - ping-sms, 7 - mms, 8 - mail, 9 - call)
-// $sender - имя отправителя (Sender ID)
-// $query - строка дополнительных параметров, добавляемая в URL-запрос ("list=79999999999:Ваш пароль: 123\n78888888888:Ваш пароль: 456")
-//
-// возвращает массив (<стоимость>, <количество sms>) либо массив (0, -<код ошибки>) в случае ошибки
 
 function get_sms_cost($phones, $message, $translit = 0, $format = 0, $sender = false, $query = "")
 {
@@ -82,59 +46,33 @@ function get_sms_cost($phones, $message, $translit = 0, $format = 0, $sender = f
 					($sender === false ? "" : "&sender=".urlencode($sender)).
 					"&translit=$translit".($format > 0 ? "&".$formats[$format] : "").($query ? "&$query" : ""));
 
-	// (cost, cnt) или (0, -error)
+	// (cost, cnt) ??? (0, -error)
 
 	if (SMSC_DEBUG) {
 		if ($m[1] > 0)
-			echo "Стоимость рассылки: $m[0]. Всего SMS: $m[1]\n";
+			echo "????????? ????????: $m[0]. ????? SMS: $m[1]\n";
 		else
-			echo "Ошибка №", -$m[1], "\n";
+			echo "?????? ?", -$m[1], "\n";
 	}
 
 	return $m;
 }
 
-// Функция проверки статуса отправленного SMS или HLR-запроса
-//
-// $id - ID cообщения или список ID через запятую
-// $phone - номер телефона или список номеров через запятую
-// $all - вернуть все данные отправленного SMS, включая текст сообщения (0,1 или 2)
-//
-// возвращает массив (для множественного запроса двумерный массив):
-//
-// для одиночного SMS-сообщения:
-// (<статус>, <время изменения>, <код ошибки доставки>)
-//
-// для HLR-запроса:
-// (<статус>, <время изменения>, <код ошибки sms>, <код IMSI SIM-карты>, <номер сервис-центра>, <код страны регистрации>, <код оператора>,
-// <название страны регистрации>, <название оператора>, <название роуминговой страны>, <название роумингового оператора>)
-//
-// при $all = 1 дополнительно возвращаются элементы в конце массива:
-// (<время отправки>, <номер телефона>, <стоимость>, <sender id>, <название статуса>, <текст сообщения>)
-//
-// при $all = 2 дополнительно возвращаются элементы <страна>, <оператор> и <регион>
-//
-// при множественном запросе:
-// если $all = 0, то для каждого сообщения или HLR-запроса дополнительно возвращается <ID сообщения> и <номер телефона>
-//
-// если $all = 1 или $all = 2, то в ответ добавляется <ID сообщения>
-//
-// либо массив (0, -<код ошибки>) в случае ошибки
 
 function get_status($id, $phone, $all = 0)
 {
 	$m = _smsc_send_cmd("status", "phone=".urlencode($phone)."&id=".urlencode($id)."&all=".(int)$all);
 
-	// (status, time, err, ...) или (0, -error)
+	// (status, time, err, ...) ??? (0, -error)
 
 	if (!strpos($id, ",")) {
 		if (SMSC_DEBUG )
 			if ($m[1] != "" && $m[1] >= 0)
-				echo "Статус SMS = $m[0]", $m[1] ? ", время изменения статуса - ".date("d.m.Y H:i:s", $m[1]) : "", "\n";
+				echo "?????? SMS = $m[0]", $m[1] ? ", ????? ????????? ??????? - ".date("d.m.Y H:i:s", $m[1]) : "", "\n";
 			else
-				echo "Ошибка №", -$m[1], "\n";
+				echo "?????? ?", -$m[1], "\n";
 
-		if ($all && count($m) > 9 && (!isset($m[$idx = $all == 1 ? 14 : 17]) || $m[$idx] != "HLR")) // ',' в сообщении
+		if ($all && count($m) > 9 && (!isset($m[$idx = $all == 1 ? 14 : 17]) || $m[$idx] != "HLR")) // ',' ? ?????????
 			$m = explode(",", implode(",", $m), $all == 1 ? 9 : 12);
 	}
 	else {
@@ -148,30 +86,19 @@ function get_status($id, $phone, $all = 0)
 	return $m;
 }
 
-// Функция получения баланса
-//
-// без параметров
-//
-// возвращает баланс в виде строки или false в случае ошибки
-
 function get_balance()
 {
-	$m = _smsc_send_cmd("balance"); // (balance) или (0, -error)
+	$m = _smsc_send_cmd("balance"); // (balance) ??? (0, -error)
 
 	if (SMSC_DEBUG) {
 		if (!isset($m[1]))
-			echo "Сумма на счете: ", $m[0], "\n";
+			echo "????? ?? ?????: ", $m[0], "\n";
 		else
-			echo "Ошибка №", -$m[1], "\n";
+			echo "?????? ?", -$m[1], "\n";
 	}
 
 	return isset($m[1]) ? false : $m[0];
 }
-
-
-// ВНУТРЕННИЕ ФУНКЦИИ
-
-// Функция вызова запроса. Формирует URL и делает 3 попытки чтения
 
 function _smsc_send_cmd($cmd, $arg = "", $files = array())
 {
@@ -192,9 +119,9 @@ function _smsc_send_cmd($cmd, $arg = "", $files = array())
 
 	if ($ret == "") {
 		if (SMSC_DEBUG)
-			echo "Ошибка чтения адреса: $url\n";
+			echo "?????? ?????? ??????: $url\n";
 
-		$ret = ","; // фиктивный ответ
+		$ret = ","; // ????????? ?????
 	}
 
 	$delim = ",";
@@ -209,8 +136,6 @@ function _smsc_send_cmd($cmd, $arg = "", $files = array())
 	return explode($delim, $ret);
 }
 
-// Функция чтения URL. Для работы должно быть доступно:
-// curl или fsockopen (только http) или включена опция allow_url_fopen для file_get_contents
 
 function _smsc_read_url($url, $files)
 {
@@ -256,7 +181,7 @@ function _smsc_read_url($url, $files)
 	}
 	elseif ($files) {
 		if (SMSC_DEBUG)
-			echo "Не установлен модуль curl для передачи файлов\n";
+			echo "?? ?????????? ?????? curl ??? ???????? ??????\n";
 	}
 	else {
 		if (!SMSC_HTTPS && function_exists("fsockopen"))
@@ -285,13 +210,13 @@ function _smsc_read_url($url, $files)
 
 // Examples:
 // include "smsc_api.php";
-// list($sms_id, $sms_cnt, $cost, $balance) = send_sms("79999999999", "Ваш пароль: 123", 1);
+// list($sms_id, $sms_cnt, $cost, $balance) = send_sms("79999999999", "??? ??????: 123", 1);
 // list($sms_id, $sms_cnt, $cost, $balance) = send_sms("79999999999", "http://smsc.kz\nSMSC.KZ", 0, 0, 0, 0, false, "maxsms=3");
 // list($sms_id, $sms_cnt, $cost, $balance) = send_sms("79999999999", "0605040B8423F0DC0601AE02056A0045C60C036D79736974652E72750001036D7973697465000101", 0, 0, 0, 5, false);
 // list($sms_id, $sms_cnt, $cost, $balance) = send_sms("79999999999", "", 0, 0, 0, 3, false);
-// list($sms_id, $sms_cnt, $cost, $balance) = send_sms("dest@mysite.com", "Ваш пароль: 123", 0, 0, 0, 8, "source@mysite.com", "subj=Confirmation");
-// list($cost, $sms_cnt) = get_sms_cost("79999999999", "Вы успешно зарегистрированы!");
-// send_sms_mail("79999999999", "Ваш пароль: 123", 0, "0101121000");
+// list($sms_id, $sms_cnt, $cost, $balance) = send_sms("dest@mysite.com", "??? ??????: 123", 0, 0, 0, 8, "source@mysite.com", "subj=Confirmation");
+// list($cost, $sms_cnt) = get_sms_cost("79999999999", "?? ??????? ????????????????!");
+// send_sms_mail("79999999999", "??? ??????: 123", 0, "0101121000");
 // list($status, $time) = get_status($sms_id, "79999999999");
 // $balance = get_balance();
 

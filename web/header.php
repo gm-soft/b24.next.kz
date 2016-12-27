@@ -81,8 +81,8 @@
 
             <ul class="nav navbar-nav navbar-right">
               <?php
-                $username = $_COOKIE["username"];
-                $ts = $_COOKIE["ts"];
+                $username = isset($_COOKIE["username"]) ? $_COOKIE["username"] : null;
+                $ts = isset($_COOKIE["ts"]) ? $_COOKIE["ts"] : null;
 
                 if( !isset($_COOKIE["username"]) || (time() - $ts) > 3600)
                 {

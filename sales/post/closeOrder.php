@@ -74,22 +74,6 @@ switch ($actionPerformed){
                             <div class="input-group">
                                 <select class="form-control" id="dealSelect" name="dealSelect" required>
                                     <option value="">Нет данных</option>
-                                    <!--optgroup label="Заказ подтвержден">
-                                        <?php
-                                        foreach ($openDeals as $deal){
-                                            echo "<option value='".$deal["ID"]."'>".$deal["TITLE"]."</option>\n";
-                                        }
-                                        ?>
-                                    </optgroup>
-
-                                    <optgroup label="Аренда проведена">
-                                        <?php
-                                        foreach ($closedOrders as $deal){
-                                            echo "<option value='".$deal["ID"]."'>".$deal["TITLE"]."</option>\n";
-                                        }
-                                        ?>
-                                    </optgroup-->
-
                                 </select>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-building"></span></span>
                             </div>
@@ -143,7 +127,7 @@ switch ($actionPerformed){
                     data: {
                         'action': 'center.deals.get',
                         'center' : filterValue,
-                        "period" : 2
+                        //"period" : 14
                     },
                     success: function(res){
 
@@ -198,13 +182,21 @@ switch ($actionPerformed){
         $title = $deal["TITLE"];
         $orderId = substr($title, 0, strpos($title, " "));
         $orderId = substr($orderId, 2);
-
+        /*
         $params = [
             "event" => "CloseOrder",
             "orderId" => $orderId,
             "userId" => $userId
         ];
         $closeResponse = queryGoogleScript($params);
+        $closeResponse = $closeResponse["result"];
+        */
+        $params = [
+            "action" => "order.rent.close",
+            "orderId" => $orderId,
+            "userId" => $userId
+        ];
+        $closeResponse = query("POST", "http://b24.next.kz/rest/order.php", $params);
         $closeResponse = $closeResponse["result"];
 
         require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
