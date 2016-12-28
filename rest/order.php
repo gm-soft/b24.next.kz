@@ -1,5 +1,6 @@
 <?php
 require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
+
 require($_SERVER["DOCUMENT_ROOT"] . "/include/help.php");
 require($_SERVER["DOCUMENT_ROOT"] . "/Helpers/BitrixHelperClass.php");
 require($_SERVER["DOCUMENT_ROOT"] . "/Helpers/SmsApiClass.php");
@@ -37,10 +38,17 @@ switch ($action) {
 
         $payment = $_REQUEST["payment"];
         $response["result"] = PaymentAdd($order, $payment, $adminToken);
+        $processed = true;
         break;
 
     case "order.rent.close":
         $response["result"] = CloseOrderRent($order, $adminToken);
+        $processed = true;
+        break;
+
+    case "order.cancel":
+        $response["result"] = CancelOrder($order, $adminToken);
+        $processed = true;
         break;
 }
 
@@ -69,7 +77,6 @@ function PaymentAdd(Array $order, Array $payment, $adminToken) {
 
     //----------------------------------
     $saveResult = OrderHelper::SaveOrder($order);
-
     $updateResult = OrderHelper::updateOrderDeal($order, $adminToken, true);
     $result = [
         "saveResult" => $saveResult,
@@ -79,15 +86,49 @@ function PaymentAdd(Array $order, Array $payment, $adminToken) {
         "status" => $order["Status"],
         "message" => "Оплата в размере ".$payment["paymentValue"]." успешно принята",
     ];
-  return $result;
-
+    $emailRes = SendPaymentEmail($order, $payment);
+    return $result;
 }
 
-function CloseOrderRent(Array $order, $adminToken){
+function CancelOrder(Array $order, $adminToken){
 
-    if ($_REQUEST["status"] == "dealClosed"){
+    $status = $order["Status"];
+    $response = [
+        "saveResult" => false,
+        "remainder" => $order["FinanceInfo"]["Remainder"],
+        "totalCost" => $order["TotalCost"],
+        "payed" => $order["FinanceInfo"]["Payed"],
+        "status" => $order["Status"],
+        "message" => "",
+    ];
 
-        $response = [];
+    if (empty($_REQUEST["comment"])){
+        $response["message"] = "Комментарий к отмене пуст. Нельзя отменить заказ без него";
+        return $response;
+    }
+
+    if ($status != "Заказ подтвержден"){
+        $response["message"] = "заказ не может быть отменен, так как статус заказа не позволяет это сделать";
+        return $response;
+    }
+
+    $order["Status"] = "Аренда отменена";
+    $order["Comment"] .= " --- Отмена заказа ".date("d-m-Y")." ---".
+        "Комментарий к отмене: ".$_REQUEST["comment"];
+    $saveResult = OrderHelper::SaveOrder($order);
+    $updateResult = OrderHelper::updateOrderDeal($order, $adminToken, true);
+    $response["saveResult"] = $saveResult;
+
+    $emailRes = SendAbandonEmail($order);
+    return $response;
+}
+
+function CloseOrderRent(Array $order, $adminToken)
+{
+    $response = [];
+    if ($_REQUEST["status"] == "dealClosed") {
+
+
         $order["Status"] = "Сделка закрыта";
 
         $saveResult = OrderHelper::SaveOrder($order);
@@ -103,12 +144,10 @@ function CloseOrderRent(Array $order, $adminToken){
             "message" => "Сделка принудительно закрыта по указанию администратора",
         ];
 
-
+        $emailRes = SendRentCloseEmail($order, null, true);
         return $response;
 
-    } elseif($order["Status"] == "Аренда проведена") {
-
-        $response = [];
+    } elseif ($order["Status"] == "Аренда проведена") {
 
         if ($order["FinanceInfo"]["Remainder"] <= 0.1 && $order["FinanceInfo"]["Remainder"] >= -0.1) {
 
@@ -126,6 +165,7 @@ function CloseOrderRent(Array $order, $adminToken){
                 "status" => $order["Status"],
                 "message" => "Сделка успешно закрыта",
             ];
+            $emailRes = SendRentCloseEmail($order);
 
         } else {
 
@@ -136,7 +176,7 @@ function CloseOrderRent(Array $order, $adminToken){
                 "barItems" => array(),
                 "payed" => $order["FinanceInfo"]["Payed"],
                 "status" => $order["Status"],
-                "message" => "Сделка не была закрыта из-за наличия остатка. Остаток равен ".$order["FinanceInfo"]["Remainder"],
+                "message" => "Сделка не была закрыта из-за наличия остатка. Остаток равен " . $order["FinanceInfo"]["Remainder"],
             ];
         }
 
@@ -193,6 +233,134 @@ function CloseOrderRent(Array $order, $adminToken){
             "status" => $order["Status"],
             "message" => $barMessage,
         ];
+        $emailRes = SendRentCloseEmail($order, $barItems);
         return $response;
     }
 }
+
+
+    function SendPaymentEmail(Array $order, Array $payment){
+        $content = "<h2>Оплата за заказ ID".$order["Id"]."</h2>";
+        $content .= "<hr>";
+        $content .= "<p>Внесена оплата за заказ ID".$order["Id"].". Информация о заказе и внесенной оплате:</p>";
+        $content .= "<p>";
+        $content .= "<table border=0 cellspacing=0 cellpadding=5> ";
+        $content .= "<tr><td>Сумма оплаты:</td> <td>".$payment["paymentValue"]."</td> </tr>";
+        $content .= "<tr><td>Дата чека:</td> <td>".$payment["receiptDate"]."</td> </tr>";
+        $content .= "<tr><td>Номер чека:</td> <td>".$payment["receiptNumber"]."</td> </tr>";
+        $content .= "<tr><td>Принял оплату:</td> <td>".$_REQUEST["userFullName"]."</td> </tr>";
+        $content .= "</table>";
+        $content .= "</p>";
+
+        $content .= "<p>".
+            "Полная стоимость заказа: <b>".$order["TotalCost"]."</b><br>".
+            "Оплачено за заказ: ".$order["FinanceInfo"]["Payed"]."<br>".
+            "Остаток по оплате: <b>".$order["FinanceInfo"]["Remainder"]."</b><br>".
+            "Статус заказа: <b>".$order["Status"]."</b><br>".
+            "</p>";
+
+        $receiver = "sales@next.kz";
+        $subject = "Внесена оплата ID".$order["Id"];
+        require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/MailSmtpClass.php";
+
+        $result = MailSmtp::SendEmail($receiver, $subject, $content);
+        return $result;
+    }
+
+    function SendAbandonEmail($order){
+        $content = "<h2>Отменен заказ ID".$order["Id"]."</h2>";
+        $content .= "<hr>";
+        $content .= "<p>Отменен заказ ID".$order["Id"]." с комментарием ".$_REQUEST["comment"].":</p>";
+
+        $content .= "<p>";
+        $content .= "<table border=1 bordercolor=#c0c0c0 cellspacing=0 cellpadding=5>";
+        $content .= "<tr><th>Опция</th> <th>Значение</th></tr>";
+        $content .= "<tr><td>Мероприятие</td> <td>".$order["Event"]["Event"]." (".$order["Event"]["Zone"].")</td> </tr>";
+        $content .= "<tr><td>Клиент</td> <td>".$order["ClientName"]."</td> </tr>";
+        $content .= "<tr><td>Номер телефона</td> <td>".$order["Phone"]."</td> </tr>";
+        $content .= "<tr><td>Центр проведения</td> <td>".$order["Center"]."</td> </tr>";
+        $content .= "<tr><td>Дата мероприятия</td> <td>".$order["DateAtom"]."</td> </tr>";
+
+        if (!is_null($order["BanquetInfo"])) {
+            $content .= "<tr><td>Номер заказа фуршета</td> <td>".$order["BanquetInfo"]["BanquetId"]."</td> </tr>";
+        }
+
+        $content .= "<tr> <td>Статус заказа</td> <td>".$order["Status"]."</td> </tr>";
+        $content .= "</table>";
+        $content .= "<hr>";
+
+        $content .= "<table border=0 bordercolor=#c0c0c0 cellspacing=0 cellpadding=5>";
+        $content .= "<tr> <td>Оплачено за заказ</td> <td>".$order["FinanceInfo"]["Payed"]."</td> </tr>";
+        $content .= "<tr> <td>Остаток по оплате</td> <td>".$order["FinanceInfo"]["Remainder"]."</td> </tr>";
+        $content .= "<tr> <td>Итоговая сумма за заказ</td> <td>".$order["TotalCost"]."</td> </tr>";
+        $content .= "</table>";
+        $content .= "</p>";
+
+        $content .= "<p>".
+            "Комментарий к отмене: ".$_REQUEST["comment"]."<br>".
+            "Менеджер: ".$_REQUEST["userFullName"]."<br>".
+            "</p>";
+
+        $receiver = "sales@next.kz";
+        if (!is_null($order["BanquetInfo"])){
+            $receiver .= ", coordinator@next.kz";
+        }
+
+        $subject = "Отмена заказа ID".$order["Id"];
+        require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/MailSmtpClass.php";
+
+        $result = MailSmtp::SendEmail($receiver, $subject, $content);
+        return $result;
+    }
+
+    function SendRentCloseEmail($order, Array $barItems = null, bool $isForced = false){
+        $content = "<h2>Закрыта аренда ID".$order["Id"]."</h2>";
+        $content .= "<hr>";
+        $content .= "<p>Закрыта аренда заказа ID".$order["Id"]." менеджером ".$_REQUEST["userFullName"]."</p>";
+        if ($isForced == true) {
+            $content .= "<h4>Сделка была закрыта принудительно</h4>";
+        }
+
+        $content .= "<p>";
+        $content .= "<table border=1 bordercolor=#c0c0c0 cellspacing=0 cellpadding=5>";
+        $content .= "<tr><th>Опция</th> <th>Значение</th></tr>";
+        $content .= "<tr><td>Мероприятие</td> <td>".$order["Event"]["Event"]." (".$order["Event"]["Zone"].")</td> </tr>";
+        $content .= "<tr><td>Клиент</td> <td>".$order["ClientName"]."</td> </tr>";
+        $content .= "<tr><td>Номер телефона</td> <td>".$order["Phone"]."</td> </tr>";
+        $content .= "<tr><td>Центр проведения</td> <td>".$order["Center"]."</td> </tr>";
+        $content .= "<tr><td>Дата мероприятия</td> <td>".$order["DateAtom"]."</td> </tr>";
+
+        if (!is_null($order["BanquetInfo"])) {
+            $content .= "<tr><td>Номер заказа фуршета</td> <td>".$order["BanquetInfo"]["BanquetId"]."</td> </tr>";
+        }
+        $content .= "<tr> <td>Статус заказа</td> <td>".$order["Status"]."</td> </tr>";
+        $content .= "</table>";
+        $content .= "<hr>";
+
+        $content .= "<table border=0 bordercolor=#c0c0c0 cellspacing=0 cellpadding=5>";
+        $content .= "<tr> <td>Оплачено за заказ</td> <td>".$order["FinanceInfo"]["Payed"]."</td> </tr>";
+        $content .= "<tr> <td>Остаток по оплате</td> <td>".$order["FinanceInfo"]["Remainder"]."</td> </tr>";
+        $content .= "<tr> <td>Итоговая сумма за заказ</td> <td>".$order["TotalCost"]."</td> </tr>";
+        $content .= "</table>";
+        $content .= "</p>";
+
+        if (!is_null($barItems) && count($barItems) > 0){
+            $content .= "<p>Список доп.заказа на общую сумму <b>".$order["BanquetInfo"]["BarItemsCost"]."</b><br>";
+            $content .= "<table border=1 bordercolor=#c0c0c0 cellspacing=0 cellpadding=5>";
+
+            for ($i = 0; $i < count($barItems); $i++){
+
+                $rowText = "<tr><td>".($i+1)."</td><td>".$barItems[$i]["name"]."</td><td>".$barItems[$i]["count"]." ".$barItems[$i]["measure"]."</td><td>".$barItems[$i]["cost"]."</td></tr>";
+                $content .= $rowText;
+            }
+            $content .= "</table>";
+        }
+
+        $receiver = "sales@next.kz";
+
+        $subject = "Закрыта аренда ID".$order["Id"];
+        require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/MailSmtpClass.php";
+
+        $result = MailSmtp::SendEmail($receiver, $subject, $content);
+        return $result;
+    }

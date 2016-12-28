@@ -19,18 +19,6 @@ $_SESSION["user_name"] =  $curr_user["EMAIL"];
 $_SESSION["user_id"] =  $curr_user["ID"];
 $userId = $curr_user["ID"];
 
-$filterFields = [
-    "STAGE_ID"
-];
-$filterValues = [
-    $userId,
-    //"24",
-    "2"
-];
-
-//$openDeals = BitrixHelper::getDeals(array("STAGE_ID"), array("2"), $_REQUEST["adminToken"]);
-//$closedOrders = BitrixHelper::getDeals(array("STAGE_ID"), array("7"), $_REQUEST["adminToken"]);
-
 $actionPerformed = isset($_REQUEST["actionPerformed"]) ? $_REQUEST["actionPerformed"] : "initiated";
 switch ($actionPerformed){
     case "initiated":
@@ -47,6 +35,7 @@ switch ($actionPerformed){
                 <form id="form" class="form-horizontal" method="post" action="closeOrder.php">
 
                     <input type="hidden" name="actionPerformed" value="dealSelected">
+                    <input type="hidden" name="userFullName" value="<?= $curr_user["NAME"]." ".$curr_user["LAST_NAME"] ?>">
                     <?php
                     require_once $_SERVER["DOCUMENT_ROOT"]."/sales/post/centerDealSelect.php";
                     ?>
@@ -126,6 +115,7 @@ switch ($actionPerformed){
             "action" => "order.rent.close",
             "orderId" => $orderId,
             "userId" => $userId,
+            "userFullName" => $_REQUEST["userFullName"],
             "status" => $_REQUEST["statusSelect"]
 
         ];

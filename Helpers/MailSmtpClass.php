@@ -1,6 +1,8 @@
 <?php
+
+require($_SERVER["DOCUMENT_ROOT"]."/include/constants.php");
 /**
-* SendMailSmtpClass
+* MailSmtp
 * 
 * Класс для отправки писем через SMTP с авторизацией
 * Может работать через SSL протокол
@@ -9,7 +11,7 @@
 * @author Ipatov Evgeniy <admin@ipatov-soft.ru>
 * @version 1.0
 */
-class SendMailSmtpClass {
+class MailSmtp {
 
     /**
     * 
@@ -36,7 +38,20 @@ class SendMailSmtpClass {
         $this->smtp_port = $smtp_port;
         $this->smtp_charset = $smtp_charset;
     }
-    
+
+
+    public static function SendEmail($mailTo, $subject, $content, $headers = null){
+        if (is_null($headers)){
+            $headers= "MIME-Version: 1.0\r\n";
+            $headers .= "Content-type: text/html; charset=utf-8\r\n"; // кодировка письма
+            $headers .= "From: Next.kz <noreply@next.kz>\r\n"; // от кого письмо
+            $headers .= "Bcc: m.poyarel@next.kz, y.alimbetova@next.kz, m.gorbatyuk@next.kz\r\n";
+        }
+        $instance = new self(EMAIL_LOGIN, EMAIL_PASSWORD, EMAIL_SMTP, EMAIL_FROM, EMAIL_PORT);
+        $result = $instance->send($mailTo, $subject, $content, $headers);
+        return $result;
+    }
+
     /**
     * Отправка письма
     * 

@@ -19,6 +19,7 @@ $_SESSION["user_name"] =  $curr_user["EMAIL"];
 $_SESSION["user_id"] =  $curr_user["ID"];
 $userId = $curr_user["ID"];
 
+
 $actionPerformed = isset($_REQUEST["actionPerformed"]) ? $_REQUEST["actionPerformed"] : "initiated";
 switch ($actionPerformed){
     case "initiated":
@@ -26,7 +27,7 @@ switch ($actionPerformed){
         require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
         ?>
         <div class="container">
-            <h1>Внесение оплаты</h1>
+            <h1>Отмена заказа</h1>
 
             <div>
                 <form id="form" class="form-horizontal" method="post" action="paymentOrder.php">
@@ -37,22 +38,25 @@ switch ($actionPerformed){
                     require_once $_SERVER["DOCUMENT_ROOT"]."/sales/post/centerDealSelect.php";
                     ?>
 
-                    <?php
-                    require_once $_SERVER["DOCUMENT_ROOT"]."/sales/post/paymentFields.php";
-                    ?>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="comment">Комментарий к отмене заказа</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" name="comment" id="comment" required></textarea>
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <div class="col-sm-9 col-sm-offset-3">
                             <div class="checkbox">
-                                <label><input type="checkbox" id="confirmAction" name="confirmAction" required> Подтвердить внесение оплаты</label>
+                                <label><input type="checkbox" id="confirmAction" name="confirmAction" required> Подтвердить отмену заказа</label>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-sm-offset-3">
-                            <a href="https://b24.next.kz/sales/index.php?authId=<?= $_REQUEST["authId"] ?>" id="back" class="btn btn-default ">Отменить</a>
-                            <button type="submit" id="submit-btn" class="btn btn-primary disabled">Внести оплату</button>
+                            <a href="https://b24.next.kz/sales/index.php?authId=<?= $_REQUEST["authId"] ?>" id="back" class="btn btn-default ">В главное меню</a>
+                            <button type="submit" id="submit-btn" class="btn btn-danger disabled">Отменить заказ</button>
                         </div>
                     </div>
                 </form>
@@ -72,30 +76,17 @@ switch ($actionPerformed){
 
     case "dealSelected":
 
-        if (!isset($_REQUEST["paymentValue"]) || !isset($_REQUEST["receiptDate"]) || !isset($_REQUEST["receiptNumber"])){
-            $url = "https://b24.next.kz/sales/post/paymentOrder.php?".
-                "authId=".$_REQUEST["authId"]."&".
-                "error=Не все поля были введены";
-        }
-
         $deal = BitrixHelper::getDeal($_REQUEST["dealSelect"], $_REQUEST["adminToken"]);
         $title = $deal["TITLE"];
         $orderId = substr($title, 0, strpos($title, " "));
         $orderId = substr($orderId, 2);
 
-        $payment = [
-            "paymentValue" => $_REQUEST["paymentValue"],
-            "receiptDate" => $_REQUEST["receiptDate"],
-            "receiptNumber" => $_REQUEST["receiptNumber"]
-
-        ];
 
         $params = [
-            "action" => "payment.add",
+            "action" => "order.cancel",
             "orderId" => $orderId,
             "userId" => $userId,
-            "userFullName" => $_REQUEST["userFullName"],
-            "payment" => $payment
+            "userFullName" => $_REQUEST["userFullName"]
         ];
         $closeResponse = query("POST", "http://b24.next.kz/rest/order.php", $params);
         $closeResponse = $closeResponse["result"];
@@ -127,8 +118,8 @@ switch ($actionPerformed){
                     <a href="https://b24.next.kz/sales/index.php?authId=<?= $_REQUEST["authId"] ?>" id="back" class="btn btn-default">В главное меню</a>
                     <?php
                     $url = "https://b24.next.kz/sales/post/paymentOrder.php?".
-                            "authId=".$_REQUEST["authId"]."&".
-                            "action=paymentOrder";
+                        "authId=".$_REQUEST["authId"]."&".
+                        "action=paymentOrder";
                     echo "<a href=\"$url\" class=\"btn btn-default\">Внести еще одну оплату</a>";
                     ?>
                 </div>

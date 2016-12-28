@@ -592,21 +592,6 @@ class OrderHelper
         $content .= "<b>Комментарий к заказу:</b> <br>#ORDER_COMMENT</p>";
     }
 
-    public static function GetPaymentEmailContent(array $order, $action = "created"){
-        $content = "<h2>Оплата за заказ ID#ORDER_ID</h2>";
-        $content .= "<hr>";
-        $content .= "<p>Внесена оплата за заказ ID#ORDER_ID. Информация о заказе и внесенной оплате:</p>";
-        $content .= "<p>";
-        $content .= "<table border=0 cellspacing=0 cellpadding=5> ";
-        $content .= "<tr><td>Сумма оплаты:</td> <td>#PAYMENT_VALUE</td> </tr>";
-        $content .= "<tr><td>Дата чека:</td> <td>#RECEIPT_DATE</td> </tr>";
-        $content .= "<tr><td>Номер чека:</td> <td>#RECEIPT_NUMBER</td> </tr>";
-        $content .= "</table>";
-        $content .= "</p>";
-
-#ORDER_INFO_TEMPLATE";
-    }
-
 
     public static function GetOrderInfoEmail(array $order){
         $content = "<p>";
