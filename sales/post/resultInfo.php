@@ -1,14 +1,21 @@
 <dl class="dl-horizontal">
-    <dt>Стоимость заказа</dt><dd><?= $totalCost ?></dd>
+    <dt>Полная стоимость заказа</dt><dd><?= $totalCost ?></dd>
     <dt>Оплачено</dt><dd><?= $payed ?></dd>
     <dt>Остаток по оплате</dt><dd><b><?= $remainder ?></b></dd>
     <dt>Статус заказа</dt><dd><i><?= $closeResponse["status"] ?></i></dd>
-    <dt>Доп.заказов, кол-во</dt><dd><?= $barItemsCount ?></dd>
+    <?php
+    if (isset($barItems)){
+        ?>
+        <dt>Доп.заказов, кол-во</dt><dd><?= $barItemsCount ?></dd>
+        <?php
+    }
+    ?>
+
     <dt>Сделка</dt><dd><a href="https://next.bitrix24.kz/crm/deal/show/<?= $deal["ID"] ?>/"><?= $deal["ID"] ?></a></dd>
     <dt>Сообщение сервера</dt><dd><?= $message ?></a></dd>
 </dl>
 <?php
-if ($barItemsCount > 0){
+if (isset($barItems) && $barItemsCount > 0){
     ?>
     <table class="table table-striped">
         <tr>

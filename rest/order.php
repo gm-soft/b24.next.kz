@@ -37,7 +37,6 @@ switch ($action) {
 
         $payment = $_REQUEST["payment"];
         $response["result"] = PaymentAdd($order, $payment, $adminToken);
-        $response["message"] = $response["result"]["saveResult"] == true ? "Оплата успешно принята" : "Возникла какая-то ошибка при сохранении заказа";
         break;
 
     case "order.rent.close":
@@ -77,7 +76,8 @@ function PaymentAdd(Array $order, Array $payment, $adminToken) {
         "remainder" => $order["FinanceInfo"]["Remainder"],
         "totalCost" => $order["TotalCost"],
         "payed" => $order["FinanceInfo"]["Payed"],
-        "status" => $order["Status"]
+        "status" => $order["Status"],
+        "message" => "Оплата в размере ".$payment["paymentValue"]." успешно принята",
     ];
   return $result;
 

@@ -92,19 +92,19 @@ switch ($actionPerformed){
         $title = $deal["TITLE"];
         $orderId = substr($title, 0, strpos($title, " "));
         $orderId = substr($orderId, 2);
-        /*
-        $params = [
-            "event" => "CloseOrder",
-            "orderId" => $orderId,
-            "userId" => $userId
+
+        $payment = [
+            "paymentValue" => $_REQUEST["paymentValue"],
+            "receiptDate" => $_REQUEST["receiptDate"],
+            "receiptNumber" => $_REQUEST["receiptNumber"]
+
         ];
-        $closeResponse = queryGoogleScript($params);
-        $closeResponse = $closeResponse["result"];
-        */
+
         $params = [
-            "action" => "order.rent.close",
+            "action" => "payment.add",
             "orderId" => $orderId,
-            "userId" => $userId
+            "userId" => $userId,
+            "payment" => $payment
         ];
         $closeResponse = query("POST", "http://b24.next.kz/rest/order.php", $params);
         $closeResponse = $closeResponse["result"];
@@ -112,11 +112,12 @@ switch ($actionPerformed){
         require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
         if ($closeResponse["saveResult"] == true){
             $remainder = $closeResponse["remainder"];
-            $barItems = $closeResponse["barItems"];
+            if (isset($closeResponse["barItems"])){
+                $barItems = $closeResponse["barItems"];
+                $barItemsCount = count($barItems);
+            }
             $payed = $closeResponse["payed"];
             $totalCost = $closeResponse["totalCost"];
-
-            $barItemsCount = count($barItems);
             $message = $closeResponse["message"];
 
             ?>
@@ -134,10 +135,10 @@ switch ($actionPerformed){
                     <a href="#" id="print" class="btn btn-default">Печать</a>
                     <a href="https://b24.next.kz/sales/index.php?authId=<?= $_REQUEST["authId"] ?>" id="back" class="btn btn-default">В главное меню</a>
                     <?php
-                    $url = "https://b24.next.kz/sales/post/closeOrder.php?".
+                    $url = "https://b24.next.kz/sales/post/paymentOrder.php?".
                             "authId=".$_REQUEST["authId"]."&".
-                            "action=closeOrder";
-                    //echo "<a href=\"$url\" class=\"btn btn-default\">Закрыть еще одну аренду</a>";
+                            "action=paymentOrder";
+                    echo "<a href=\"$url\" class=\"btn btn-default\">Внести еще одну оплату</a>";
                     ?>
                 </div>
 

@@ -4,16 +4,15 @@
     var dealSelect = $('#dealSelect');
     var smtButton = $("#submit-btn");
     //---------------------------
-    var paymentValueInput = $("#paymentValue").prop('disabled', false);
-    var receiptDateInput = $("#receiptDate").prop('disabled', false);
-    var receiptNumberInput = $("#receiptNumber").prop('disabled', false);
 
 
     $("#confirmAction").change(function() {
         if(this.checked) {
             smtButton.removeClass('disabled');
+            smtButton.prop("disabled", false);
         } else {
             smtButton.addClass('disabled');
+            smtButton.prop("disabled", true);
         }
     });
 
@@ -38,10 +37,6 @@
 
         filterSelect.prop("disabled", "disabled");
         dealSelect.prop("disabled", "disabled");
-
-        paymentValueInput.prop("disabled", true);
-        receiptDateInput.prop("disabled", true);
-        receiptNumberInput.prop("disabled", true);
 
         $.ajax({
             type: 'POST',
@@ -90,9 +85,6 @@
                 filterSelect.prop("disabled", false);
                 dealSelect.prop("disabled", false);
 
-                paymentValueInput.prop("disabled", false);
-                receiptDateInput.prop("disabled", false);
-                receiptNumberInput.prop("disabled", false);
             }
         });
     });
