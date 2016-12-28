@@ -14,7 +14,7 @@
 		"action" => $action
 	);
 	$ip = $_SERVER['REMOTE_ADDR'];
-    $browser = $_SERVER['HTTP_USER_AGENT'];
+    $browser = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "unknown";
 	log_event("control.php: IP: ".$ip.". Browser: ".$browser.". \$_REQUEST[\"action\"]=".$action);
 
 	switch ($action) {

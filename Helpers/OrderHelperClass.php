@@ -19,6 +19,24 @@ class OrderHelper
     }
 
     public static function SaveOrder($order){
+
+        if (!isset($order["Date"])){
+            $ts = strtotime($order["DateOfEvent"]);
+            $datetime = new DateTime();
+            $datetime->setTimestamp($ts + 6 * 3600);
+            $order["Date"] = str_replace(" ", "T", formatDate($datetime, "Y-m-d H:i:s+06:00"));
+            $order["DateAtom"] = str_replace(" ", "T", formatDate($datetime, "Y-m-d H:i:s+06:00"));
+        }
+
+        if (!isset($order["DateAtom"])){
+            $ts = strtotime($order["DateOfEvent"]);
+            $datetime = new DateTime();
+            $datetime->setTimestamp($ts + 6 * 3600);
+            $order["DateAtom"] = str_replace(" ", "T", formatDate($datetime, "Y-m-d H:i:s+06:00"));
+        }
+
+
+
         $saveResult = queryGoogleScript([
             "event" => "OnOrderSaveRequested",
             "orderJson" => json_encode($order),
@@ -638,7 +656,9 @@ class OrderHelper
                 $payload["fields[TYPE_ID]"] = "5";
                 break;
         }
-        $payload["fields[ASSIGNED_BY_ID]"] = $order["UserId"];
+        if (isset($order["UserId"])) {
+            $payload["fields[ASSIGNED_BY_ID]"] = $order["UserId"];
+        }
         $payload["fields[TITLE]"] = "ID".$order["Id"]." ".$order["Event"]["Event"]." (".$order["Event"]["Zone"].")";
         switch($order["Status"]) {
             //
@@ -658,8 +678,9 @@ class OrderHelper
         $payload["fields[OPPORTUNITY]"] = $order["TotalCost"]; // UF_CRM_1474887988
         $payload["fields[UF_CRM_1474887988]"] = $order["TotalCost"];
 
-        $payload["fields[UF_CRM_1467690712]"] = $order["Date"]; // string-UF_CRM_1474793606 datetime-UF_CRM_1467690712
-        $payload["fields[UF_CRM_1474793606]"] = $order["DateAtom"];
+
+        $payload["fields[UF_CRM_1467690712]"] = isset($order["Date"]) ? $order["Date"] : $order["DateOfEvent"]; // string-UF_CRM_1474793606 datetime-UF_CRM_1467690712
+        $payload["fields[UF_CRM_1474793606]"] = isset($order["DateAtom"]) ? $order["DateAtom"] : $order["DateOfEvent"];
         $payload["fields[UF_CRM_1467878967]"] = $order["Event"]["GuestCount"];
 
         $centerB24 = "128"; // NEXT Aport по дефолту UF_CRM_1468830187

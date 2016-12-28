@@ -666,6 +666,7 @@ class BitrixHelper
             $iterationCount = ((int) $data["total"] / 50);
             for ($iter = 0; $iter < $iterationCount; $iter++){
 
+                if (!isset($data["next"])) continue;
                 $params["start"] = $data["next"];
                 $data = BitrixHelper::callMethod("crm.deal.list", $params );
                 $dealArray = array_merge($dealArray, $data["result"]);

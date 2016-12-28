@@ -41,7 +41,10 @@
                             <br>
                             <a class="btn btn-default" href="/sales/contact.php?action=preorder&authId=<?= $authId?>" role="button">Предзаказник аренды</a>
                             <br>
+                            <br>
                             <a class="btn btn-default" href="/sales/post/closeOrder.php?action=closeOrder&authId=<?= $authId?>" role="button">Закрыть аренду</a> <br>
+                            <br>
+                            <a class="btn btn-default" href="/sales/post/paymentOrder.php?action=closeOrder&authId=<?= $authId?>" role="button">Внести оплату</a>
 
                         </div>
                     </div>

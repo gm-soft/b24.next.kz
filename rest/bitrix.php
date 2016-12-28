@@ -417,7 +417,7 @@
             ];
 
             $openOrders = BitrixHelper::getDeals($filterFields, $filterValues, $access_data["access_token"]);
-            $closedOrders = BitrixHelper::getDeals(array("UF_CRM_1468830187", "STAGE_ID"), array($_REQUEST["center"], "7"), $_REQUEST["adminToken"]);
+            $closedOrders = BitrixHelper::getDeals(array("UF_CRM_1468830187", "STAGE_ID"), array($_REQUEST["center"], "7"), $access_data["access_token"]);
 
             if (isset($_REQUEST["period"])){
 
@@ -426,7 +426,7 @@
                 $closedOrders = filterByPeriod($closedOrders, $period);
             }
 
-            $response["total"] = count($openDeals);
+            $response["total"] = count($openOrders);
             $response["result"] = $openOrders;
             $response["openOrders"] = $openOrders;
             $response["closedOrders"] = $closedOrders;
