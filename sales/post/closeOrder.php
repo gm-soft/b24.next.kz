@@ -122,60 +122,47 @@ switch ($actionPerformed){
         $closeResponse = query("POST", "http://b24.next.kz/rest/order.php", $params);
         $closeResponse = $closeResponse["result"];
 
-        require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
-        if ($closeResponse["saveResult"] == true){
-            $remainder = $closeResponse["remainder"];
-            $barItems = $closeResponse["barItems"];
-            $payed = $closeResponse["payed"];
-            $totalCost = $closeResponse["totalCost"];
-
-            $barItemsCount = count($barItems);
-            $message = $closeResponse["message"];
-
-            ?>
-            <div class="container">
-                <h1>Результат подсчета доп.заказа</h1>
-                <div id="toPrint">
-                    <h3>Заказ ID<?= $orderId?></h3>
-
-                    <?php
-                    require_once $_SERVER["DOCUMENT_ROOT"]."/sales/post/resultInfo.php";
-                    ?>
-
-
-                </div>
-
-                <div class="text-center">
-                    <a href="#" id="print" class="btn btn-default">Печать</a>
-                    <a href="https://b24.next.kz/sales/index.php?authId=<?= $_REQUEST["authId"] ?>" id="back" class="btn btn-default">В главное меню</a>
-                    <?php
-                    $url = "https://b24.next.kz/sales/post/closeOrder.php?".
-                            "authId=".$_REQUEST["authId"]."&".
-                            "action=closeOrder";
-                    echo "<a href=\"$url\" class=\"btn btn-default\">Закрыть еще одну аренду</a>";
-                    ?>
-                </div>
-
-            </div>
 
 
 
+        $remainder = $closeResponse["remainder"];
+        $barItems = $closeResponse["barItems"];
+        $payed = $closeResponse["payed"];
+        $totalCost = $closeResponse["totalCost"];
 
-            <?php
-        } else {
-            ?>
-            <div class="container">
-                <h1>Результат подсчета доп.заказа</h1>
-                <div>
-                    Заказ не был закрыт по неизвестно ошибке<br>
-                    <pre>
-                        <?= var_export($closeResponse, true) ?>
-                    </pre>
-                </div>
-            </div>
+        $barItemsCount = count($barItems);
+        $message = $closeResponse["message"];
 
-            <?php
+        if($closeResponse["result"] == false){
+            $_GET["error"] = $message;
         }
+        require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
+        ?>
+        <div class="container">
+            <h1>Результат подсчета доп.заказа</h1>
+            <div id="toPrint">
+                <h3>Заказ ID<?= $orderId?></h3>
+
+                <?php
+                require_once $_SERVER["DOCUMENT_ROOT"]."/sales/post/resultInfo.php";
+                ?>
+
+
+            </div>
+
+            <div class="text-center">
+                <a href="#" id="print" class="btn btn-default">Печать</a>
+                <a href="https://b24.next.kz/sales/index.php?authId=<?= $_REQUEST["authId"] ?>" id="back" class="btn btn-default">В главное меню</a>
+                <?php
+                $url = "https://b24.next.kz/sales/post/closeOrder.php?".
+                    "authId=".$_REQUEST["authId"]."&".
+                    "action=closeOrder";
+                echo "<a href=\"$url\" class=\"btn btn-default\">Закрыть еще одну аренду</a>";
+                ?>
+            </div>
+
+        </div>
+        <?php
 
         break;
 }
