@@ -44,16 +44,14 @@ switch ($actionPerformed){
                     if ($userId == "30"){
                         ?>
                         <div class="form-group">
-                            <label class="control-label col-sm-3" for="statusSelect">Закрыть со статусом</label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    <select class="form-control" id="statusSelect" name="statusSelect">
-                                        <option value="rentClosed">Аренда проведена</option>
-                                        <option value="dealClosed">Сделка закрыта</option>
+                            <div class="input-group">
+                                <span class="input-group-addon">Закрыть со статусом</span>
+                                <select class="form-control" id="statusSelect" name="statusSelect">
+                                    <option value="rentClosed">Аренда проведена</option>
+                                    <option value="dealClosed">Сделка закрыта</option>
 
-                                    </select>
-                                    <span class="input-group-addon"></span>
-                                </div>
+                                </select>
+                                
                             </div>
                         </div>
                         <?php

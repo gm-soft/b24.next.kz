@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2a14c8c7-54cc-42a9-b610-ff2b9e82312a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sales/post/cancelOrder.php" afterPath="$PROJECT_DIR$/sales/post/cancelOrder.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/css/custom.css" afterPath="$PROJECT_DIR$/assets/css/custom.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rest/order.php" afterPath="$PROJECT_DIR$/rest/order.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sales/post/centerDealSelect.php" afterPath="$PROJECT_DIR$/sales/post/centerDealSelect.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sales/post/closeOrder.php" afterPath="$PROJECT_DIR$/sales/post/closeOrder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sales/post/paymentOrder.php" afterPath="$PROJECT_DIR$/sales/post/paymentOrder.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sales/post/paymentFields.php" afterPath="$PROJECT_DIR$/sales/post/paymentFields.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sales/post/postScript.php" afterPath="$PROJECT_DIR$/sales/post/postScript.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sales/shared/footer.php" afterPath="$PROJECT_DIR$/sales/shared/footer.php" />
     </list>
     <ignored path="BitrixStasApp.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,20 +40,8 @@
       <file leaf-file-name="closeOrder.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sales/post/closeOrder.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="382">
-              <caret line="135" column="8" lean-forward="true" selection-start-line="135" selection-start-column="8" selection-end-line="138" selection-end-column="77" />
-              <folding>
-                <marker date="1482911546267" expanded="true" signature="1284:1310" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="order.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rest/order.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3723">
-              <caret line="36" column="23" lean-forward="true" selection-start-line="36" selection-start-column="23" selection-end-line="36" selection-end-column="23" />
+            <state relative-caret-position="1547">
+              <caret line="91" column="8" lean-forward="false" selection-start-line="91" selection-start-column="8" selection-end-line="91" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -58,18 +50,28 @@
       <file leaf-file-name="paymentOrder.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sales/post/paymentOrder.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="101" column="0" lean-forward="true" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
+            <state relative-caret-position="748">
+              <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cancelOrder.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="cancelOrder.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sales/post/cancelOrder.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="42">
-              <caret line="92" column="0" lean-forward="true" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+              <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="order.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/rest/order.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="93">
+              <caret line="329" column="23" lean-forward="false" selection-start-line="329" selection-start-column="23" selection-end-line="329" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -78,8 +80,8 @@
       <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sales/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="50" column="158" lean-forward="false" selection-start-line="50" selection-start-column="158" selection-end-line="50" selection-end-column="158" />
+            <state relative-caret-position="850">
+              <caret line="57" column="0" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -166,10 +168,10 @@
         <option value="$PROJECT_DIR$/Helpers/SendMailSmtpClass.php" />
         <option value="$PROJECT_DIR$/sales/calculation.php" />
         <option value="$PROJECT_DIR$/Helpers/MailSmtpClass.php" />
-        <option value="$PROJECT_DIR$/rest/order.php" />
         <option value="$PROJECT_DIR$/sales/post/closeOrder.php" />
         <option value="$PROJECT_DIR$/sales/post/paymentOrder.php" />
         <option value="$PROJECT_DIR$/sales/post/cancelOrder.php" />
+        <option value="$PROJECT_DIR$/rest/order.php" />
       </list>
     </option>
   </component>
@@ -213,6 +215,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -379,7 +382,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -435,7 +437,7 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
-      <command value="run" />
+      <command value="run-script" />
       <scripts />
       <node-interpreter value="project" />
       <envs />
@@ -507,6 +509,7 @@
       <workItem from="1482803986026" duration="11854000" />
       <workItem from="1482890948075" duration="14370000" />
       <workItem from="1482907042194" duration="4478000" />
+      <workItem from="1482935079690" duration="793000" />
     </task>
     <task id="LOCAL-00001" summary="First commit applied from job">
       <created>1480904288285</created>
@@ -519,7 +522,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="236772000" />
+    <option name="totallyTimeSpent" value="237565000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -632,7 +635,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="39" lean-forward="false" selection-start-line="8" selection-start-column="39" selection-end-line="8" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -648,7 +650,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-587">
           <caret line="9" column="8" lean-forward="true" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -674,7 +675,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="21" column="21" lean-forward="false" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -730,7 +730,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="1018" column="9" lean-forward="false" selection-start-line="1018" selection-start-column="9" selection-end-line="1018" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -768,7 +767,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
           <caret line="88" column="18" lean-forward="false" selection-start-line="88" selection-start-column="18" selection-end-line="88" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -861,8 +859,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sales/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="50" column="158" lean-forward="false" selection-start-line="50" selection-start-column="158" selection-end-line="50" selection-end-column="158" />
+        <state relative-caret-position="850">
+          <caret line="57" column="0" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -879,7 +877,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="493">
           <caret line="29" column="73" lean-forward="false" selection-start-line="29" selection-start-column="55" selection-end-line="29" selection-end-column="73" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -903,7 +900,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
           <caret line="18" column="30" lean-forward="true" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -918,28 +914,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rest/order.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3723">
-          <caret line="36" column="23" lean-forward="true" selection-start-line="36" selection-start-column="23" selection-end-line="36" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sales/post/closeOrder.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="135" column="8" lean-forward="true" selection-start-line="135" selection-start-column="8" selection-end-line="138" selection-end-column="77" />
-          <folding>
-            <marker date="1482911546267" expanded="true" signature="1284:1310" ph="..." />
-          </folding>
+        <state relative-caret-position="1547">
+          <caret line="91" column="8" lean-forward="false" selection-start-line="91" selection-start-column="8" selection-end-line="91" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sales/post/paymentOrder.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="101" column="0" lean-forward="true" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
+        <state relative-caret-position="748">
+          <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -947,7 +933,15 @@
     <entry file="file://$PROJECT_DIR$/sales/post/cancelOrder.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="42">
-          <caret line="92" column="0" lean-forward="true" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+          <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rest/order.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="93">
+          <caret line="329" column="23" lean-forward="false" selection-start-line="329" selection-start-column="23" selection-end-line="329" selection-end-column="23" />
           <folding />
         </state>
       </provider>

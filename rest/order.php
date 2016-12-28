@@ -261,9 +261,16 @@ function CloseOrderRent(Array $order, $adminToken)
 
         $receiver = "sales@next.kz";
         $subject = "Внесена оплата ID".$order["Id"];
-        require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/MailSmtpClass.php";
+        //require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/MailSmtpClass.php";
 
-        $result = MailSmtp::SendEmail($receiver, $subject, $content);
+        //$result = MailSmtp::SendEmail($receiver, $subject, $content);
+        $result = queryGoogleScript([
+            "event" => "EmailSendRequested",
+            "subject" => $subject,
+            "receiver" => $receiver ,
+            "content" => $content,
+            "withBcc" => true,
+        ]);
         return $result;
     }
 
@@ -307,9 +314,16 @@ function CloseOrderRent(Array $order, $adminToken)
         }
 
         $subject = "Отмена заказа ID".$order["Id"];
-        require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/MailSmtpClass.php";
+        //require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/MailSmtpClass.php";
 
-        $result = MailSmtp::SendEmail($receiver, $subject, $content);
+        //$result = MailSmtp::SendEmail($receiver, $subject, $content);
+        $result = queryGoogleScript([
+            "event" => "EmailSendRequested",
+            "subject" => $subject,
+            "receiver" => $receiver ,
+            "content" => $content,
+            "withBcc" => true,
+        ]);
         return $result;
     }
 
@@ -358,9 +372,18 @@ function CloseOrderRent(Array $order, $adminToken)
 
         $receiver = "sales@next.kz";
 
-        $subject = "Закрыта аренда ID".$order["Id"];
-        require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/MailSmtpClass.php";
 
-        $result = MailSmtp::SendEmail($receiver, $subject, $content);
+        $subject = "Закрыта аренда ID".$order["Id"];
+
+        $result = queryGoogleScript([
+            "event" => "EmailSendRequested",
+            "subject" => $subject,
+            "receiver" => $receiver ,
+            "content" => $content,
+            "withBcc" => true,
+        ]);
+        //require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/MailSmtpClass.php";
+
+        //$result = MailSmtp::SendEmail($receiver, $subject, $content);
         return $result;
     }

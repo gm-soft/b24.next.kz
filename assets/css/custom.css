@@ -10,12 +10,11 @@
 }
 
 .blue-bg {
-    background: #11184F !important;
-    color: #A6AAC7;
+    background: #535C69 !important;
 }
 
 .blue-bg li > a {
-    color: #B3A2C5;
+    
 }
 
 .content {
@@ -32,7 +31,6 @@
 }
 
 .panel-heading.panel-custom {
-    background-color: #11184F !important;
+    background-color: #535C69 !important;
     font-size: 13pt;
-    color: #B3A2C5;
 }

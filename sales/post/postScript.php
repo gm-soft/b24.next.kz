@@ -108,7 +108,7 @@
                     html += "<dl class=\"dl-horizontal\">";
                     html += "<dt>Статус заказа</dt><dd><i>"+order["Status"]+"</i><dd>";
                     html += "<dt>Дата</dt><dd><i>"+order["DateOfEvent"]+"</i><dd>";
-                    html += "<dt>Номер сделки</dt><dd><a href='https://next.bitrix24.kz/crm/deal/show/"+order["DealId"]+"/'>"+order["DealId"]+"</a><dd>";
+                    html += "<dt>Сделка в битрикс24</dt><dd><a href='https://next.bitrix24.kz/crm/deal/show/"+order["DealId"]+"/'>Сделка №"+order["DealId"]+"</a><dd>";
                     html += "<dt>Полная стоимость:</dt><dd>"+order["TotalCost"]+"</dd>";
                     html += "<dt>Оплачено: </dt><dd>"+order["FinanceInfo"]["Payed"]+"</dd>";
                     html += "<dt>Остаток по оплате: </dt><dd>"+order["FinanceInfo"]["Remainder"]+"</dd>";
