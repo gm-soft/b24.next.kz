@@ -733,7 +733,14 @@ class BitrixHelper
     }
 
 
-
+    /**
+     * Формирует объект типа DateTime из стринговых даты и времени (14:00). Может вывести дату в определенным формате
+     *
+     * @param $date - Дата строкой
+     * @param null $time - Время строкой (14:00)
+     * @param null $format - Формат
+     * @return DateTime|false|null|string
+     */
     public static function constructDatetime($date, $time = null, $format = null){
         try {
             $parsed_date = new DateTime($date);
@@ -850,6 +857,14 @@ class BitrixHelper
         return $result;
     }
 
+    /**
+     * Возвращает массив пользователей Б24. МОжно указать поля и значения фильтрации
+     *
+     * @param array $filterFields
+     * @param array $filterValues
+     * @param null $auth
+     * @return array|mixed
+     */
     public static function getUsers(Array $filterFields = array(), Array $filterValues =  array(), $auth = null){
         $auth = is_null($auth) ? get_access_data(true) : $auth;
 
@@ -879,5 +894,32 @@ class BitrixHelper
             }
         }
         return $dealArray;
+    }
+
+    /**
+     * Создает компанию по исходным данным. Возвращает ID созданной компании
+     *
+     * @param $title - Заголовок (название)
+     * @param null $phone - телефон (не обязательно)
+     * @param null $userId - ответственный (не обязательно)
+     * @param null $auth - токен авторизации (не обязательно)
+     * @return mixed - ID компании либо ошибку создания
+     */
+    public static function createNewCompany($title, $phone = null, $userId = null, $auth = null){
+        $auth = is_null($auth) ? get_access_data(true) : $auth;
+        $params = array(
+            "fields[TITLE]" => $title,
+            "fields[COMPANY_TYPE]"=> "CUSTOMER",
+            "fields[OPENED]" => "Y",
+
+            "fields[PHONE]" => $phone,
+            "auth" => $auth
+        );
+        if (!is_null($userId)){
+            $params["fields[ASSIGNED_BY_ID]"] = $userId;
+        }
+        $createResult = BitrixHelper::callMethod("crm.company.add", $params);
+        $companyId = $createResult["result"];
+        return $companyId;
     }
 }

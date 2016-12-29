@@ -27,17 +27,7 @@
     $ip = $_SERVER['REMOTE_ADDR'];
     $browser = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "unknown";
     $req = json_encode($_REQUEST);
-    log_event("bitrix.php: \$_REQUEST[\"action\"]=".$action.". Client: ".$ip.", (".$req.")");
-
-    /*if (!isset($_REQUEST["deal_id"])) {
-        $response["error"] = "BAD REQUEST";
-        $response["error_description"] = "No deal_id received";
-        echo json_encode($response);
-        die();
-    }*/
-    /*$deal_id = $_REQUEST["deal_id"];
-    $deal = BitrixHelper::getDeal($deal_id, $access_data["access_token"] );
-    $type = isset($_REQUEST["type"]) ? $_REQUEST["type"] : null;*/
+    log_event("bitrix.php: action=".$action.". Client: ".$ip.", (".$req.")");
 
 
 	switch ($action) {
@@ -431,6 +421,31 @@
             $response["openOrders"] = $openOrders;
             $response["closedOrders"] = $closedOrders;
 
+            break;
+
+        case "companies.get":
+            $byUser = isset($_REQUEST["byUser"]) ? $_REQUEST["byUser"] : null;
+            $companies = BitrixHelper::getCompanies($byUser, $access_data["access_token"]);
+
+            $response["total"] = count($companies);
+            $response["result"] = $companies;
+            break;
+
+        case "contacts.get":
+            $byCompany = isset($_REQUEST["byCompany"]) ? $_REQUEST["byCompany"] : null;
+            $byPhone = isset($_REQUEST["byPhone"]) ? $_REQUEST["byPhone"] : null;
+
+
+            if (!is_null($byPhone)) {
+                $contacts = BitrixHelper::searchContact($byPhone, $access_data["access_token"]);
+            } elseif(!is_null($byCompany)){
+                $contacts = BitrixHelper::getContactsOfTheCompany($byCompany, $access_data["access_token"]);
+            } else {
+                $contacts = null;
+            }
+
+            $response["total"] = count($contacts);
+            $response["result"] = $contacts;
             break;
     }
 

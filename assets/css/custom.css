@@ -10,7 +10,7 @@
 }
 
 .blue-bg {
-    background: #535C69 !important;
+    background: #535C69 /*#535C69*/ !important;
 }
 
 .blue-bg li > a {

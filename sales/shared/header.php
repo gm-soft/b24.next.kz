@@ -45,11 +45,55 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/sales/index.php?authId=<?= isset($_REQUEST["AUTH_ID"]) ? $_REQUEST["AUTH_ID"] : $_REQUEST["authId"]?>" >Система продаж</a>
+                <?php
+                $authId = isset($_REQUEST["AUTH_ID"]) ? $_REQUEST["AUTH_ID"] : $_REQUEST["authId"];
+
+                ?>
+                <a class="navbar-brand" href="/sales/index.php?authId=<?=$authId ?>" >Система продаж</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#" id="updatePageButton">Обновить страницу</a></li>
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Продажи
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/sales/contact.php?action=booth&authId=<?= $authId?>">Продажа буса</a></li>
+                            <li><a href="/sales/contact.php?action=preorder&authId=<?= $authId?>">Создание предзаказника</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Пост-операции
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/sales/post/paymentOrder.php?action=paymentOrder&authId=<?=$authId ?>">Внести оплату</a></li>
+                            <li><a href="/sales/post/closeOrder.php?action=closeOrder&authId=<?=$authId ?>">Закрыть аренду/сделку</a></li>
+                            <li><a href="/sales/post/cancelOrder.php?action=cancelOrder&authId=<?=$authId ?>">Отменить заказ</a></li>
+                        </ul>
+                    </li>
+
+                    <?php
+                    $userId = $_SESSION["user_id"];
+                    if ($userId == "30" ||
+                        $userId == "1" ||
+                        $userId == "10" ||
+                        $userId == "98"){
+                        ?>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Корпоративные продажи
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/sales/company.php?action=school&authId=<?= $authId?>">Продажа для школ</a></li>
+                                <li><a href="/sales/findOrder.php?action=school&authId=<?= $authId?>">Продажа для школ (изменение)</a></li>
+                                <li><a href="/sales/company.php?action=corporate&authId=<?= $authId?>">Корпоративная продажа</a></li>
+                            </ul>
+                        </li>
+                        <?php
+                    }
+
+                    ?>
+
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <?php

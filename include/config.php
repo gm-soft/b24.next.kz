@@ -68,7 +68,8 @@
             return json_decode($result, 1);
 
         } catch (Exception $ex){
-            process_error($ex->getMessage(). "\nFile: ".$ex->getFile()."\nLine: ".$ex->getLine());
+            $text = $ex->getMessage(). "\nFile: ".$ex->getFile()."\nLine: ".$ex->getLine();
+            process_error($text);
         }
         return null;
 

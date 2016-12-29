@@ -17,6 +17,7 @@
         $curr_user = BitrixHelper::getCurrentUser($authId);
         $_SESSION["user_name"] =  $curr_user["EMAIL"];
         $_SESSION["user_id"] =  $curr_user["ID"];
+        $userId = $_SESSION["user_id"];
     }
 
 
@@ -61,10 +62,10 @@
                         <div class="panel-body">
                             <?php
                             $displayCondition =
-                                $_SESSION["user_id"] == "30" ||
-                                $_SESSION["user_id"] == "1" ||
-                                $_SESSION["user_id"] == "10" ||
-                                $_SESSION["user_id"] == "98";
+                                $userId == "30" ||
+                                $userId == "1" ||
+                                $userId == "10" ||
+                                $userId == "98";
 
 
 
@@ -78,6 +79,8 @@
                             <br>
                             <br>
                             <a class="btn btn-default disabled" href="/sales/company.php?action=corporate&authId=<?= $authId?>" role="button" >Корпоративная продажа</a>
+                            <br><br>
+                            <a class="btn btn-default" href="/sales/search/company.php?action=corporate&authId=<?= $authId?>" role="button" >Выбор компании</a>
                         </div>
                     </div>
                 </div>
