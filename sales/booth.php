@@ -25,9 +25,12 @@
 	$actionPerformed = $_REQUEST["actionPerformed"];
 
 	switch ($actionPerformed){
-
+        case "contactDefined":
         case "contact_defined":
-	        $contact = BitrixHelper::getContact($_REQUEST["contact_id"]);
+
+            $contactId = isset($_REQUEST["contact_id"]) ? $_REQUEST["contact_id"] : $_REQUEST["contactId"];
+
+	        $contact = BitrixHelper::getContact($contactId);
             require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
 
             ?>
@@ -48,7 +51,7 @@
                     <input type="hidden" name="contact_name" value="">
                     <input type="hidden" name="last_name" value="">
                     <input type="hidden" name="contact_phone" value="">
-                    <input type="hidden" name="contact_id" value="<?= $_REQUEST["contact_id"] ?>">
+                    <input type="hidden" name="contact_id" value="<?= $contactId ?>">
 
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="booth">Бус:</label>

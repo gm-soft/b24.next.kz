@@ -140,67 +140,62 @@
             require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
             ?>
             <div class="container">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <h2><?= $form_title ?></h2>
-                        <p>Создайте новый контакт в системе CRM</p>
-                        <form id="form" class="form-horizontal" method="post" action="">
-                            <input type="hidden" name="action" value="<?= $action ?>">
-                            <input type="hidden" name="authId" value="<?= $authId ?>">
-                            <input type="hidden" name="actionPerformed" value="contact_created">
-                            <input type="hidden" name="adminToken" value="<?= $adminAuthToken ?>">
+                <h2><?= $form_title ?></h2>
+                <p>Создайте новый контакт в системе CRM</p>
+                <form id="form" class="form-horizontal" method="post" action="">
+                    <input type="hidden" name="action" value="<?= $action ?>">
+                    <input type="hidden" name="authId" value="<?= $authId ?>">
+                    <input type="hidden" name="actionPerformed" value="contact_created">
+                    <input type="hidden" name="adminToken" value="<?= $adminAuthToken ?>">
 
-                            <h3>Создание нового контакта</h3>
-                            <p>Контакт не был найден по номеру телефона. Будет создан новый контакт</p>
-                            <input type="hidden" name="contact_id" value="">
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="contact_name">Имя:</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="contact_name" name="contact_name" required
-                                           value="<?= $_REQUEST["contact_name"] ?>">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="last_name">Фамилия:</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="last_name" name="last_name" required
-                                           value="<?= $_REQUEST["last_name"] ?>">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="contact_phone">Телефон:</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="contact_phone" name="contact_phone" required value="<?= $phone ?>">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="parent">Родитель (представитель ребенка):</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="parent" name="parent">
-                                </div>
-                            </div>
-
-                            <div class="form-group has-feedback">
-                                <label class="control-label col-sm-2" for="birthday">Дата рождения:</label>
-                                <div class="col-sm-10">
-                                    <input type="date" class="form-control" id="birthday" name="birthday" required placeholder="Выберите дату">
-                                    <span class="glyphicon glyphicons-calendar form-control-feedback"></span>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <a href="https://b24.next.kz/sales/index.php?authId=<?= $authId ?>" type="button" class="btn btn-link"><< В главное меню</a>
-                                    <button type="submit" id="submit-btn" class="btn btn-primary">Далее</button>
-                                </div>
-                            </div>
-                        </form>
-
+                    <h3>Создание нового контакта</h3>
+                    <p>Контакт не был найден по номеру телефона. Будет создан новый контакт</p>
+                    <input type="hidden" name="contact_id" value="">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="contact_name">Имя:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="contact_name" name="contact_name" required
+                                   value="<?= $_REQUEST["contact_name"] ?>">
+                        </div>
                     </div>
-                </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="last_name">Фамилия:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="last_name" name="last_name" required
+                                   value="<?= $_REQUEST["last_name"] ?>">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="contact_phone">Телефон:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="contact_phone" name="contact_phone" required value="<?= $phone ?>">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="parent">Родитель (представитель ребенка):</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="parent" name="parent">
+                        </div>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label class="control-label col-sm-2" for="birthday">Дата рождения:</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="birthday" name="birthday" required placeholder="Выберите дату">
+                            <span class="glyphicon glyphicons-calendar form-control-feedback"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <a href="https://b24.next.kz/sales/index.php?authId=<?= $authId ?>" type="button" class="btn btn-link"><< В главное меню</a>
+                            <button type="submit" id="submit-btn" class="btn btn-primary">Далее</button>
+                        </div>
+                    </div>
+                </form>
 
             </div>
             <?php
@@ -228,11 +223,11 @@
             $createResult = BitrixHelper::callMethod("crm.contact.add", $params);
             $contactId = $createResult["result"];
 
-            $url = "../sales/preorder.php?".
+            $url = "../sales/$form_action?".
                 "authId=$authId&".
                 "action=$action&".
                 "actionPerformed=contact_defined&".
-                "contact_id=$contactId&".
+                "contactId=$contactId&".
                 "success=Создан новый контакт ".$_REQUEST["name"]." ".$_REQUEST["last_name"]." [$contactId]";
             redirect($url);
 
@@ -242,7 +237,6 @@
     ?>
     <script type="text/javascript">
         $('#form').submit(function(){
-            //$(this).find('input[type=submit]').prop('disabled', true);
             $("#submit").prop('disabled',true);
             $('#alert').append("<strong>Внимание!</strong> Идет обрабокта информации. Не закрывайте окно!");
         });

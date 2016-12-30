@@ -27,34 +27,37 @@
 
 
 	<div class="container">
-
         <div id="action-cards">
-
             <div class="row">
 
                 <div class="col-sm-6">
-
                     <div class="action-card panel panel-default">
-                        <div class="panel-heading">Заказы аренды</div>
+                        <div class="panel-heading">Продажи</div>
                         <div class="panel-body">
-                            <a class="btn btn-default" href="/sales/contact.php?action=booth&authId=<?= $authId?>" role="button">Продажа буса</a>
-                            <br>
-                            <br>
-                            <a class="btn btn-default" href="/sales/contact.php?action=preorder&authId=<?= $authId?>" role="button">Предзаказник аренды</a>
-                            <br>
-                            <br>
-                            <a class="btn btn-default" href="/sales/post/closeOrder.php?action=closeOrder&authId=<?= $authId?>" role="button">Закрыть аренду</a> <br>
-                            <br>
-                            <br>
-                            <a class="btn btn-default" href="/sales/post/paymentOrder.php?action=paymentOrder&authId=<?= $authId?>" role="button">Внести оплату</a>
-                            <br>
-                            <br>
-                            <a class="btn btn-default" href="/sales/post/cancelOrder.php?action=cancelOrder&authId=<?= $authId?>" role="button">Отменить заказ</a>
-
+                            <div class="btn-group">
+                                <a class="btn btn-default" href="/sales/contact.php?action=preorder&authId=<?= $authId?>" role="button">Предзаказник аренды</a>
+                                <a class="btn btn-default" href="/sales/contact.php?action=booth&authId=<?= $authId?>" role="button">Продажа буса</a>
+                            </div>
                         </div>
                     </div>
                 </div>
 
+                <div class="col-sm-6">
+
+                    <div class="action-card panel panel-default">
+                        <div class="panel-heading">Операции над заказами</div>
+                        <div class="panel-body">
+                            <div class="btn-group">
+                                <a class="btn btn-default" href="/sales/post/closeOrder.php?action=closeOrder&authId=<?= $authId?>" role="button">Закрыть аренду</a>
+                                <a class="btn btn-default" href="/sales/post/paymentOrder.php?action=paymentOrder&authId=<?= $authId?>" role="button">Внести оплату</a>
+                                <a class="btn btn-default" href="/sales/post/cancelOrder.php?action=cancelOrder&authId=<?= $authId?>" role="button">Отменить заказ</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-sm-6">
 
                     <div class="action-card panel panel-default">
@@ -66,27 +69,20 @@
                                 $userId == "1" ||
                                 $userId == "10" ||
                                 $userId == "98";
-
-
-
                             ?>
-                            <a class="btn btn-default <?= $displayCondition == true ? "" : "disabled" ?>"
-                               href="/sales/company.php?action=school&authId=<?= $authId?>" role="button">Продажа для школы</a>
-                            <br>
-                            <br>
-                            <a class="btn btn-default <?= $displayCondition == true ? "" : "disabled" ?>"
-                                   href="/sales/findOrder.php?action=school&authId=<?= $authId?>" role="button">Продажа для школы (редактирование)</a>
-                            <br>
-                            <br>
-                            <a class="btn btn-default disabled" href="/sales/company.php?action=corporate&authId=<?= $authId?>" role="button" >Корпоративная продажа</a>
-                            <br><br>
-                            <a class="btn btn-default" href="/sales/search/company.php?action=corporate&authId=<?= $authId?>" role="button" >Выбор компании</a>
+                            <div class="btn-group">
+                                <a class="btn btn-default <?= $displayCondition == true ? "" : "disabled" ?>"
+                                   href="/sales/company.php?action=school&authId=<?= $authId?>" role="button">Школы</a>
+                                <a class="btn btn-default <?= $displayCondition == true ? "" : "disabled" ?>"
+                                   href="/sales/findOrder.php?action=school&authId=<?= $authId?>" role="button">Школы (редактирование)</a>
+                                <a class="btn btn-default disabled" href="/sales/company.php?action=corporate&authId=<?= $authId?>" role="button" >Корп.продажа</a>
+
+                                <a class="btn btn-default" href="/sales/search/company.php?action=corporate&authId=<?= $authId?>" role="button" >Выбор компании</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
 
 

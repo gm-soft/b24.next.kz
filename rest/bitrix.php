@@ -447,6 +447,29 @@
             $response["total"] = count($contacts);
             $response["result"] = $contacts;
             break;
+
+        case "contact.create":
+            $birthday = $_REQUEST["birthday"];
+            $birthAtom = $birthday."T12:00+03:00";
+            $params = array(
+                "fields[NAME]" => $_REQUEST["name"],
+                "fields[LAST_NAME]"=> $_REQUEST["lastName"],
+                "fields[OPENED]" => "Y",
+                "fields[SOURCE_ID]" => "SELF",
+                "fields[TYPE_ID]" => "CLIENT",
+                "fields[BIRTHDATE]" => $birthAtom,
+                "fields[UF_CRM_1468207818]" => array(0 => $_REQUEST["parent"]),
+                "fields[PHONE][0][VALUE]" => $_REQUEST["phone"],
+                "fields[PHONE][0][VALUE_TYPE]" => "WORK",
+                "fields[ASSIGNED_BY_ID]" => $_REQUEST["assignedBy"],
+                "auth" => $access_data["access_token"]
+            );
+            $createResult = BitrixHelper::callMethod("crm.contact.add", $params);
+            $contactId = $createResult["result"];
+
+            $contact = BitrixHelper::getContact($contactId, $params);
+            $response["result"] = $contact;
+            break;
     }
 
 
