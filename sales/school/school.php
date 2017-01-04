@@ -29,6 +29,7 @@ $contactId = $_REQUEST["contactId"];
 $companyId = $_REQUEST["companyId"];
 
 switch ($actionPerformed) {
+    case "contactDefined":
     case "initiated":
         $company = BitrixHelper::getCompany($companyId, $_REQUEST["adminToken"]);
         $contact = BitrixHelper::getContact($contactId, $_REQUEST["adminToken"]);

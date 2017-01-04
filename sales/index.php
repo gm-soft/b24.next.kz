@@ -82,12 +82,12 @@
                         <div class="panel-body">
                             <div class="btn-group">
                                 <a class="btn btn-default <?= $displayCondition == true ? "" : "disabled" ?>"
-                                   href="/sales/company.php?action=school&authId=<?= $authId?>" role="button">Школы</a>
+                                   href="/sales/company2.php?action=school&authId=<?= $authId?>" role="button">Школы</a>
                                 <a class="btn btn-default <?= $displayCondition == true ? "" : "disabled" ?>"
                                    href="/sales/findOrder.php?action=school&authId=<?= $authId?>" role="button">Школы (редактирование)</a>
-                                <a class="btn btn-default disabled" href="/sales/company.php?action=corporate&authId=<?= $authId?>" role="button" >Корп.продажа</a>
+                                <a class="btn btn-default disabled" href="/sales/company2.php?action=corporate&authId=<?= $authId?>" role="button" >Корп.продажа</a>
 
-                                <a class="btn btn-default" href="/sales/search/company.php?action=corporate&authId=<?= $authId?>" role="button" >Выбор компании</a>
+                                <a class="btn btn-default" href="/sales/company2.php?action=school&authId=<?= $authId?>" role="button" >Выбор компании</a>
                             </div>
                         </div>
                     </div>

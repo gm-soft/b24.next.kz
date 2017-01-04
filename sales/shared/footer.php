@@ -22,6 +22,10 @@
 				</div>
 				<div id="collapse1" class="panel-collapse collapse">
 					<div class="panel-body">
+
+                        <?php
+                        $_REQUEST["REQUEST_URI"] = $_SERVER['REQUEST_URI'];
+                        ?>
 						<pre><?= var_export($_REQUEST, true); ?></pre>
 						
 					</div>

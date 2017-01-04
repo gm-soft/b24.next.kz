@@ -30,7 +30,7 @@
     <div class="form-group">
         <label class=" control-label col-sm-3">Контакт</label>
         <div class="col-sm-9">
-            Контакт <a href="https://next.bitrix24.kz/crm/contact/show/<?= $contact["ID"]?>/">ID<?= $contact["ID"]?></a> (<?= $contact["PHONE"][0]["VALUE"]?>)
+            <?=$contact["NAME"]." ".$contact["LAST_NAME"] ?> <a href="https://next.bitrix24.kz/crm/contact/show/<?= $contact["ID"]?>/">ID<?= $contact["ID"]?></a> (<?= $contact["PHONE"][0]["VALUE"]?>)
         </div>
     </div>
 
