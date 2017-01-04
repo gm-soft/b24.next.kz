@@ -13,11 +13,18 @@
 
 	if (is_null($authId) || $authId == ""){
 	    $_GET["error"] = "Нет авторизации через CRM Битрикс24!";
+        $displayCondition = false;
 	} else {
         $curr_user = BitrixHelper::getCurrentUser($authId);
         $_SESSION["user_name"] =  $curr_user["EMAIL"];
         $_SESSION["user_id"] =  $curr_user["ID"];
         $userId = $_SESSION["user_id"];
+
+        $displayCondition =
+            $userId == "30" ||
+            $userId == "1" ||
+            $userId == "10" ||
+            $userId == "98";
     }
 
 
@@ -35,8 +42,20 @@
                         <div class="panel-heading">Продажи</div>
                         <div class="panel-body">
                             <div class="btn-group">
-                                <a class="btn btn-default" href="/sales/contact.php?action=preorder&authId=<?= $authId?>" role="button">Предзаказник аренды</a>
-                                <a class="btn btn-default" href="/sales/contact.php?action=booth&authId=<?= $authId?>" role="button">Продажа буса</a>
+                                <a class="btn btn-default" href="/sales/contact2.php?action=preorder&authId=<?= $authId?>" role="button">Предзаказник аренды</a>
+                                <a class="btn btn-default" href="/sales/contact2.php?action=booth&authId=<?= $authId?>" role="button">Продажа буса</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+
+                    <div class="action-card panel panel-default">
+                        <div class="panel-heading">Заказы аренды</div>
+                        <div class="panel-body">
+                            <div class="btn-group">
+                                <a class="btn btn-default <?= $displayCondition == true ? "" : "disabled" ?>" href="/sales/contact2.php?action=createOrder&authId=<?= $authId?>" role="button">Создать заказ</a>
                             </div>
                         </div>
                     </div>
@@ -55,21 +74,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
+
                 <div class="col-sm-6">
-
                     <div class="action-card panel panel-default">
                         <div class="panel-heading">Корпоративные продажи</div>
                         <div class="panel-body">
-                            <?php
-                            $displayCondition =
-                                $userId == "30" ||
-                                $userId == "1" ||
-                                $userId == "10" ||
-                                $userId == "98";
-                            ?>
                             <div class="btn-group">
                                 <a class="btn btn-default <?= $displayCondition == true ? "" : "disabled" ?>"
                                    href="/sales/company.php?action=school&authId=<?= $authId?>" role="button">Школы</a>

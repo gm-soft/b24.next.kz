@@ -2,12 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2a14c8c7-54cc-42a9-b610-ff2b9e82312a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sales/contact2.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sales/orders/create.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sales/contact.php" afterPath="$PROJECT_DIR$/sales/contact.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sales/booth.php" afterPath="$PROJECT_DIR$/sales/booth.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sales/contact2.php" afterPath="$PROJECT_DIR$/sales/contact2.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sales/index.php" afterPath="$PROJECT_DIR$/sales/index.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sales/search/searchFields.php" afterPath="$PROJECT_DIR$/sales/search/searchFields.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/header.php" afterPath="$PROJECT_DIR$/web/header.php" />
     </list>
     <ignored path="BitrixStasApp.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,7 +38,7 @@
       <file leaf-file-name="company.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sales/search/company.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
+            <state relative-caret-position="425">
               <caret line="25" column="78" lean-forward="false" selection-start-line="25" selection-start-column="78" selection-end-line="25" selection-end-column="78" />
               <folding />
             </state>
@@ -49,7 +48,7 @@
       <file leaf-file-name="searchFields.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sales/search/searchFields.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="790">
+            <state relative-caret-position="3842">
               <caret line="226" column="9" lean-forward="false" selection-start-line="226" selection-start-column="9" selection-end-line="226" selection-end-column="9" />
               <folding />
             </state>
@@ -59,7 +58,7 @@
       <file leaf-file-name="bitrix.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rest/bitrix.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="756">
+            <state relative-caret-position="416">
               <caret line="470" column="41" lean-forward="false" selection-start-line="470" selection-start-column="41" selection-end-line="470" selection-end-column="41" />
               <folding />
             </state>
@@ -69,7 +68,7 @@
       <file leaf-file-name="contact.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sales/contact.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1915">
+            <state relative-caret-position="858">
               <caret line="229" column="25" lean-forward="false" selection-start-line="229" selection-start-column="25" selection-end-line="229" selection-end-column="25" />
               <folding />
             </state>
@@ -79,18 +78,48 @@
       <file leaf-file-name="contact2.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sales/contact2.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
-              <caret line="163" column="0" lean-forward="false" selection-start-line="163" selection-start-column="0" selection-end-line="164" selection-end-column="65" />
+            <state relative-caret-position="4122">
+              <caret line="264" column="14" lean-forward="false" selection-start-line="264" selection-start-column="14" selection-end-line="264" selection-end-column="14" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="booth.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="BitrixHelperClass.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Helpers/BitrixHelperClass.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="529" column="27" lean-forward="false" selection-start-line="529" selection-start-column="27" selection-end-line="529" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="create.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sales/orders/create.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="510">
+              <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cancelOrder.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/sales/post/cancelOrder.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="756">
+              <caret line="146" column="0" lean-forward="false" selection-start-line="146" selection-start-column="0" selection-end-line="148" selection-end-column="2" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="booth.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sales/booth.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="30" column="107" lean-forward="false" selection-start-line="30" selection-start-column="107" selection-end-line="30" selection-end-column="107" />
+            <state relative-caret-position="391">
+              <caret line="59" column="196" lean-forward="false" selection-start-line="59" selection-start-column="196" selection-end-line="59" selection-end-column="196" />
               <folding />
             </state>
           </provider>
@@ -99,8 +128,8 @@
       <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sales/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="38" column="79" lean-forward="false" selection-start-line="38" selection-start-column="79" selection-end-line="38" selection-end-column="79" />
+            <state relative-caret-position="646">
+              <caret line="83" column="108" lean-forward="false" selection-start-line="83" selection-start-column="58" selection-end-line="83" selection-end-column="108" />
               <folding />
             </state>
           </provider>
@@ -141,7 +170,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/sales/header.php" />
         <option value="$PROJECT_DIR$/sales/school.php" />
         <option value="$PROJECT_DIR$/sales/shared/school-form-template.php" />
         <option value="$PROJECT_DIR$/server/content.php" />
@@ -188,9 +216,10 @@
         <option value="$PROJECT_DIR$/web/header.php" />
         <option value="$PROJECT_DIR$/sales/shared/searchContactFields.php" />
         <option value="$PROJECT_DIR$/rest/bitrix.php" />
-        <option value="$PROJECT_DIR$/sales/contact2.php" />
-        <option value="$PROJECT_DIR$/sales/index.php" />
         <option value="$PROJECT_DIR$/sales/contact.php" />
+        <option value="$PROJECT_DIR$/sales/index.php" />
+        <option value="$PROJECT_DIR$/sales/contact2.php" />
+        <option value="$PROJECT_DIR$/sales/orders/create.php" />
         <option value="$PROJECT_DIR$/sales/booth.php" />
       </list>
     </option>
@@ -317,6 +346,42 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="sales" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="post" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="b24.next.kz" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="b24.next.kz" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sales" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="orders" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="b24.next.kz" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="b24.next.kz" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="rest" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
@@ -365,8 +430,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -496,6 +561,7 @@
       <workItem from="1482935079690" duration="793000" />
       <workItem from="1482976894371" duration="13426000" />
       <workItem from="1483063349037" duration="8143000" />
+      <workItem from="1483496215056" duration="6406000" />
     </task>
     <task id="LOCAL-00001" summary="First commit applied from job">
       <created>1480904288285</created>
@@ -508,7 +574,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="259134000" />
+    <option name="totallyTimeSpent" value="265540000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -575,13 +641,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/sales/shared/prices.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="9" lean-forward="false" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sales/shared/footer.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -803,14 +862,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sales/post/cancelOrder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1564">
-          <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sales/post/paymentOrder.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -861,36 +912,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sales/search/company.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
+        <state relative-caret-position="425">
           <caret line="25" column="78" lean-forward="false" selection-start-line="25" selection-start-column="78" selection-end-line="25" selection-end-column="78" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Helpers/BitrixHelperClass.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="619" column="27" lean-forward="false" selection-start-line="619" selection-start-column="27" selection-end-line="619" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sales/search/searchFields.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="790">
+        <state relative-caret-position="3842">
           <caret line="226" column="9" lean-forward="false" selection-start-line="226" selection-start-column="9" selection-end-line="226" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sales/shared/searchContactFields.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/sales/shared/searchContactFields.php" />
     <entry file="file://$PROJECT_DIR$/web/header.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
@@ -899,42 +935,66 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Helpers/BitrixHelperClass.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="529" column="27" lean-forward="false" selection-start-line="529" selection-start-column="27" selection-end-line="529" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/rest/bitrix.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="756">
+        <state relative-caret-position="416">
           <caret line="470" column="41" lean-forward="false" selection-start-line="470" selection-start-column="41" selection-end-line="470" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sales/contact2.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="163" column="0" lean-forward="false" selection-start-line="163" selection-start-column="0" selection-end-line="164" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sales/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="38" column="79" lean-forward="false" selection-start-line="38" selection-start-column="79" selection-end-line="38" selection-end-column="79" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sales/contact.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1915">
+        <state relative-caret-position="858">
           <caret line="229" column="25" lean-forward="false" selection-start-line="229" selection-start-column="25" selection-end-line="229" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sales/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="83" column="108" lean-forward="false" selection-start-line="83" selection-start-column="58" selection-end-line="83" selection-end-column="108" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sales/contact2.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4122">
+          <caret line="264" column="14" lean-forward="false" selection-start-line="264" selection-start-column="14" selection-end-line="264" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sales/booth.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="30" column="107" lean-forward="false" selection-start-line="30" selection-start-column="107" selection-end-line="30" selection-end-column="107" />
+        <state relative-caret-position="391">
+          <caret line="59" column="196" lean-forward="false" selection-start-line="59" selection-start-column="196" selection-end-line="59" selection-end-column="196" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sales/orders/create.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sales/post/cancelOrder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="756">
+          <caret line="146" column="0" lean-forward="false" selection-start-line="146" selection-start-column="0" selection-end-line="148" selection-end-column="2" />
           <folding />
         </state>
       </provider>
