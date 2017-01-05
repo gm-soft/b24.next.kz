@@ -22,9 +22,15 @@
 
 	$form_action = "booth.php";
 
-	$actionPerformed = $_REQUEST["actionPerformed"];
+	$actionPerformed = isset($_REQUEST["actionPerformed"]) ? $_REQUEST["actionPerformed"] : "initiated";
 
 	switch ($actionPerformed){
+
+    case "initiated":
+        $url = "../sales/contact2.php?action=booth&authId=$authId";
+        redirect($url);
+        break;
+
         case "contactSelect":
         case "contactDefined":
         case "contact_defined":

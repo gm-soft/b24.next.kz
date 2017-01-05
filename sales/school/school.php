@@ -29,8 +29,21 @@ $contactId = $_REQUEST["contactId"];
 $companyId = $_REQUEST["companyId"];
 
 switch ($actionPerformed) {
-    case "contactDefined":
+
     case "initiated":
+
+        $url = "https://b24.next.kz/sales/company2.php?action=school&authId=$authId";
+        redirect($url);
+        break;
+
+    case "edit":
+
+        $url = "https://b24.next.kz/sales/findOrder.php?action=school&authId=$authId";
+        redirect($url);
+        break;
+
+    case "contactDefined":
+
         $company = BitrixHelper::getCompany($companyId, $_REQUEST["adminToken"]);
         $contact = BitrixHelper::getContact($contactId, $_REQUEST["adminToken"]);
         $userFullName = $curr_user["LAST_NAME"]." ".$curr_user["NAME"];

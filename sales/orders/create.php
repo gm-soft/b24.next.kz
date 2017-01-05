@@ -23,8 +23,12 @@ $userId = $curr_user["ID"];
 $actionPerformed = isset($_REQUEST["actionPerformed"]) ? $_REQUEST["actionPerformed"] : "initiated";
 
 switch ($actionPerformed){
-    case "contactDefined":
     case "initiated":
+        $url = "https://b24.next.kz/sales/contact2.php?action=createOrder&authId=".$_REQUEST["authId"]."";
+        redirect($url);
+        break;
+
+    case "contactDefined":
         require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
         ?>
         createOrder

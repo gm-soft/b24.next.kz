@@ -35,7 +35,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-inverse blue-bg">
+<nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="container">
             <div class="navbar-header">
@@ -58,18 +58,18 @@
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Продажи
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/sales/contact.php?action=booth&authId=<?= $authId?>">Продажа буса</a></li>
-                            <li><a href="/sales/contact.php?action=preorder&authId=<?= $authId?>">Создание предзаказника</a></li>
+                            <li><a href="../sales/booth.php?authId=<?= $authId?>">Продажа буса</a></li>
+                            <li><a href="../sales/preorder.php?authId=<?= $authId?>">Создание предзаказника</a></li>
                         </ul>
                     </li>
 
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Пост-операции
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Операции над заказами
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/sales/post/paymentOrder.php?action=paymentOrder&authId=<?=$authId ?>">Внести оплату</a></li>
-                            <li><a href="/sales/post/closeOrder.php?action=closeOrder&authId=<?=$authId ?>">Закрыть аренду/сделку</a></li>
-                            <li><a href="/sales/post/cancelOrder.php?action=cancelOrder&authId=<?=$authId ?>">Отменить заказ</a></li>
+                            <li><a href="/sales/post/paymentOrder.php?authId=<?=$authId ?>">Внести оплату</a></li>
+                            <li><a href="/sales/post/closeOrder.php?authId=<?=$authId ?>">Закрыть аренду/сделку</a></li>
+                            <li><a href="/sales/post/cancelOrder.php?authId=<?=$authId ?>">Отменить заказ</a></li>
                         </ul>
                     </li>
 
@@ -84,9 +84,9 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Корпоративные продажи
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/sales/company.php?action=school&authId=<?= $authId?>">Продажа для школ</a></li>
-                                <li><a href="/sales/findOrder.php?action=school&authId=<?= $authId?>">Продажа для школ (изменение)</a></li>
-                                <li><a href="/sales/company.php?action=corporate&authId=<?= $authId?>">Корпоративная продажа</a></li>
+                                <li><a href="/sales/school/school.php?&authId=<?= $authId?>">Школы</a></li>
+                                <li><a href="/sales/school/school.php?action=edit&authId=<?= $authId?>">Школы (изменение)</a></li>
+                                <li><a href="/sales/company2.php?action=corporate&authId=<?= $authId?>">Корпоративная продажа</a></li>
                             </ul>
                         </li>
                         <?php

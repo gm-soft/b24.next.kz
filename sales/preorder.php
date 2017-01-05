@@ -11,30 +11,34 @@
         redirect("../sales/index.php");
     }
 
-    $admin_authId = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);
+    $_REQUEST["adminToken"] = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);
 
     $curr_user = BitrixHelper::getCurrentUser($authId);
     $_SESSION["user_name"] =  $curr_user["EMAIL"];
     $_SESSION["user_id"] =  $curr_user["ID"];
     $userId = $curr_user["ID"];
 
-    $contacts = BitrixHelper::searchContact(BitrixHelper::formatPhone($_REQUEST["contact_phone"]), $admin_authId);
 
-    $form_action = "preorder.php";
-    require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
 
     $actionPerformed = isset($_REQUEST["actionPerformed"]) ? $_REQUEST["actionPerformed"] : "initiated";
     //-------------------------------------------------------------------------
     //-------------------------------------------------------------------------
     switch ($actionPerformed) {
-        case "contact_defined":
 
+        case "initiated":
+            $url = "../sales/contact2.php?action=preorder&authId=$authId";
+            redirect($url);
+            break;
+
+        case "contact_defined":
+        case "contactDefined":
+            $contacts = BitrixHelper::searchContact(BitrixHelper::formatPhone($_REQUEST["contact_phone"]), $_REQUEST["adminToken"]);
             $curr_user = isset($curr_user) ? $curr_user : BitrixHelper::getCurrentUser($authId);
             $url = "https://script.google.com/macros/s/AKfycbxjyTPPbRdVZ-QJKcWLFyITXIeQ1GwI7fAi0FgATQ0PsoGKAdM/exec";
 
             $parameters = array(
                 "event" => "OnPreorderCreateRequested",
-                "contact_id" => $_REQUEST["contact_id"],
+                "contact_id" => $_REQUEST["contactId"],
                 "contact_name" => "",
                 "last_name" => "",
                 "contact_phone" => "",
@@ -47,7 +51,7 @@
 
             $process_data = query("GET", $url, $parameters);
             $process_data = isset($process_data["result"]) ? $process_data["result"] : $process_data;
-
+            require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
             if (!is_null($process_data) ) {
 
                 $deal_id = $process_data["deal_id"];

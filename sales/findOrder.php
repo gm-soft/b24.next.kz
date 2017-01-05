@@ -42,7 +42,7 @@ switch ($action){
 if (is_null($actionPage)){
     $url = "../sales/index.php?".
         "authId=$authId&".
-        "error=Запрашиваемое действие не найденон";
+        "error=Запрашиваемое действие не найдено";
     redirect($url);
 }
 
