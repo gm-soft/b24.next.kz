@@ -71,8 +71,8 @@ switch ($actionPerformed){
 
                     <div class="form-group">
                         <div class="col-sm-offset-3">
-                            <a href="https://b24.next.kz/sales/index.php?authId=<?= $_REQUEST["authId"] ?>" id="back" class="btn btn-default">Отменить</a>
-                            <button type="submit" id="submit-btn" class="btn btn-primary">Закрыть аренду</button>
+                            <a href="https://b24.next.kz/sales/index.php?authId=<?= $_REQUEST["authId"] ?>" id="back" class="btn btn-default">В главное меню</a>
+                            <button type="submit" id="submit-btn" class="btn btn-primary">Отменить заказ</button>
                         </div>
                     </div>
 
@@ -137,7 +137,7 @@ switch ($actionPerformed){
         require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
         ?>
         <div class="container">
-            <h1>Результат подсчета доп.заказа</h1>
+            <h1>Результат отмены заказа</h1>
             <div id="toPrint">
                 <h3>Заказ ID<?= $orderId?></h3>
 
@@ -151,12 +151,6 @@ switch ($actionPerformed){
             <div class="text-center">
                 <a href="#" id="print" class="btn btn-default">Печать</a>
                 <a href="https://b24.next.kz/sales/index.php?authId=<?= $_REQUEST["authId"] ?>" id="back" class="btn btn-default">В главное меню</a>
-                <?php
-                $url = "https://b24.next.kz/sales/post/closeOrder.php?".
-                    "authId=".$_REQUEST["authId"]."&".
-                    "action=closeOrder";
-                echo "<a href=\"$url\" class=\"btn btn-default\">Закрыть еще одну аренду</a>";
-                ?>
             </div>
 
         </div>

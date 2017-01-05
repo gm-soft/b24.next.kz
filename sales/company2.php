@@ -21,11 +21,12 @@ $userId = $curr_user["ID"];
 
 switch ($_REQUEST["action"]) {
     case "school":
-        $formTitle = "Продажа аренды буса";
+        $formTitle = "Продажа для школ";
         break;
 
-    case "createOrder":
-        $formTitle = "Создание заказа";
+    case "corporate":
+        $pageRedirect = "../sales/corporate/corporate.php";
+        $formTitle = "Корпоративная продажа";
         break;
 }
 $pageRedirect = "../sales/contact2.php";
@@ -49,7 +50,7 @@ switch ($actionPerformed) {
         require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
         ?>
         <div class="container">
-            <h1>Корпоративная продажа</h1>
+            <h1><?= $formTitle ?></h1>
 
             <h3><?=$header ?></h3>
             <form id="form" class="form-horizontal" method="post" action="company2.php">

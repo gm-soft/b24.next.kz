@@ -6,8 +6,8 @@
         if ($actionPerformed == "order_confirmed"){
             echo "<tr><td>ID заказа аренды (Консолидация 9-1)</td><td><b>".$_REQUEST["orderId"]."<b></td></tr>";
             echo "<tr><td>Номер сделки</td><td><a href='https://next.bitrix24.kz/crm/deal/show/".$_REQUEST["dealId"]."/'>".$_REQUEST["dealId"]."</a><b></td></tr>";
-            echo "<tr><td>Компания</td><td><a href='https://next.bitrix24.kz/crm/company/show/".$_REQUEST["companyId"]."/' target='_blank'>".$_REQUEST["contactName"]."</a></td></tr>";
-            echo "<tr><td>Контакт</td><td><a href='https://next.bitrix24.kz/crm/contact/show/".$_REQUEST["contactId"]."/' target='_blank'>".$_REQUEST["companyTitle"]."</a></td></tr>";
+            echo "<tr><td>Компания</td><td><a href='https://next.bitrix24.kz/crm/company/show/".$_REQUEST["companyId"]."/' target='_blank'>Школа: ".$_REQUEST["companyTitle"]."</a></td></tr>";
+            echo "<tr><td>Контакт</td><td><a href='https://next.bitrix24.kz/crm/contact/show/".$_REQUEST["contactId"]."/' target='_blank'>".$_REQUEST["contactName"]."</a></td></tr>";
         }
         ?>
         <tr><td>Тема урока</td><td><?= $_REQUEST["subject"]?></td></tr>

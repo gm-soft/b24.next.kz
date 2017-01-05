@@ -119,7 +119,7 @@ switch ($actionPerformed){
                                 <div class='col-sm-10'>
                                     <div class='input-group'>
                                         <input type='tel' class='form-control' id='findPhone' name='contactPhone'
-                                               pattern='^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$' required placeholder='Найти контакт по номеру'>
+                                               pattern='^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$' placeholder='Найти контакт по номеру'>
                                         <div class='input-group-btn'>
                                             <button id='searchByPhone' class='btn btn-default' type='button'>
                                                 Найти
@@ -182,19 +182,32 @@ switch ($actionPerformed){
                                 </div>
                             </div>
 
-                            <div class='form-group'>
-                                <label class='control-label col-sm-2' for='contactParent'>Родитель:</label>
-                                <div class='col-sm-10'>
-                                    <input type='text' class='form-control' id='contactParent' name='contactParent' required disabled>
+                            <?php
+                            if ($isCorpSale == false){
+                                ?>
+                                <div class='form-group'>
+                                    <label class='control-label col-sm-2' for='contactParent'>Родитель:</label>
+                                    <div class='col-sm-10'>
+                                        <input type='text' class='form-control' id='contactParent' name='contactParent' required disabled>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class='form-group'>
-                                <label class='control-label col-sm-2' for='contactBirthday'>День рождения:</label>
-                                <div class='col-sm-10'>
-                                    <input type='date' class='form-control' id='contactBirthday' name='contactBirthday' required disabled>
+                                <div class='form-group'>
+                                    <label class='control-label col-sm-2' for='contactBirthday'>День рождения:</label>
+                                    <div class='col-sm-10'>
+                                        <input type='date' class='form-control' id='contactBirthday' name='contactBirthday' required disabled>
+                                    </div>
                                 </div>
-                            </div>
+                                <?php
+                            } else {
+                                ?>
+                                <input type='hidden' name='contactParent' value="">
+                                <input type='hidden' name='contactBirthday' value="">
+                            <?php
+                            }
+                            ?>
+
+
 
                             <div class='form-group'>
                                 <label class='col-sm-2 control-label' for='contactPhone'>Телефон</label>
@@ -334,21 +347,26 @@ switch ($actionPerformed){
 
     case "createContact":
 
-        $birthday = $_REQUEST["contactBirthday"];
-        $birthAtom = $birthday."T12:00+03:00";
+
         $params = array(
             "fields[NAME]" => $_REQUEST["contactName"],
             "fields[LAST_NAME]"=> $_REQUEST["contactLastName"],
             "fields[OPENED]" => "Y",
             "fields[SOURCE_ID]" => "SELF",
             "fields[TYPE_ID]" => "CLIENT",
-            "fields[BIRTHDATE]" => $birthAtom,
+            //"fields[BIRTHDATE]" => $birthAtom,
             "fields[UF_CRM_1468207818]" => array(0 => $_REQUEST["contactParent"]),
             "fields[PHONE][0][VALUE]" => $_REQUEST["contactPhone"],
             "fields[PHONE][0][VALUE_TYPE]" => "WORK",
             "fields[ASSIGNED_BY_ID]" => $userId,
             "auth" => $_REQUEST["adminToken"]
         );
+        if (isset($_REQUEST["contactBirthday"]) && $_REQUEST["contactBirthday"] != "") {
+            $birthday = $_REQUEST["contactBirthday"];
+            $birthAtom = $birthday."T12:00+03:00";
+            $params["fields[BIRTHDATE]"] = $birthAtom;
+        }
+
         $createResult = BitrixHelper::callMethod("crm.contact.add", $params);
         $contactId = $createResult["result"];
 

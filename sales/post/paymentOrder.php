@@ -113,7 +113,7 @@ switch ($actionPerformed){
         require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
         ?>
         <div class="container">
-            <h1>Результат подсчета доп.заказа</h1>
+            <h1>Результат внесения оплаты</h1>
             <div id="toPrint">
                 <h3>Заказ ID<?= $orderId?></h3>
 
@@ -128,10 +128,9 @@ switch ($actionPerformed){
                 <a href="#" id="print" class="btn btn-default">Печать</a>
                 <a href="https://b24.next.kz/sales/index.php?authId=<?= $_REQUEST["authId"] ?>" id="back" class="btn btn-default">В главное меню</a>
                 <?php
-                $url = "https://b24.next.kz/sales/post/closeOrder.php?".
-                    "authId=".$_REQUEST["authId"]."&".
-                    "action=closeOrder";
-                echo "<a href=\"$url\" class=\"btn btn-default\">Закрыть еще одну аренду</a>";
+                $url = "https://b24.next.kz/sales/post/paymentOrder.php?".
+                    "authId=".$_REQUEST["authId"];
+                echo "<a href=\"$url\" class=\"btn btn-default\">Внести еще одну оплату</a>";
                 ?>
             </div>
 

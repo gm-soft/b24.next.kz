@@ -36,8 +36,8 @@
 
 
     <div class="form-group">
-        <label class="control-label col-sm-3" for="pack">Выберите пакет и центр:</label>
-        <div class="col-sm-2">
+        <label class="control-label col-sm-2" for="pack">Выберите пакет и центр:</label>
+        <div class="col-sm-3">
             <div class="input-group">
                 <select class="form-control" id="pack" name="pack" required>
                     <?php
@@ -142,8 +142,8 @@
         }
         ?>
     <div class="form-group">
-        <label class="control-label col-sm-3" for="status">Статус заказа:</label>
-        <div class="col-sm-9">
+        <label class="control-label col-sm-2" for="status">Статус заказа:</label>
+        <div class="col-sm-10">
             <div class="input-group">
                 <select class="form-control" id="status" name="status" required>
                     <option value="initiated" <?= $value == "initiated" ? "selected" : "" ?>>Заказ подтвержден</option>
@@ -168,8 +168,8 @@
 
     <hr>
     <div class="form-group">
-        <label class="control-label col-sm-3" for="pupilCount">Количество детей:</label>
-        <div class="col-sm-4">
+        <label class="control-label col-sm-2" for="pupilCount">Количество детей:</label>
+        <div class="col-sm-5">
             <div class="input-group">
                 
                 <?php $value = isset($order["Event"]["PupilCount"]) ? $order["Event"]["PupilCount"] : "" ?>
@@ -203,8 +203,8 @@
     <hr>
 
     <div class="form-group">
-        <label class="control-label col-sm-3" for="teacherCount">Количество учителей:</label>
-        <div class="col-sm-9">
+        <label class="control-label col-sm-2" for="teacherCount">Количество учителей:</label>
+        <div class="col-sm-10">
             <div class="input-group">
                 <?php $value = isset($order["Event"]["TeacherCount"]) ? $order["Event"]["TeacherCount"] : "" ?>
                 <input type="number" step="1" min="0" class="form-control" id="teacherCount" name="teacherCount" required placeholder="Кол-во учителей и/или родителей" value="<?= $value ?>">
@@ -214,8 +214,8 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label col-sm-3" for="packagePrice">Цена пакета:</label>
-        <div class="col-sm-9">
+        <label class="control-label col-sm-2" for="packagePrice">Цена пакета:</label>
+        <div class="col-sm-10">
             <div class="input-group">
                 <?php $value = isset($order["Event"]["PackPrice"]) ? $order["Event"]["PackPrice"] : "" ?>
                 <input type="number" step="0.1" min="0" class="form-control" id="packagePrice" name="packagePrice" required placeholder="Стоимость пакета развлечений на одного ребенка" value="<?= $value ?>">
@@ -225,8 +225,8 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label col-sm-3" for="subject">Программа:</label>
-        <div class="col-sm-9">
+        <label class="control-label col-sm-2" for="subject">Программа:</label>
+        <div class="col-sm-10">
             <div class="input-group">
                 <?php $value = isset($order["Event"]["Subject"]) ? $order["Event"]["Subject"] : "" ?>
                 <input type="text" class="form-control" id="subject" name="subject" required placeholder="Тема урока/мероприятия (космос, география и тд)" value="<?= $value ?>">
@@ -236,8 +236,8 @@
     </div>
     <hr>
     <div class="form-group">
-        <label class="control-label col-sm-3" for="date">Дата:</label>
-        <div class="col-sm-3">
+        <label class="control-label col-sm-2" for="date">Дата:</label>
+        <div class="col-sm-4">
             <div class="input-group">
 
                 <?php
@@ -279,8 +279,8 @@
     </div>
     <hr>
     <div class="form-group">
-        <label class="control-label col-sm-3" for="foodPackCount">Кол-во фуд-пакетов:</label>
-        <div class="col-sm-9">
+        <label class="control-label col-sm-2" for="foodPackCount">Кол-во фуд-пакетов:</label>
+        <div class="col-sm-10">
             <div id="food-input" class="input-group">
                 <?php
                 if (isset($order["Event"]["FoodPackCount"]) && $order["Event"]["FoodPackCount"] > 0) {
@@ -310,10 +310,10 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label col-sm-3" for="transferCost">Оплата водителю:</label>
+        <label class="control-label col-sm-2" for="transferCost">Оплата водителю:</label>
 
 
-        <div class="col-sm-9">
+        <div class="col-sm-10">
             <div id="transfer-input" class="input-group">
 
                 <?php
@@ -345,8 +345,8 @@
     <hr>
 
     <div class="form-group">
-        <label class="control-label col-sm-3" for="bribePercent">Сумма учителю (за одного ребенка):</label>
-        <div class="col-sm-9">
+        <label class="control-label col-sm-2" for="bribePercent">Сумма учителю (за одного ребенка):</label>
+        <div class="col-sm-10">
             <div class="input-group">
                 <?php $value = isset($order["Event"]["TeacherBribePercent"]) ? $order["Event"]["TeacherBribePercent"] : "" ?>
                 <input type="number" step="1" min="0" class="form-control" id="bribePercent" name="bribePercent" required placeholder="Сумма учителю за одного ребенка" value="<?= $value ?>">
@@ -356,7 +356,7 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label col-sm-3" for="discount">Скидка:</label>
+        <label class="control-label col-sm-2" for="discount">Скидка:</label>
         <div class="col-sm-3">
             <div class="input-group">
                 <?php $value = isset($order["FinanceInfo"]["Discount"]) ? $order["FinanceInfo"]["Discount"] : "0" ?>
@@ -365,7 +365,7 @@
             </div>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-7">
             <div class="input-group">
                 <?php $value = isset($order["FinanceInfo"]["DiscountComment"]) ? $order["FinanceInfo"]["DiscountComment"] : "" ?>
                 <input type="text" class="form-control" id="discountComment" name="discountComment" placeholder="Комментарий к скидке" maxlength="150" value="<?= $value?>">
@@ -377,8 +377,8 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label col-sm-3" for="comment">Комментарий к заказу:</label>
-        <div class="col-sm-9">
+        <label class="control-label col-sm-2" for="comment">Комментарий к заказу:</label>
+        <div class="col-sm-10">
             <?php $value = isset($order["Event"]["Comment"]) ? $order["Event"]["Comment"] : "" ?>
             <textarea class="form-control" id="comment" name="comment" ><?= $value ?></textarea>
         </div>

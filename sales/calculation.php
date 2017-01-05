@@ -122,7 +122,7 @@
                 "event" => "OnIdIncrementedRequested"
             ));
             $id = $idData["result"];
-            $order = OrderHelper::ConstructSchoolOrder($id, null, $_REQUEST, $adminToken);
+            $order = OrderHelper::ConstructSchoolOrder($id, $_REQUEST, $adminToken);
             $order["DealId"] = OrderHelper::updateOrderDeal($order, $adminToken);
             $updateProductsResult = OrderHelper::updateDealProductSet($order, $adminToken);
 
@@ -202,11 +202,18 @@
         $content .= "<p><b>Комментарий к заказу:</b> <br>".$order["Comment"]."</p>";
 
         $subject = "Сводка фуршета ID".$order["Id"];
-        $mailTo = "coordinator@next.kz";
+        $receiver = "coordinator@breakfast.kz";
 
-        include $_SERVER["DOCUMENT_ROOT"] . "/Helpers/MailSmtpClass.php";
+        //include $_SERVER["DOCUMENT_ROOT"] . "/Helpers/MailSmtpClass.php";
 
-        $result = MailSmtp::SendEmail($mailTo, $subject, $content);
+        //$result = MailSmtp::SendEmail($mailTo, $subject, $content);
+        $result = queryGoogleScript([
+            "event" => "EmailSendRequested",
+            "subject" => $subject,
+            "receiver" => $receiver ,
+            "content" => $content,
+            "withBcc" => true,
+        ]);
         return $result;
     }
 
