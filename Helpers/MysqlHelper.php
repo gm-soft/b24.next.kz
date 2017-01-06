@@ -87,4 +87,49 @@ class MysqlHelper
     function createTables() {
 
     }
+
+        function selectData($query) {
+        if (is_null($this->context )) return null;
+        $data = mysqli_query($this->context, $query);
+
+        if ($data) {
+            $rows = array();
+            while ($row = mysqli_fetch_assoc($data)) {
+                array_push($rows, $row);
+            }
+            $data = $rows;
+
+            $result = true;
+
+        } else {
+            $data = mysqli_error($this->context);
+            $result = false;
+        }
+        return array(
+            "result" => $result,
+            "data" => $data);
+    }
+
+    public function executeQuery($query) {
+
+        if (is_null($this->context )) return null;
+        $data = mysqli_query($this->context, $query);
+
+        if ($data) {
+
+            $data = mysqli_fetch_assoc($data);
+            log_debug("query = ".$query." data = ".var_export($data, true));
+            $result = true;
+
+        } else {
+            $data = mysqli_error($this->context);
+            $result = false;
+        }
+        return array("result" => $result, "data" => $data);
+
+    }
+
+    public function getCharset(){
+        return $this->context->character_set_name();
+    }
 }

@@ -86,7 +86,7 @@
                                    href="/sales/school/school.php?&authId=<?= $authId?>" role="button">Школы</a>
 
                                 <a class="btn btn-default <?= $displayCondition == true ? "" : "disabled" ?>"
-                                   href="/sales/school/school.php?action=edit&authId=<?= $authId?>" role="button">Школы (редактирование)</a>
+                                   href="/sales/school/school.php?actionPerformed=edit&authId=<?= $authId?>" role="button">Школы (редактирование)</a>
 
                                 <a class="btn btn-default disabled" href="/sales/company2.php?action=corporate&authId=<?= $authId?>" role="button" >Корп.продажа</a>
                             </div>
