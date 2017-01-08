@@ -31,13 +31,11 @@ switch ($actionPerformed){
 
                     <input type="hidden" name="actionPerformed" value="dealSelected">
                     <input type="hidden" name="userFullName" value="<?= $curr_user["NAME"]." ".$curr_user["LAST_NAME"] ?>">
-                    <?php
-                    require_once $_SERVER["DOCUMENT_ROOT"]."/sales/post/centerDealSelect.php";
-                    ?>
 
-                    <?php
-                    require_once $_SERVER["DOCUMENT_ROOT"]."/sales/post/paymentFields.php";
-                    ?>
+                    <?php require_once $_SERVER["DOCUMENT_ROOT"]."/sales/shared/hidden-inputs.php"; ?>
+                    <?php require_once $_SERVER["DOCUMENT_ROOT"]."/sales/post/centerDealSelect.php"; ?>
+
+                    <?php require_once $_SERVER["DOCUMENT_ROOT"]."/sales/post/paymentFields.php"; ?>
 
                     <div class="form-group">
                         <div class="col-sm-9 col-sm-offset-3">
@@ -67,6 +65,92 @@ switch ($actionPerformed){
         <?php
 
         break;
+
+    case "dealSelectedAsync":
+
+        if (!isset($_REQUEST["paymentValue"]) || !isset($_REQUEST["receiptDate"]) || !isset($_REQUEST["receiptNumber"])){
+            $url = "https://b24.next.kz/sales/post/paymentOrder.php?".
+                "authId=".$_REQUEST["authId"]."&".
+                "error=Не все поля были введены";
+        }
+
+        $deal = BitrixHelper::getDeal($_REQUEST["dealSelect"], $_REQUEST["adminToken"]);
+        $title = $deal["TITLE"];
+        $orderId = substr($title, 0, strpos($title, " "));
+        $orderId = substr($orderId, 2);
+
+        require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
+        require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/waiting.php");
+        ?>
+
+        <script>
+            var welcomeDiv = $('#welcomeDiv');
+            var resultDiv = $('#resultDiv');
+
+            function SendRequest(){
+                var url = "http://b24.next.kz/rest/order.php";
+                var payment = {
+                    "paymentValue" : <?= $_REQUEST["paymentValue"] ?>,
+                    "receiptDate" : <?= $_REQUEST["receiptDate"] ?>,
+                    "receiptNumber" : <?= $_REQUEST["receiptNumber"] ?>
+                };
+
+                var params = {
+                    "action" : "payment.add",
+                    "orderId" : <?= $orderId ?>,
+                    "userId" : <?= $userId ?>,
+                    "userFullName" : <?= $_REQUEST["userFullName"] ?>,
+                    "payment" : payment
+                };
+
+                var request = $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: params
+                });
+
+                request.done(function(response){
+                    FillResult(response);
+
+                });
+            }
+
+            function FillResult(response){
+                var closeResponse = response["result"];
+                var remainder = closeResponse["remainder"];
+                var barItems = closeResponse["barItems"];
+                var payed = closeResponse["payed"];
+                var totalCost = closeResponse["totalCost"];
+                var status = closeResponse["status"];
+
+                var barItemsCount = barItems.length;
+                var message = closeResponse["message"];
+
+                var content = "<dl class='dl-horizontal'>"+
+                    "<dt>Полная стоимость заказа</dt><dd>"+totalCost+"</dd>"+
+                    "<dt>Оплачено</dt><dd>"+payed+"</dd>"+
+                    "<dt>Остаток по оплате</dt><dd><b>"+remainder+"</b></dd>"+
+                    "<dt>Статус заказа</dt><dd><i>"+status+"</i></dd>"+
+                    "<dt>Доп.заказов, кол-во</dt><dd>"+barItemsCount+"</dd>"+
+
+                    "<dt>Сделка</dt><dd><a href='https://next.bitrix24.kz/crm/deal/show/<?= $deal["ID"] ?>/' target='_blank'>Открыть сделку ID<?= $deal["ID"] ?></a></dd>"+
+                    "<dt>Сообщение сервера</dt><dd>"+message+"</a></dd>"+
+                    "</dl>";
+                resultDiv.html(content);
+                welcomeDiv.html("Результат загружен. Ознакомьтесь с ним ниже:");
+            }
+
+            $(document).ready(function(){
+                SendRequest();
+            });
+
+
+        </script>
+
+        <?php
+
+        break;
+
 
     case "dealSelected":
 

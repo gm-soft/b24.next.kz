@@ -34,9 +34,9 @@ switch ($actionPerformed){
 
                     <input type="hidden" name="actionPerformed" value="dealSelected">
                     <input type="hidden" name="userFullName" value="<?= $curr_user["NAME"]." ".$curr_user["LAST_NAME"] ?>">
-                    <?php
-                    require_once $_SERVER["DOCUMENT_ROOT"]."/sales/post/centerDealSelect.php";
-                    ?>
+
+                    <?php require_once $_SERVER["DOCUMENT_ROOT"]."/sales/shared/hidden-inputs.php"; ?>
+                    <?php require_once $_SERVER["DOCUMENT_ROOT"]."/sales/post/centerDealSelect.php"; ?>
 
                     <?php
                     if ($userId == "30"){
