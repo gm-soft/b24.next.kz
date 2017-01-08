@@ -2,10 +2,6 @@
 
 	if (!isset($_SESSION)) session_start();
 	require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
-	require($_SERVER["DOCUMENT_ROOT"]."/include/help.php");
-	require($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
-
-
 
 
 	$authId = isset($_REQUEST["AUTH_ID"]) ? $_REQUEST["AUTH_ID"] : null;
@@ -93,6 +89,27 @@
                         </div>
                     </div>
                 </div>
+
+                <?php
+                if ($userId == "30"){
+                    ?>
+                    <div class="col-sm-6">
+                        <div class="action-card panel panel-warning">
+                            <div class="panel-heading">Админские функции</div>
+                            <div class="panel-body">
+                                <div class="btn-group">
+                                    <a class="btn btn-default"
+                                       href="/sales/orders/editOrder.php?&authId=<?= $authId?>" role="button">Структура заказа</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php
+                }
+                ?>
+
+
             </div>
         </div>
 

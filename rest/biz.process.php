@@ -1,6 +1,6 @@
 <?php
 
-    require($_SERVER["DOCUMENT_ROOT"]."/include/helper.php");
+    require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
 
     $eventToken = $_REQUEST["event_token"];
     $properties = $_REQUEST["properties"];

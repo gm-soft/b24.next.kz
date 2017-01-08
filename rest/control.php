@@ -1,8 +1,6 @@
 <?php
 
 	require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
-	require($_SERVER["DOCUMENT_ROOT"]."/include/help.php");
-    require($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
 
 	$access_data = get_access_data();
     if(!isset($_SESSION)) session_start();

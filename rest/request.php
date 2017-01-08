@@ -1,9 +1,8 @@
 <?php
     require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
-    require($_SERVER["DOCUMENT_ROOT"] . "/include/help.php");
-    require ($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
 
-    log_event("control.php: IP: ".$_SERVER['REMOTE_ADDR'].". Browser: ".$_SERVER['HTTP_USER_AGENT'].". \$_REQUEST[\"method\"]=".$_REQUEST["method"]);
+    $browser = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "-";
+    log_event("control.php: ".$_SERVER['REMOTE_ADDR'].". Browser: ".$browser.". \$_REQUEST[\"method\"]=".$_REQUEST["method"]);
     $method = isset($_REQUEST["method"]) ? $_REQUEST["method"] : null;
     $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : null;
 

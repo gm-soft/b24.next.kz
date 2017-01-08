@@ -1,7 +1,6 @@
 <?php
 	require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
-	require($_SERVER["DOCUMENT_ROOT"] . "/include/help.php");
-    require($_SERVER["DOCUMENT_ROOT"] . "/Helpers/BitrixHelperClass.php");
+
 	header('Content-Type: application/json');
 
     $response = array(

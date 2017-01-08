@@ -1,9 +1,7 @@
 
 <?php
 	require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
-	require($_SERVER["DOCUMENT_ROOT"] . "/include/help.php");
 	require($_SERVER["DOCUMENT_ROOT"]."/server/request_processor.php");
-	require ($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
 	//---------------------------------------------
 	$error = "";
 

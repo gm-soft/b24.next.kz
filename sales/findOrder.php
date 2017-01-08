@@ -1,7 +1,5 @@
 <?php
 require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
-require($_SERVER["DOCUMENT_ROOT"]."/include/help.php");
-require($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
 
 $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;
 $authId = isset($_REQUEST["authId"]) ? $_REQUEST["authId"] : null;
@@ -18,8 +16,6 @@ $curr_user = BitrixHelper::getCurrentUser($authId);
 $_SESSION["user_name"] =  $curr_user["EMAIL"];
 $_SESSION["user_id"] =  $curr_user["ID"];
 $userId = $curr_user["ID"];
-
-//$contacts = BitrixHelper::searchContact(BitrixHelper::formatPhone($_REQUEST["contact_phone"]), $adminAuthToken);
 
 
 //-------------------------------------------------------------------------

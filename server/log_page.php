@@ -1,7 +1,6 @@
 <?php
 
     require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
-    require($_SERVER["DOCUMENT_ROOT"] . "/include/help.php");
     if(!isset($_SESSION)) session_start();
 
     $access_data = isset($_SESSION["access_data"]) ? $_SESSION["access_data"] : null;
@@ -40,7 +39,7 @@
         //log_event("Log filename ".$filename);
         $log_text = read_from_file($filename);
 
-        if ($logtype == "process_events" || $logtype == "errors") {
+        if ($logtype == "process_events" || $logtype == "errors" || $logtype == "order") {
             $log_text_split = $split_array = explode("\n", $log_text);
             $log_text_split = reverse_array($log_text_split);
             $log_text = join("\n", $log_text_split);

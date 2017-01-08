@@ -1,8 +1,5 @@
 <?php
     require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
-    require($_SERVER["DOCUMENT_ROOT"]."/include/help.php");
-    require($_SERVER["DOCUMENT_ROOT"]."/Helpers/BitrixHelperClass.php");
-    require($_SERVER["DOCUMENT_ROOT"]."/Helpers/OrderHelperClass.php");
 
 
     $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : null;

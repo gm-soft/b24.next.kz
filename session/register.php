@@ -1,8 +1,5 @@
 <?php
 require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
-require($_SERVER["DOCUMENT_ROOT"]."/include/help.php");
-require($_SERVER["DOCUMENT_ROOT"]."/Helpers/MysqlHelper.php");
-require($_SERVER["DOCUMENT_ROOT"]."/Model/UserClass.php");
 //---------------------------------------------
 if(!isset($_SESSION)) session_start();
 

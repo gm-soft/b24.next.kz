@@ -1,7 +1,5 @@
 <?php
 
-require_once ("../include/helper.php");
-
 class User
 {
     /* create table `users` (`user_id` int(11) unsigned not null auto_increment, `user_login` varchar(30) not null, `user_password` varchar(32) not null, `user_hash` varchar(30) not null, `user_group` int(5) default 1,  primary key (`user_id`)) default charset=utf8;*/
