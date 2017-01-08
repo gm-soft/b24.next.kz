@@ -1,12 +1,22 @@
 <?php
 
+    /*
+    
     require_once $_SERVER["DOCUMENT_ROOT"] . "/include/constants.php";
     require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/ApplicationHelperClass.php";
     require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/BitrixHelperClass.php";
     require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/OrderHelperClass.php";
     require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/SmsApiClass.php";
     require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/MysqlHelper.php";
-    require_once $_SERVER["DOCUMENT_ROOT"] . "/Model/UserClass.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] . "/Model/UserClass.php";*/
+
+    require_once "/var/www/b24.next.kz/include/constants.php";
+    require_once "/var/www/b24.next.kz/Helpers/ApplicationHelperClass.php";
+    require_once "/var/www/b24.next.kz/Helpers/BitrixHelperClass.php";
+    require_once "/var/www/b24.next.kz/Helpers/OrderHelperClass.php";
+    require_once "/var/www/b24.next.kz/Helpers/SmsApiClass.php";
+    require_once "/var/www/b24.next.kz/Helpers/MysqlHelper.php";
+    require_once "/var/www/b24.next.kz/Model/UserClass.php";
 
 
     /**

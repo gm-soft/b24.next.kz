@@ -1,32 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2a14c8c7-54cc-42a9-b610-ff2b9e82312a" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/include/help.php" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Helpers/ApplicationHelperClass.php" afterPath="$PROJECT_DIR$/Helpers/ApplicationHelperClass.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Helpers/BitrixHelperClass.php" afterPath="$PROJECT_DIR$/Helpers/BitrixHelperClass.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Helpers/MysqlHelper.php" afterPath="$PROJECT_DIR$/Helpers/MysqlHelper.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Helpers/OrderHelperClass.php" afterPath="$PROJECT_DIR$/Helpers/OrderHelperClass.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bp/client_by_deal_id.php" afterPath="$PROJECT_DIR$/bp/client_by_deal_id.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bp/include/task_update.php" afterPath="$PROJECT_DIR$/bp/include/task_update.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bp/task_for_kitchen.php" afterPath="$PROJECT_DIR$/bp/task_for_kitchen.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cron_executer.php" afterPath="$PROJECT_DIR$/cron_executer.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/handlers/ONCRMDEALUPDATE.php" afterPath="$PROJECT_DIR$/handlers/ONCRMDEALUPDATE.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/config.php" afterPath="$PROJECT_DIR$/include/config.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rest/auth.js" afterPath="$PROJECT_DIR$/rest/auth.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rest/bitrix.php" afterPath="$PROJECT_DIR$/rest/bitrix.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rest/biz.process.php" afterPath="$PROJECT_DIR$/rest/biz.process.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rest/control.php" afterPath="$PROJECT_DIR$/rest/control.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rest/order.php" afterPath="$PROJECT_DIR$/rest/order.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rest/request.php" afterPath="$PROJECT_DIR$/rest/request.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sales/booth.php" afterPath="$PROJECT_DIR$/sales/booth.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sales/orders/editOrder.php" afterPath="$PROJECT_DIR$/sales/orders/editOrder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sales/school/school.php" afterPath="$PROJECT_DIR$/sales/school/school.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/index.php" afterPath="$PROJECT_DIR$/server/index.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/log_page.php" afterPath="$PROJECT_DIR$/server/log_page.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/request_processor.php" afterPath="$PROJECT_DIR$/server/request_processor.php" />
-    </list>
+    <list default="true" id="2a14c8c7-54cc-42a9-b610-ff2b9e82312a" name="Default" comment="" />
     <ignored path="BitrixStasApp.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />

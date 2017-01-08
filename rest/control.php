@@ -40,7 +40,7 @@
 			} else {
 				$text_to_log = "Refresh requested, but went wrong. Refresh response: ".var_export($query_data, true);
 			}
-            //ApplicationHelper::log($text_to_log, "/log/auth.log");
+            ApplicationHelper::log($text_to_log, "/log/auth.log");
 			break;
 
 		case "getAccessToken":
