@@ -113,7 +113,7 @@
 
         case 'schoolCreate':
 
-            $adminToken = get_access_data(true);
+            $adminToken = ApplicationHelper::readAccessData(true);
             $url = "https://script.google.com/macros/s/AKfycbxjyTPPbRdVZ-QJKcWLFyITXIeQ1GwI7fAi0FgATQ0PsoGKAdM/exec";
             $idData = query("GET", $url, array(
                 "event" => "OnIdIncrementedRequested"
@@ -145,8 +145,9 @@
             $data = query("GET", $url, $params);
             $order = isset($data["result"]) ? $data["result"] : null;
 
+            $adminToken = ApplicationHelper::readAccessData(true);
             $changedOrder = OrderHelper::ConstructSchoolOrder($order["Id"], $_REQUEST, $adminToken, $order);
-            $adminToken = get_access_data(true);
+
 
             $updateResult = OrderHelper::updateOrderDeal($changedOrder, $adminToken, true);
             $updateProductsResult = OrderHelper::updateDealProductSet($changedOrder, $adminToken);

@@ -17,7 +17,7 @@ if (is_null($action)) {
 $logText = "action=".$action.". Request: ".json_encode($_REQUEST);
 $processed = false;
 // -------------------------------------
-$adminToken = get_access_data(true);
+$adminToken = ApplicationHelper::readAccessData(true);
 $orderId = $_REQUEST["orderId"];
 $order = OrderHelper::GetOrder($orderId);
 

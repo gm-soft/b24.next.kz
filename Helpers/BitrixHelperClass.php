@@ -90,7 +90,7 @@ class BitrixHelper
         //и добавляю новое поле в списочный товар CATEGORY_VALUE, чтобы в дальнейшем отсортировать по нему
         foreach ($attached_productrows as $key => $value) {
             $searchable_field = "ID";
-            $product = search_item_in_array($attached_productrows[$key]["PRODUCT_ID"], $searchable_field, $attached_products);
+            $product = ApplicationHelper::searchItemInArray($attached_productrows[$key]["PRODUCT_ID"], $searchable_field, $attached_products);
             if (is_null($product)) continue;
             $attached_productrows[$key]["CATEGORY_VALUE"] = $product["PROPERTY_180"]["value"];
             $attached_productrows[$key]["PREPARE_VALUE"] = $product["PROPERTY_182"]["value"];
@@ -246,7 +246,7 @@ class BitrixHelper
                 $value["OLD_QUANTITY"] = $name_and_count["count"];
                 $value["CHANGED_QUANTITY"] = 0;
 
-                $product = search_item_in_array($value["PRODUCT_NAME"], "PRODUCT_NAME", $products);
+                $product = ApplicationHelper::searchItemInArray($value["PRODUCT_NAME"], "PRODUCT_NAME", $products);
 
                 // если товар из чеклиста не был найден в списке товаров, прикрепленных к сделке
                 if (is_null($product)) {
@@ -284,7 +284,7 @@ class BitrixHelper
 
         foreach ($products as $key => $value){
 
-            $search_item = search_item_in_array($value["PRODUCT_NAME"], "PRODUCT_NAME", $new_checklist);
+            $search_item = ApplicationHelper::searchItemInArray($value["PRODUCT_NAME"], "PRODUCT_NAME", $new_checklist);
             if (!is_null($search_item)) continue;
             $checklist_item = array(
                 "TITLE" => formatChecklistItem($value),
@@ -508,7 +508,7 @@ class BitrixHelper
      * @return null
      */
     public static function getCompany($companyId, $auth = null) {
-        $auth = is_null($auth) ? get_access_data(true) : $auth;
+        $auth = is_null($auth) ? ApplicationHelper::readAccessData(true) : $auth;
         $params = array(
             "id" => $companyId,
             "auth" => $auth
@@ -528,7 +528,7 @@ class BitrixHelper
      * @return null
      */
     public static function getContact($contactId, $auth = null) {
-        $auth = is_null($auth) ? get_access_data(true) : $auth;
+        $auth = is_null($auth) ? ApplicationHelper::readAccessData(true) : $auth;
         $params = array(
             "id" => $contactId,
             "auth" => $auth
@@ -548,7 +548,7 @@ class BitrixHelper
      * @return null
      */
     public static function getDeal($dealId, $auth = null) {
-        $auth = is_null($auth) ? get_access_data(true) : $auth;
+        $auth = is_null($auth) ? ApplicationHelper::readAccessData(true) : $auth;
         $params = array(
             "id" => $dealId,
             "auth" => $auth
@@ -568,7 +568,7 @@ class BitrixHelper
      * @return null
      */
     public static function getLead($leadId, $auth = null) {
-        $auth = is_null($auth) ? get_access_data(true) : $auth;
+        $auth = is_null($auth) ? ApplicationHelper::readAccessData(true) : $auth;
         $params = array(
             "id" => $leadId,
             "auth" => $auth
@@ -587,7 +587,7 @@ class BitrixHelper
     */
     public static function searchContact($phone, $auth = null){
 
-        $auth = is_null($auth) ? get_access_data(true) : $auth;
+        $auth = is_null($auth) ? ApplicationHelper::readAccessData(true) : $auth;
         $phone_array = array(
             $phone,
             substr_replace($phone, "+7", 0, 1),
@@ -618,7 +618,7 @@ class BitrixHelper
      * @return array
      */
     public static function getCompanies($filterByUser = null, $auth = null){
-        $auth = is_null($auth) ? get_access_data(true) : $auth;
+        $auth = is_null($auth) ? ApplicationHelper::readAccessData(true) : $auth;
 
         $params = array(
             "select[0]" => "ID",
@@ -644,7 +644,7 @@ class BitrixHelper
      * @return array
      */
     public static function getDeals(Array $filterFields = array(), Array $filterValues =  array(), $auth = null){
-        $auth = is_null($auth) ? get_access_data(true) : $auth;
+        $auth = is_null($auth) ? ApplicationHelper::readAccessData(true) : $auth;
 
         $params = array(
             "auth" => $auth
@@ -700,7 +700,7 @@ class BitrixHelper
      * @return array
      */
     public static function getContactsOfTheCompany($companyId, $token = null){
-        $token = is_null($token) ? get_access_data(true) : $token;
+        $token = is_null($token) ? ApplicationHelper::readAccessData(true) : $token;
         $params = array(
             "select[0]" => "ID",
             "select[1]" => "NAME",
@@ -771,7 +771,7 @@ class BitrixHelper
      * @return null|string
      */
     public static function getInstanceSource($id, $type, $auth = null) {
-        $auth = is_null($auth) ? get_access_data(true) : $auth;
+        $auth = is_null($auth) ? ApplicationHelper::readAccessData(true) : $auth;
         switch ($type){
             case "contact":
                 $instance = BitrixHelper::getContact($id, $auth);
@@ -866,7 +866,7 @@ class BitrixHelper
      * @return array|mixed
      */
     public static function getUsers(Array $filterFields = array(), Array $filterValues =  array(), $auth = null){
-        $auth = is_null($auth) ? get_access_data(true) : $auth;
+        $auth = is_null($auth) ? ApplicationHelper::readAccessData(true) : $auth;
 
         $params = array(
             "auth" => $auth
@@ -906,7 +906,7 @@ class BitrixHelper
      * @return mixed - ID компании либо ошибку создания
      */
     public static function createNewCompany($title, $phone = null, $userId = null, $auth = null){
-        $auth = is_null($auth) ? get_access_data(true) : $auth;
+        $auth = is_null($auth) ? ApplicationHelper::readAccessData(true) : $auth;
         $params = array(
             "fields[TITLE]" => $title,
             "fields[COMPANY_TYPE]"=> "CUSTOMER",

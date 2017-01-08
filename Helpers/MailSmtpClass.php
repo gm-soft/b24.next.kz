@@ -1,6 +1,4 @@
 <?php
-
-require($_SERVER["DOCUMENT_ROOT"]."/include/constants.php");
 /**
 * MailSmtp
 * 

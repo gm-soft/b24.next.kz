@@ -11,7 +11,7 @@
 
 
 
-    $adminAuthToken = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);
+    $adminAuthToken = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : ApplicationHelper::readAccessData(true);
     //$userId = "72";
 
     $curr_user = BitrixHelper::getCurrentUser($authId);

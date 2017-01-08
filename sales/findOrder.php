@@ -8,7 +8,7 @@ if (!isset($_REQUEST["authId"]) || empty($_REQUEST["authId"])) {
     redirect("../sales/index.php");
 }
 
-$adminAuthToken = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);
+$adminAuthToken = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : ApplicationHelper::readAccessData(true);
 
 
 

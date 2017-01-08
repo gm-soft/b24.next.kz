@@ -11,7 +11,7 @@
 	if(isset($_REQUEST["code"]))
 	{
 		$code = $_REQUEST["code"];
-		$params = construct_first_auth_params($code);
+		$params = ApplicationHelper::constructFirstAuthParams($code);
 		$query_data = query("GET", "https://next.bitrix24.kz/oauth/token/", $params);
 
 		if(isset($query_data["access_token"]))
@@ -40,7 +40,7 @@
 
 	if(!is_null($access_data) && isset($_REQUEST["action"]) && $_REQUEST["action"] == "refresh")
 	{
-		$params = construct_refresh_params($access_data["refresh_token"]);
+		$params = ApplicationHelper::constructRefreshParams($access_data["refresh_token"]);
 		$query_data = query("GET", "https://next.bitrix24.kz/oauth/token/", $params);
 		
 		if(isset($query_data["access_token"]))

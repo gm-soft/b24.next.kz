@@ -739,7 +739,7 @@ class OrderHelper
     }
 
     public static function updateDealProductSet(array $order, $token = null){
-        $token = is_null($token) ? get_access_data(true) : $token;
+        $token = is_null($token) ? ApplicationHelper::readAccessData(true) : $token;
         $eventId = 0;
         // $banquetItems = [];
         // $optionalItems = [];

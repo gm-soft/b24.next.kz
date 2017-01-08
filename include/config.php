@@ -1,6 +1,7 @@
 <?php
 
     require_once $_SERVER["DOCUMENT_ROOT"] . "/include/constants.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/ApplicationHelperClass.php";
     require_once $_SERVER["DOCUMENT_ROOT"] . "/include/help.php";
     require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/BitrixHelperClass.php";
     require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/OrderHelperClass.php";

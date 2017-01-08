@@ -9,7 +9,7 @@ if (is_null($_REQUEST["authId"])) {
 }
 
 
-$_REQUEST["adminToken"] = isset($_REQUEST["adminToken"]) && $_REQUEST["adminToken"] != ""  ? $_REQUEST["adminToken"] : get_access_data(true);
+$_REQUEST["adminToken"] = isset($_REQUEST["adminToken"]) && $_REQUEST["adminToken"] != ""  ? $_REQUEST["adminToken"] : ApplicationHelper::readAccessData(true);
 
 $curr_user = BitrixHelper::getCurrentUser($authId);
 $_SESSION["user_name"] =  $curr_user["EMAIL"];

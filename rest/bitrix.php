@@ -14,7 +14,7 @@
 		die();
 	}
 
-    $access_data = get_access_data();
+    $access_data = ApplicationHelper::readAccessData();
     if (is_null($access_data) ) {
         $response["error"] = "No access data available";
         $response["error_description"] = "No access data available";
@@ -102,7 +102,7 @@
             // Получаю список товаров, прикрепленных к сделке
             $attached_productrows = BitrixHelper::getAttachedProductrows($deal_id, $access_data["access_token"]);
 
-            $products = filter_by_field($category_type, "CATEGORY_VALUE", $attached_productrows);
+            $products = ApplicationHelper::filterByField($category_type, "CATEGORY_VALUE", $attached_productrows);
 
             if ($type == "admin" ||  (!is_null($products) && count($products) != 0)) {
                 $task_array = BitrixHelper::constructTask($deal, "Подготовка ".$message_type."к заказу \"".$deal["TITLE"]."\"", $responsible_id, $parent_task_id);
@@ -115,7 +115,7 @@
                 $message = "Была обновлена(создана) задача для заказа ".$deal["TITLE"].".\n";
                 $message = $message."Список подзадач для выполнения был прикреплен к задаче.\n";
                 $message = $message."Проверьте задачу по ссылке https://next.bitrix24.kz/company/personal/user/".$responsible_id."/tasks/task/view/".$task_id."/";
-                notify_user($responsible_id, $message, $access_data["access_token"]);
+                BitrixHelper::notifyUser($responsible_id, $message, $access_data["access_token"]);
             }
             break;
 
@@ -160,7 +160,7 @@
             $attached_productrows = BitrixHelper::getAttachedProductrows($deal_id, $access_data["access_token"]);
 
             $response["attached_productrows"] = $attached_productrows;
-            $products = filter_by_field($category_type, "CATEGORY_VALUE", $attached_productrows);
+            $products = ApplicationHelper::filterByField($category_type, "CATEGORY_VALUE", $attached_productrows);
 
 
 

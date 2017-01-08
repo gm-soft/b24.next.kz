@@ -7,7 +7,7 @@
     $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : null;
 
     if (is_null($method) /*|| is_null($id)*/){
-        $response = ["error" => "No method received", "request" => var_export($_REQUEST, true)];
+        $response = ["error" => "No method received"];
         header('Content-Type: application/json');
         echo json_encode($response);
         die();

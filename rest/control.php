@@ -2,8 +2,7 @@
 
 	require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
 
-	$access_data = get_access_data();
-    if(!isset($_SESSION)) session_start();
+	$access_data = ApplicationHelper::readAccessData();
 
 	$result = false;
 	$action = $_REQUEST["action"];
@@ -23,7 +22,7 @@
 				log_event($text, "/log/auth.log");
 				break;
 			}
-			$params = construct_refresh_params($access_data["refresh_token"]);
+			$params = ApplicationHelper::constructRefreshParams($access_data["refresh_token"]);
 			$query_data = query("GET", PROTOCOL."://".PORTAL_ADDRESS."/oauth/token/", $params);
 
 			$text_to_log = "";

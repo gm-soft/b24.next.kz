@@ -9,7 +9,7 @@
 		redirect("https://b24.next.kz/sales/index.php");
 	}
 
-	$admin_authId = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : get_access_data(true);
+	$admin_authId = isset($_REQUEST["adminToken"]) ? $_REQUEST["adminToken"] : ApplicationHelper::readAccessData(true);
 
 	
 

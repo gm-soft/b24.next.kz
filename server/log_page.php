@@ -35,13 +35,13 @@
 
     $log_text = "empty log file";
     if (!is_null($log_filename)) {
+
         $filename = $log_filename;
-        //log_event("Log filename ".$filename);
         $log_text = read_from_file($filename);
 
         if ($logtype == "process_events" || $logtype == "errors" || $logtype == "order") {
             $log_text_split = $split_array = explode("\n", $log_text);
-            $log_text_split = reverse_array($log_text_split);
+            $log_text_split = ApplicationHelper::reverseArray($log_text_split);
             $log_text = join("\n", $log_text_split);
         }
 
