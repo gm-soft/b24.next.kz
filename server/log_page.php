@@ -37,7 +37,7 @@
     if (!is_null($log_filename)) {
 
         $filename = $log_filename;
-        $log_text = read_from_file($filename);
+        $log_text = ApplicationHelper::readFromFile($filename);
 
         if ($logtype == "process_events" || $logtype == "errors" || $logtype == "order") {
             $log_text_split = $split_array = explode("\n", $log_text);

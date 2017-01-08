@@ -2,14 +2,11 @@
 
     require_once $_SERVER["DOCUMENT_ROOT"] . "/include/constants.php";
     require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/ApplicationHelperClass.php";
-    require_once $_SERVER["DOCUMENT_ROOT"] . "/include/help.php";
     require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/BitrixHelperClass.php";
     require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/OrderHelperClass.php";
     require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/SmsApiClass.php";
     require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/MysqlHelper.php";
     require_once $_SERVER["DOCUMENT_ROOT"] . "/Model/UserClass.php";
-
-
 
 
     /**
@@ -68,86 +65,14 @@
             curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt_array($curl, $curlOptions);
             $result = curl_exec($curl);
-            log_debug($result);
             return json_decode($result, 1);
 
         } catch (Exception $ex){
             $text = $ex->getMessage(). "\nFile: ".$ex->getFile()."\nLine: ".$ex->getLine();
-            process_error($text);
+            ApplicationHelper::processError($text);
         }
         return null;
 
-    }
-
-    /**
-     * Вызов метода REST.
-     *
-     * @param string $method вызываемый метод
-     * @param array $params параметры вызова метода
-     *
-     * @return array
-     */
-    function call($method, $params)
-    {
-    	return query("POST", PROTOCOL."://".PORTAL_ADDRESS."/rest/".$method, $params);
-    }
-
-    /**
-     * Вызов методов REST способом BATCH.
-     *
-     * @param string $commands массив GET-запросов
-     * @param string $access_token токен авторизации
-     *
-     * @return array
-     */
-    function batch($commands, $access_token){
-        $batch_params = array("auth" => $access_token, "halt" => 0, "cmd" => $commands);
-        $call_result = call("batch", $batch_params);
-        return $call_result;
-    }
-    
-    /**
-     * @param $commands
-     * @param $access_token
-     * @return array|null
-     */
-    function batch_commands($commands, $access_token){
-        $result = array();
-        $command_to_execute = array();
-        $temp_array = array();
-
-        for ($i = 0; $i < count($commands); $i++) {
-            $temp_array[] = $commands[$i];
-
-            if (count($temp_array) == 49){
-                $command_to_execute[] = $temp_array;
-                $temp_array = array();
-            }
-            if ($i == (count($commands) -1)) $command_to_execute[] = $temp_array;
-        }
-
-        foreach ($command_to_execute as $cmd) {
-            $batch_result = batch($cmd, $access_token);
-            $data = isset($batch_result["result"]) ? $batch_result["result"] : $batch_result;
-            $result = array_merge($result, $data);
-        }
-        return count($result) > 0 ? $result : null;
-    }
-
-
-    function objectToArray($d){
-        if (is_object($d)) {
-            $d = get_object_vars($d);
-        }
-        return is_array($d) ? array_map(__FUNCTION__, $d) :  $d;
-    }
-
-    function phpist_get_array_by_key ($array, $key){
-        $ret = array();
-        foreach ($array as $v){
-            $ret[] = $v[$key];
-        }
-        return $ret;
     }
 
 /**
@@ -168,115 +93,4 @@
             if($item == $searchable) return true;
     	}
         return false;
-    }
-
-    
-    /**
-    * Преобразовывает строку в формате json в объект-json. Возвратит исходный объект в случае ошибки
-    * @param $content - исходная строка
-    * @return array
-    */
-    function object_as_json($content){
-
-        try {
-            $data = json_decode($content);
-            $array = (array)$data;
-            foreach($array as $key => &$field){
-                if(is_object($field))$field = $this->objectToarray($field);
-            }
-            return $array;
-        } catch(Exception $ex){
-
-        }
-        return $content;
-    }
-
-    function format_current_time($format = null) {
-
-        $time = time() + (60*60*6);
-        $result = null;
-        switch ($format) {
-            case "atom":
-                $result = date("c", $time);
-                break;
-            
-            default:
-                $result = date("d.m.y - H:i", $time);
-                break;
-        }
-        return $result;
-    }
-
-/**
- * @param $exception
- */
-    function process_exception($exception){
-
-    }
-
-    function process_error($error_text) {
-        $filename = $_SERVER["DOCUMENT_ROOT"]."/log/errors.log";
-        $text = "[".format_current_time("atom")."] ".$error_text."\n";
-        error_log($text, 3, $filename);
-    }
-
-/**
- *
- * @param $event_text
- * @param string $filename
- * @return bool
- */
-    function log_event($event_text, $filename = "/log/process_events.log") {
-        if ($event_text == "") return false;
-
-        $filename = $_SERVER["DOCUMENT_ROOT"].$filename;
-        $content = "[".format_current_time("atom")."] ".$event_text."\n";
-        $append = "APPEND";
-        return write_to_file($filename, $content, $append);
-    }
-
-    function log_debug($something) {
-        $filename = $_SERVER["DOCUMENT_ROOT"]."/log/debug.log";
-        $content = "[".format_current_time("atom")."]".$something."\n";
-        return write_to_file($filename, $content);
-    }
-
-/**
- * Записывает содержимое в файл. Возвращает результат записи
- * @param $filename - имя файла, в который будет осуществляться запись
- * @param $content - содержимое
- * @param null $append
- * @return bool
- */
-    function write_to_file($filename, $content, $append = null){
-        try {
-            if (is_null($append)) file_put_contents($filename,  $content);
-            else file_put_contents($filename,  $content, FILE_APPEND);
-            return true;
-        } catch(Exception $ex){ process_exception($ex); }
-        return false;
-    }
-
-    /**
-     * Читает содержимое файла. Возвращает содержимое либо NULL, если возникла какая-то ошибка
-     * @param $filename - имя файла
-     * @return null|string
-     */
-    function read_from_file($filename){
-        try {
-            $content = file_get_contents($filename);
-            return $content;
-        } catch(Exception $ex){ process_exception($ex); }
-        return NULL;
-    }
-
-    function xml_encode($mixed, $root_name = "result") {
-        $xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><'.$root_name.'/>');
-
-        /*foreach ($mixed as $key => $value){
-            $node = $xml->addChild($key, $value);
-        }*/
-        $convert_result = array_walk($mixed, array($xml, 'addChild'));
-
-        return $convert_result ? $xml->asXML() : null;
     }

@@ -135,11 +135,14 @@ switch ($actionPerformed){
             });
 
             confirm.change(function(){
+
+
                 if (orderStructure.prop("disabled") == true) {
                     this.checked = false;
                     return;
                 }
-                var disableState = !this.checked;
+                var validation = isJson(orderStructure.val());
+                var disableState = !this.checked && validation;
                 submitBtn.prop('disabled', disableState);
             });
 
@@ -160,6 +163,15 @@ switch ($actionPerformed){
                 element.height(windowHeight - 300);
             }
 
+            function isJson(str) {
+                try {
+                    JSON.parse(str);
+                } catch (e) {
+                    return false;
+                }
+                return true;
+            }
+
         </script>
 
 
@@ -168,10 +180,16 @@ switch ($actionPerformed){
         break;
 
     case "orderSave":
+        $order = json_decode($_REQUEST["orderStructure"], true);
+        $result = OrderHelper::CalculateOrder($order);
+        $order = $result["order"];
+        $saveResult = $result["result"];
+
+
         require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
-        $order = json_decode($_REQUEST["orderStructure"]);
+
         ?>
-        <pre><?= var_export($_REQUEST, true)?></pre>
+        <pre><?= var_export($result, true)?></pre>
         <pre><?= var_export($order, true)?></pre>
 
         <?php

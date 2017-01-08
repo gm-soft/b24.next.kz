@@ -18,7 +18,7 @@
     if (is_null($access_data) ) {
         $response["error"] = "No access data available";
         $response["error_description"] = "No access data available";
-        process_error("No access data available");
+        ApplicationHelper::processError("No access data available");
         echo json_encode($response);
         die();
     }
@@ -26,7 +26,7 @@
     $ip = $_SERVER['REMOTE_ADDR'];
     $browser = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "unknown";
     $req = json_encode($_REQUEST);
-    log_event("bitrix.php: action=".$action.". Client: ".$ip.", (".$req.")");
+    ApplicationHelper::log("bitrix.php: action=".$action.". Client: ".$ip.", (".$req.")");
 
 
 	switch ($action) {
@@ -219,7 +219,7 @@
                 "checklist_commands" => $checklist_data["result"]["checklist_commands"],
 
             );
-            $description = "[b]Сводка последних изменений на дату ".formatDate(time()).":[/b]\n";
+            $description = "[b]Сводка последних изменений на дату ".ApplicationHelper::formatDate(time()).":[/b]\n";
             //---------------------
             if (count($checklist_data["result"]["changed"]) > 0) {
                 $description .= "[i]Измененные товары:[/i]\n";
@@ -480,8 +480,6 @@
         foreach ($orders as $deal){
 
             $date = new DateTime($deal["BEGINDATE"]); // BEGINDATE UF_CRM_1467690712
-
-            log_debug(var_export($date,true));
 
             if ($now - $date->getTimestamp() > $ms) continue;
             $tmp[] = $deal;

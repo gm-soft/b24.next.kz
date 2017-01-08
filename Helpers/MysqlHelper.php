@@ -118,7 +118,6 @@ class MysqlHelper
         if ($data) {
 
             $data = mysqli_fetch_assoc($data);
-            log_debug("query = ".$query." data = ".var_export($data, true));
             $result = true;
 
         } else {

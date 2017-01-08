@@ -17,83 +17,83 @@ function process_user_request($request, $access_data) {
     switch($method)
     {
         case "user.fields":
-            $data = call("user.fields", array(
+            $data = BitrixHelper::callMethod("user.fields", array(
                     "id" => $id,
                     "auth" => $access_token)
             );
             break;
 
         case "department.fields":
-            $data = call("department.fields", array(
+            $data = BitrixHelper::callMethod("department.fields", array(
                     "id" => $id,
                     "auth" => $access_token)
             );
             break;
 
         case "department.get":
-            $data = call("department.get", array(
+            $data = BitrixHelper::callMethod("department.get", array(
                     "id" => $id,
                     "auth" => $access_token)
             );
             break;
 
         case "user.get":
-            $data = call("user.get", array(
+            $data = BitrixHelper::callMethod("user.get", array(
                     "id" => $id,
                     "auth" => $access_token)
             );
             break;
 
         case 'crm.deal.productrows.get':
-            $data = call("crm.deal.productrows.get", array(
+            $data = BitrixHelper::callMethod("crm.deal.productrows.get", array(
                     "id" => $id,
                     "auth" => $access_token)
             );
             break;
 
         case "crm.contact.company.items.get":
-            $data = call("crm.contact.company.items.get", array(
+            $data = BitrixHelper::callMethod("crm.contact.company.items.get", array(
                     "id" => $id,
                     "auth" => $access_token)
             );
             break;
 
         case 'crm.deal.get':
-            $data = call("crm.deal.get", array(
+            $data = BitrixHelper::callMethod("crm.deal.get", array(
                     "id" => $id,
                     "auth" => $access_token)
             );
             break;
 
         case "crm.deal.fields":
-            $data = call("crm.deal.fields", array(
+            $data = BitrixHelper::callMethod("crm.deal.fields", array(
                     "auth" => $access_token)
             );
         break;
 
         case 'crm.deal.userfield.list':
-            $data = call("crm.deal.userfield.list", array(
+            $data = BitrixHelper::callMethod("crm.deal.userfield.list", array(
                     "auth" => $access_token)
             );
             break;
 
         case 'crm.product.list':
-            $data = call("crm.product.list", array(
+            $data = BitrixHelper::callMethod("crm.product.list", array(
                     "auth" => $access_token)
             );
             break;
 
         case 'task.item.getdata':
-            $data = call("task.item.getdata", array("auth" => $access_token, 0 => $id));
+            $data = BitrixHelper::callMethod("task.item.getdata", array("auth" => $access_token, 0 => $id));
             break;
 
         case 'user.current':
-            $data = call("user.current", array("auth" => $access_token));
+            $data = BitrixHelper::callMethod("user.current", array("auth" => $access_token));
             break;
 
         case 'event.bind':
             $event = isset($request["event_name"]) ? $request["event_name"] : "";
-            $data = call("event.bind", array(
+            $data = BitrixHelper::callMethod("event.bind", array(
                 "auth" => $access_token,
                 "EVENT" => $event,
                 "HANDLER" => "http://b24.next.kz/event.php",
@@ -102,13 +102,13 @@ function process_user_request($request, $access_data) {
             break;
 
         case 'event.get':
-            $data = call("event.get", array(
+            $data = BitrixHelper::callMethod("event.get", array(
                     "auth" => $access_token)
             );
             break;
 
         case 'event.unbind':
-            $data = call("event.unbind", array(
+            $data = BitrixHelper::callMethod("event.unbind", array(
                 "auth" => $access_token,
                 'EVENT' => 'ONCRMLEADADD',
                 'HANDLER' => REDIRECT_URI . "event.php"
@@ -116,12 +116,12 @@ function process_user_request($request, $access_data) {
             break;
 
         case 'event.list':
-            $data = call("events", array(
+            $data = BitrixHelper::callMethod("events", array(
                     "auth" => $access_token)
             );
             break;
         case 'bizproc.activity.add':
-            $data = call("bizproc.activity.add", array(
+            $data = BitrixHelper::callMethod("bizproc.activity.add", array(
                 "auth" => $access_token,
                 "CODE" => "calendar_accessibility",
                 "HANDLER" => "http://b24.next.kz/rest/biz.process.php",
@@ -172,13 +172,13 @@ function process_user_request($request, $access_data) {
         break;
 
         case 'entity.get':
-            $data = call("entity.get", array(
+            $data = BitrixHelper::callMethod("entity.get", array(
                 "auth" => $access_token)
             );
         break;
 
         case 'bizproc.activity.delete':
-            $data = call("bizproc.activity.delete", array(
+            $data = BitrixHelper::callMethod("bizproc.activity.delete", array(
                 "auth" => $access_token,
                 "CODE" => "client_by_deal_id"
             ));
@@ -189,7 +189,7 @@ function process_user_request($request, $access_data) {
         break;
 
         default:
-            $data = call($method, array(
+            $data = BitrixHelper::callMethod($method, array(
                     "id" => $id,
                     "auth" => $access_token)
             );

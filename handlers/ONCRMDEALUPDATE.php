@@ -5,12 +5,12 @@ $auth = $_REQUEST['auth']['access_token'];
 $deal_id = $_REQUEST['data']['FIELDS']['ID'];
 $formatted_txt = '';    		
 
-$productrows = call("next.bitrix24.kz", "crm.deal.productrows.get", array(
+$productrows = BitrixHelper::callMethod("crm.deal.productrows.get", array(
 	"id" => $deal_id,
   	"auth" => $auth)
 );
 
-$arr = objectToArray($productrows);
+$arr = ApplicationHelper::objectToArray($productrows);
 
 foreach ($arr['result'] as $key => $value) {
 $formatted_txt = $formatted_txt.$arr['result'][$key]['PRODUCT_NAME']." - ".$arr['result'][$key]['QUANTITY']." ".$arr['result'][$key]['MEASURE_NAME']."\n";

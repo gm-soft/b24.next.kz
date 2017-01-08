@@ -20,7 +20,7 @@
 			//$_SESSION["query_data"]["ts"] = time();
 			$query_data["ts"] = time();
 			$json = json_encode($query_data);
-			$writeResult = write_to_file(AUTH_FILENAME, $json);
+			$writeResult = ApplicationHelper::writeToFile(AUTH_FILENAME, $json);
 
 			$_SESSION["access_data"] = $query_data;
 			$current_user = BitrixHelper::getCurrentUser($query_data["access_token"]);
@@ -35,8 +35,8 @@
 		}
 	}
 
-	$access_source = read_from_file(AUTH_FILENAME);
-	$access_data = $access_source != "null" ? object_as_json($access_source) : NULL;
+	$access_source = ApplicationHelper::readFromFile(AUTH_FILENAME);
+	$access_data = $access_source != "null" ? ApplicationHelper::toJson($access_source) : NULL;
 
 	if(!is_null($access_data) && isset($_REQUEST["action"]) && $_REQUEST["action"] == "refresh")
 	{
@@ -49,7 +49,7 @@
 			//$_SESSION["query_data"]["ts"] = time();
 			$query_data["ts"] = time();
 			$json = json_encode($query_data);
-			$writeResult = write_to_file(AUTH_FILENAME, $json);
+			$writeResult = ApplicationHelper::writeToFile(AUTH_FILENAME, $json);
 
 			$_SESSION["access_data"] = $query_data;
 			$current_user = BitrixHelper::getCurrentUser($query_data["access_token"]);

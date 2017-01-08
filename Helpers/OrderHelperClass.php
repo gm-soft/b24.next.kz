@@ -24,15 +24,15 @@ class OrderHelper
             $ts = strtotime($order["DateOfEvent"]);
             $datetime = new DateTime();
             $datetime->setTimestamp($ts + 6 * 3600);
-            $order["Date"] = str_replace(" ", "T", formatDate($datetime, "Y-m-d H:i:s+06:00"));
-            $order["DateAtom"] = str_replace(" ", "T", formatDate($datetime, "Y-m-d H:i:s+06:00"));
+            $order["Date"] = str_replace(" ", "T", ApplicationHelper::formatDate($datetime, "Y-m-d H:i:s+06:00"));
+            $order["DateAtom"] = str_replace(" ", "T", ApplicationHelper::formatDate($datetime, "Y-m-d H:i:s+06:00"));
         }
 
         if (!isset($order["DateAtom"])){
             $ts = strtotime($order["DateOfEvent"]);
             $datetime = new DateTime();
             $datetime->setTimestamp($ts + 6 * 3600);
-            $order["DateAtom"] = str_replace(" ", "T", formatDate($datetime, "Y-m-d H:i:s+06:00"));
+            $order["DateAtom"] = str_replace(" ", "T", ApplicationHelper::formatDate($datetime, "Y-m-d H:i:s+06:00"));
         }
 
 
@@ -135,8 +135,8 @@ class OrderHelper
         $time = $time - (3 * 3600);
 
 
-        $order["Date"] = str_replace(" ", "T", formatDate($datetime, "Y-m-d H:i:s+06:00"));
-        $order["DateAtom"] = str_replace(" ", "T", formatDate($datetime, "Y-m-d H:i:s+06:00"));
+        $order["Date"] = str_replace(" ", "T", ApplicationHelper::formatDate($datetime, "Y-m-d H:i:s+06:00"));
+        $order["DateAtom"] = str_replace(" ", "T", ApplicationHelper::formatDate($datetime, "Y-m-d H:i:s+06:00"));
 
         $order["TotalCost"] = $request["moneyToCash"];
         $order["UserId"] = $request["userId"];
@@ -146,7 +146,7 @@ class OrderHelper
         $event = array(
             'Event' => "",
             'Zone' => "",
-            'Date' => str_replace(" ", ".", formatDate($datetime, "d m Y")),
+            'Date' => str_replace(" ", ".", ApplicationHelper::formatDate($datetime, "d m Y")),
             'StartTime' => str_replace(":", "-", $request["time"]),
             'Duration' => "",
             'GuestCount' => "",
@@ -305,8 +305,8 @@ class OrderHelper
         $time = $time - (3 * 3600);
 
 
-        $order["Date"] = str_replace(" ", "T", formatDate($datetime, "Y-m-d H:i:s+06:00"));
-        $order["DateAtom"] = str_replace(" ", "T", formatDate($datetime, "Y-m-d H:i:s+06:00"));
+        $order["Date"] = str_replace(" ", "T", ApplicationHelper::formatDate($datetime, "Y-m-d H:i:s+06:00"));
+        $order["DateAtom"] = str_replace(" ", "T", ApplicationHelper::formatDate($datetime, "Y-m-d H:i:s+06:00"));
 
         $order["TotalCost"] = $request["moneyToCash"];
         $order["UserId"] = $request["userId"];
@@ -316,7 +316,7 @@ class OrderHelper
         $event = array(
             'Event' => "Школа/лагерь",
             'Zone' => $request["packName"],
-            'Date' => str_replace(" ", ".", formatDate($datetime, "d m Y")),
+            'Date' => str_replace(" ", ".", ApplicationHelper::formatDate($datetime, "d m Y")),
             'StartTime' => str_replace(":", "-", $request["time"]),
             'Duration' => $request["duration"],
             'GuestCount' => $request["pupilCount"],
@@ -360,7 +360,7 @@ class OrderHelper
         );
         $order["VerifyInfo"] = $clientInfo;
         //----------------------------
-        $paymentDate = formatDate($datetime, "Y-m-d H:i");
+        $paymentDate = ApplicationHelper::formatDate($datetime, "Y-m-d H:i");
         $financeInfo = array (
             'Id' => $id,
             'Remainder' =>  $request["moneyToCash"],
@@ -396,7 +396,7 @@ class OrderHelper
                 "user" => $request["userFullName"],
                 "itemCount" => $request["pupilCount"],
                 "center" => $request["centerNameRu"],
-                "date" => str_replace(" ", ".", formatDate($datetime, "d m Y")),
+                "date" => str_replace(" ", ".", ApplicationHelper::formatDate($datetime, "d m Y")),
                 "orderId" => $id,
                 "isNew" => $isNew,
             ));
@@ -732,7 +732,7 @@ class OrderHelper
             $method = "crm.deal.add";
         }
 
-        $createResult = call($method, $payload);
+        $createResult = BitrixHelper::callMethod($method, $payload);
         $dealId = $createResult["result"];
         return $dealId;
 
@@ -835,7 +835,7 @@ class OrderHelper
           }
         }
         */
-        $productUpdate = call("crm.deal.productrows.set", $payload);
+        $productUpdate = BitrixHelper::callMethod("crm.deal.productrows.set", $payload);
         return $productUpdate;
     }
 
@@ -851,14 +851,49 @@ class OrderHelper
             if (is_null($date)) return true;
             $timestamp = $date->getTimestamp();
             $dayOfWeek = date("N", $timestamp);
-            log_debug(var_export($dayOfWeek, true));
             return $dayOfWeek == 6 || $dayOfWeek == 7;
 
         } catch (Exception $ex){
-            process_error(var_export($ex, true));
+            ApplicationHelper::processError(var_export($ex, true));
         }
         return true;
     }
+    //-----------------------
+    /**
+     * Функция пересчитывает заказ в соответствии с нынешними ценами
+     *
+     * @param $order - массив заказа аренды
+     * @return array - пересчитанный массив заказа аренды
+     */
+    public static function CalculateOrder(array $order) {
+
+        $params = [
+            "event" => "OnRecalculationOrderRequested",
+            "orderId" => $order["Id"],
+            "json" => json_encode($order)
+        ];
+        $response = queryGoogleScript($params);
+        return $response;
+    }
+
+    /**
+     * Функция пересчитывает барные заказы в соответствии с нынешними ценами
+     *
+     * @param array $order - массив заказа аренды
+     * @return array - пересчитанный массив заказа аренды
+     */
+    public static function CalculateOrderBarItems(Array $order) {
+
+        $params = [
+            "event" => "OnRecalculationBarItemsRequested",
+            "orderId" => $order["Id"],
+            "json" => json_encode($order)
+        ];
+        $response = queryGoogleScript($params);
+        return $response;
+    }
+
+
     //----------------------------
     //----------------------------
     //----------------------------
@@ -925,6 +960,11 @@ class OrderHelper
         return $response;
     }
 
+    /**
+     * @param array $order
+     * @param $adminToken
+     * @return array
+     */
     public static function CloseOrderRent(Array $order, $adminToken)
     {
         $response = [];

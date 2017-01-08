@@ -3,18 +3,18 @@ require($_SERVER['DOCUMENT_ROOT'] ."/include/config.php");
 require($_SERVER['DOCUMENT_ROOT'] ."/bp/include/bp_config.php");
 
 /*Получение массива товаров из сделки*/
-$productrows = call($domain, "crm.deal.productrows.get", array(
+$productrows = BitrixHelper::callMethod( "crm.deal.productrows.get", array(
 	"id" => $deal_id,
 	"auth" => $auth)
 );
-$prod_arr = objectToArray($productrows);
+$prod_arr = ApplicationHelper::objectToArray($productrows);
 
 /*Получение массива данных о сделке*/
-$deal_info = call($domain, "crm.deal.get", array(
+$deal_info = BitrixHelper::callMethod("crm.deal.get", array(
 	"id" => $deal_id,
 	"auth" => $auth)
 );
-$deal_arr = objectToArray($deal_info);
+$deal_arr = ApplicationHelper::objectToArray($deal_info);
 
 /*Форматирование даты проведения сделки и задание ответственного администратора*/
 $banquete_date = date("d.m - H:i",strtotime($deal_arr["result"]["UF_CRM_1467690712"])+(60*60*6));

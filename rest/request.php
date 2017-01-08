@@ -2,7 +2,7 @@
     require($_SERVER["DOCUMENT_ROOT"]."/include/config.php");
 
     $browser = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "-";
-    log_event("control.php: ".$_SERVER['REMOTE_ADDR'].". Browser: ".$browser.". \$_REQUEST[\"method\"]=".$_REQUEST["method"]);
+    ApplicationHelper::log("control.php: ".$_SERVER['REMOTE_ADDR'].". Browser: ".$browser.". \$_REQUEST[\"method\"]=".$_REQUEST["method"]);
     $method = isset($_REQUEST["method"]) ? $_REQUEST["method"] : null;
     $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : null;
 

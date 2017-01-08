@@ -217,7 +217,6 @@ switch ($actionPerformed) {
 
         $response = query("POST", $url, $_REQUEST);
         $costs = $response["result"];
-        log_debug(var_export($response, true));
         $order = isset($response["order"]) ? $response["order"] : null;
         $_REQUEST["dealId"] = $order["DealId"] ;
         $_REQUEST["orderId"] = $order["Id"] ;

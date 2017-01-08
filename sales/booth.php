@@ -160,7 +160,6 @@
 
 			$process_data = query("POST", $url, $parameters);
 			$process_data = isset($process_data["result"]) ? $process_data["result"] : $process_data;
-			log_debug(var_export($process_data, true));
 
             require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
 			if (!is_null($process_data) ) {

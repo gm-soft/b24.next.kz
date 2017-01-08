@@ -51,7 +51,6 @@
                 ),
                 "auth" => $authToken,
             ));
-            log_debug(var_export($calendarEvents, true));
             $total = count($calendarEvents["result"]);
             $titleArray = array();
             if ($total > 0){
@@ -90,7 +89,7 @@
     }
 
     $logText = "Ответ в бизнес-активити: code=".$_REQUEST["code"]. ". Ответ: ".$response;
-    log_event($logText);
+    ApplicationHelper::log($logText);
     echo $response;
     //-------------------
 

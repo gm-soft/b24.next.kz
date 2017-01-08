@@ -5,18 +5,18 @@ $start_date = $_REQUEST["properties"]["startDate"];
 $end_date = $_REQUEST["properties"]["endDate"];
 
 /*Получение массива товаров из сделки*/
-$productrows = call($domain, "crm.deal.productrows.get", array(
+$productrows = BitrixHelper::callMethod("crm.deal.productrows.get", array(
 	"id" => $deal_id,
 	"auth" => $auth)
 );
-$prod_arr = objectToArray($productrows);
+$prod_arr = ApplicationHelper::objectToArray($productrows);
 
 /*Получение массива данных о сделке*/
-$deal_info = call($domain, "crm.deal.get", array(
+$deal_info = BitrixHelper::callMethod("crm.deal.get", array(
 	"id" => $deal_id,
 	"auth" => $auth)
 );
-$deal_arr = objectToArray($deal_info);
+$deal_arr = ApplicationHelper::objectToArray($deal_info);
 
 /*Форматирование даты проведения сделки и задание ответственного администратора*/
 $banquete_date = date("d.m - H:i",strtotime($deal_arr["result"]["UF_CRM_1467690712"])+(60*60*6));
@@ -63,7 +63,7 @@ foreach ($prod_arr['result'] as $key => $value) {
 $description_txt = "[b]Информация по мероприятию:[/b]\nДата и время проведения: [i]".$banquete_date."[/i]\nЦентр: [i]".$center."[/i]\nЗона: [i]".$zone."[/i]";
 
 /*Создание основной задачи*/
-$main_task_id = call($domain, "task.item.add", array( 
+$main_task_id = BitrixHelper::callMethod("task.item.add", array(
       "auth" => $auth, 
       0 => array(
          "TITLE" => "Подготовка аренды для сделки ".$deal_arr["result"]["TITLE"],
@@ -83,7 +83,7 @@ $main_task_id = call($domain, "task.item.add", array(
 
 /*Создание задачи с чеклистом для пищеблока*/
 if (isset($banquete_txt)) {
-   $banquete_task_id = call($domain, "task.item.add", array( 
+   $banquete_task_id = BitrixHelper::callMethod("task.item.add", array(
          "auth" => $auth, 
          0 => array(
             "TITLE" => "Подготовка фуршета для сделки ".$deal_arr["result"]["TITLE"],
@@ -104,7 +104,7 @@ if (isset($banquete_txt)) {
 
    foreach ($banquete_txt as $key => $value) {
 
-      call($domain, "task.checklistitem.add", array(
+       BitrixHelper::callMethod("task.checklistitem.add", array(
          "auth" => $auth,
          "TASKID" => $banquete_task_id["result"],
          "FIELDS" => array(
@@ -117,7 +117,7 @@ if (isset($banquete_txt)) {
 
 /*Создание задачи с чеклистом для оформителя*/
 if (isset($design_txt)) {
-   $design_task_id = call($domain, "task.item.add", array( 
+   $design_task_id = BitrixHelper::callMethod("task.item.add", array(
          "auth" => $auth, 
          0 => array(
             "TITLE" => "Подготовка оформления для сделки ".$deal_arr["result"]["TITLE"],
@@ -138,7 +138,7 @@ if (isset($design_txt)) {
 
    foreach ($design_txt as $key => $value) {
 
-      call($domain, "task.checklistitem.add", array(
+       BitrixHelper::callMethod("task.checklistitem.add", array(
          "auth" => $auth,
          "TASKID" => $design_task_id["result"],
          "FIELDS" => array(

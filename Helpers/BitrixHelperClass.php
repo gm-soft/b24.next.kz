@@ -121,7 +121,7 @@ class BitrixHelper
             }
         }
 
-        $batch_result = BitrixHelper::batch_commands($commands, $access_token);
+        $batch_result = self::batch_commands($commands, $access_token);
         return $batch_result;
     }
 
@@ -202,7 +202,7 @@ class BitrixHelper
             //$result[] = call("task.checklistitem.delete", array(0 => intval($value["TASK_ID"]), 1 => intval($value["ID"]), "auth" => $access_token));
         }
 
-        $batch = batch_commands($result, $access_token);
+        $batch = self::batch_commands($result, $access_token);
         return $batch;
 
     }
@@ -308,7 +308,6 @@ class BitrixHelper
             "checklist" => $new_checklist,
         );
         $debug_content = $debug_content."\n new_checklist after: ".var_export($new_checklist, true);
-        log_debug($debug_content);
         return $result;
     }
 
@@ -335,7 +334,7 @@ class BitrixHelper
             $array = $second;
             $field_name = !is_null($second_field_name) ? $second_field_name : null;
 
-            $search_result = search_in_array($searchable, $array, $field_name);
+            $search_result = ApplicationHelper::searchItemInArray($searchable, $field_name, $array);
             if ($search_result) continue;
             $result[] = $value;
         }
@@ -380,7 +379,7 @@ class BitrixHelper
         //$update_result["task"] = $task;
 
         if ($method == "task.item.add" && isset($task["result"])) {
-            $update_result["deal_update"] = call("crm.deal.update", array(
+            $update_result["deal_update"] = BitrixHelper::callMethod("crm.deal.update", array(
                 "auth" => $access_token,
                 "id" => $deal["ID"],
                 "fields" => array($task_id_field => $task["result"]),
@@ -438,7 +437,7 @@ class BitrixHelper
      * @return array
      */
     public static function constructTask($deal, $title, $responsible_id, $parent_id = null){
-        $event_date = formatDate($deal["UF_CRM_1474793606"]);
+        $event_date = ApplicationHelper::formatDate($deal["UF_CRM_1474793606"]);
         $description = "[b]Информация по мероприятию:[/b]\nДата и время проведения: [i]".$event_date."[/i]";
 
         $task = array(
@@ -727,7 +726,7 @@ class BitrixHelper
             return $parsed_date->getTimestamp();
 
         } catch (Exception $ex){
-            process_error(var_export($ex, true));
+            ApplicationHelper::processError(var_export($ex, true));
         }
         return null;
     }
@@ -755,7 +754,7 @@ class BitrixHelper
             return date($format, $timestamp);
 
         } catch (Exception $ex){
-            process_error(var_export($ex, true));
+            ApplicationHelper::processError(var_export($ex, true));
         }
         return null;
     }
@@ -832,7 +831,7 @@ class BitrixHelper
      * @return array|null
      */
     public static function getCurrentUser($token) {
-        $data = call("user.current", array("auth" => $token));
+        $data = self::callMethod("user.current", array("auth" => $token));
         return  isset($data["result"]) ? $data["result"] : NULL;
     }
 
@@ -846,14 +845,14 @@ class BitrixHelper
      * @return array
      */
     public static function notifyUser($user_id, $text, $access_token, $type = "USER"){
-        $result = call("im.notify", array(
+        $result = self::call("im.notify", array(
                 "to" => $user_id,
                 "message" => $text,
                 "type" => $type,
                 "auth" => $access_token,
             )
         );
-        if (isset($result["error"])) process_error("Ошибка отправки уведомления: ".var_export($result));
+        if (isset($result["error"])) ApplicationHelper::processError("Ошибка отправки уведомления: ".var_export($result));
         return $result;
     }
 

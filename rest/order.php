@@ -52,7 +52,7 @@ switch ($action) {
 }
 
 $logText .= $processed == true ? ". Result=true" : ". Result=false";
-log_event($logText, "/log/order.php.log");
+ApplicationHelper::log($logText, "/log/order.php.log");
 echo json_encode($response);
 
 

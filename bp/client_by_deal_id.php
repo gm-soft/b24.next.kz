@@ -2,17 +2,17 @@
 require($_SERVER['DOCUMENT_ROOT'] ."/include/config.php");
 require($_SERVER['DOCUMENT_ROOT'] ."/bp/include/bp_config.php");
 
-$deal_info = call($domain, "crm.deal.get", array(
+$deal_info = BitrixHelper::callMethod($domain, "crm.deal.get", array(
 	"id" => $deal_id,
 	"auth" => $auth)
 );
 
-$contact_info = call($domain, "crm.contact.get", array(
+$contact_info = BitrixHelper::callMethod($domain, "crm.contact.get", array(
 	"id" => $deal_info["result"]["CONTACT_ID"],
 	"auth" => $auth)
 );
 
-$bizproc_event = call($domain, "bizproc.event.send", array(
+$bizproc_event = BitrixHelper::callMethod($domain, "bizproc.event.send", array(
 	"EVENT_TOKEN" => $event_token,
 	"RETURN_VALUES" => array(
 		"clientName" => $contact_info["result"]["NAME"]." ".$contact_info["result"]["LAST_NAME"],
