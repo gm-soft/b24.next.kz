@@ -333,7 +333,7 @@
                     <span class="input-group-addon">Кол-во пакетов</span>
 
                     <input type="hidden" name="transferCost" value="0">
-                    <input type="hidden" name="hasTransfer" value="yes">
+                    <input type="hidden" name="hasTransfer" value="no">
 
                     <?php
                 }
