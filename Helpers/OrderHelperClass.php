@@ -911,6 +911,10 @@ class OrderHelper
         }
         $order["FinanceInfo"]["PaymentsView"] = $view;
 
+        if ($order["FinanceInfo"]["Remainder"] <= 0.1 && $order["FinanceInfo"]["Remainder"] >= -0.1 && $order["Status"] == "Аренда проведена") { 
+            $order["Status"] = "Сделка закрыта";
+        }
+
 
         //----------------------------------
         $saveResult = OrderHelper::SaveOrder($order);
