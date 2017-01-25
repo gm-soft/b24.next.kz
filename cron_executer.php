@@ -10,4 +10,13 @@
 	var_export($query_result);
 	echo "\n";
 
+	$query_result = $query_result && query("GET", "http://accounts.next.kz/rest/control.php", ["action" => "releaseUsed"]);
+	var_export($query_result);
+	echo "\n";
+
+	$query_result = $query_result && query("GET", "http://accounts.next.kz/rest/control.php", ["action" => "updateCenters"]);
+	var_export($query_result);
+	echo "\n";
+	
+
 	

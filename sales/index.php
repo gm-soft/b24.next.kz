@@ -20,6 +20,7 @@
             $userId == "30" ||
             $userId == "1" ||
             $userId == "10" ||
+            $userId == "100" ||
             $userId == "98";
     }
 
