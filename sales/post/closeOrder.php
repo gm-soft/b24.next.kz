@@ -93,7 +93,10 @@ switch ($actionPerformed){
 
     case "dealSelected":
 
+        if (!isset($_REQUEST["dealSelect"])) {
 
+            ApplicationHelper::redirect("http://b24.next.kz/sales/post/closeOrder.php?error=Номер заказа пустой. Введите данные");
+        }
         $deal = BitrixHelper::getDeal($_REQUEST["dealSelect"], $_REQUEST["adminToken"]);
         $title = $deal["TITLE"];
         $orderId = substr($title, 0, strpos($title, " "));
@@ -118,9 +121,6 @@ switch ($actionPerformed){
         $closeResponse = query("POST", "http://b24.next.kz/rest/order.php", $params);
         $closeResponse = $closeResponse["result"];
 
-
-
-
         $remainder = $closeResponse["remainder"];
         $barItems = $closeResponse["barItems"];
         $payed = $closeResponse["payed"];
@@ -129,8 +129,12 @@ switch ($actionPerformed){
         $barItemsCount = count($barItems);
         $message = $closeResponse["message"];
 
-        if($closeResponse["result"] == false){
+        ApplicationHelper::debug(var_export($closeResponse, true));
+
+        if($closeResponse["saveResult"] == false){
             $_GET["error"] = $message;
+        } else {
+            $_GET["success"] = $message;
         }
         require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
         ?>

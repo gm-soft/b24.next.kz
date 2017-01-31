@@ -1,5 +1,5 @@
 <dl class="dl-horizontal">
-    <dt>Полная стоимость заказа</dt><dd><?= $totalCost ?></dd>
+    <dt>Стоимость заказа</dt><dd><?= $totalCost ?></dd>
     <dt>Оплачено</dt><dd><?= $payed ?></dd>
     <dt>Остаток по оплате</dt><dd><b><?= $remainder ?></b></dd>
     <dt>Статус заказа</dt><dd><i><?= $closeResponse["status"] ?></i></dd>

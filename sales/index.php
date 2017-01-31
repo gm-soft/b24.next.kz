@@ -41,6 +41,13 @@
                             <div class="btn-group">
                                 <a class="btn btn-default" href="../sales/preorder.php?authId=<?= $authId?>" role="button">Предзаказник аренды</a>
                                 <a class="btn btn-default" href="../sales/booth.php?authId=<?= $authId?>" role="button">Продажа буса</a>
+
+                            </div>
+
+                            <div class="btn-group">
+                                <a class="btn btn-default" href="../sales/orders/createGoogleForm.php?authId=<?= $authId?>" role="button">Создание заказа</a>
+                                <a class="btn btn-default" href="../sales/orders/changeGoogleForm.php?authId=<?= $authId?>" role="button">Изменение заказа</a>
+
                             </div>
                         </div>
                     </div>

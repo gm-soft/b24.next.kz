@@ -9,6 +9,19 @@
 class ApplicationHelper
 {
 
+
+    /**
+     * Производит перенаправление пользователя на заданный адрес
+     *
+     * @param string $url адрес
+     */
+    public static function redirect($url)
+    {
+        Header("HTTP 302 Found");
+        Header("Location: ".$url);
+        die();
+    }
+
     function formatCurrentTime($format = "d.m.y - H:i") {
 
         $now = new DateTime();

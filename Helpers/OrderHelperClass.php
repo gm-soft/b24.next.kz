@@ -57,7 +57,7 @@ class OrderHelper
     public static function GetLoyaltyAccountByRequest($code){
         $result = queryGoogleScript([
             "event" => "GetLoyaltyAccountByRequest",
-            "orderId" => $code,
+            "code" => $code,
         ]);
         $result = $result["result"];
         return $result;
@@ -66,7 +66,11 @@ class OrderHelper
     public static function SaveLoyaltyAccountByRequest($account){
         $result = queryGoogleScript([
             "event" => "SaveLoyaltyAccountByRequest",
-            "account" => $account,
+            "code" => $account["code"],
+            "name" => $account["name"],
+            "money" => $account["money"],
+            "cashback" => $account["cashback"],
+            "discount" => $account["discount"],
         ]);
         $result = $result["result"];
         return $result;
@@ -1031,11 +1035,11 @@ class OrderHelper
         } elseif ($order["Status"] == "Заказ подтвержден") {
             $barItemsData = OrderHelper::GetBarItemsByRequest($order["Id"]);
             $order = $barItemsData["order"];
-            $barItems = $barItemsData["barItems"];
+            $barItems = isset($barItemsData["barItems"]) ? $barItemsData["barItems"] : null;
             $barMessage = $barItemsData["message"];
             $barResult = $barItemsData["result"];
 
-
+            $saveResult = true;
             $updateDealProductsSet = true;
 
             if ($order["FinanceInfo"]["Remainder"] <= 0.1 && $order["FinanceInfo"]["Remainder"] >= -0.1) {
@@ -1054,6 +1058,7 @@ class OrderHelper
                     $senderAccount["last"] .= "[" . date("d-m-Y") . "] Кэшбек от ID" . $order["Id"] . " +" . $sum . "\n";
                     $smsText = "Pozdravlyaem! Vash kod skidki ukazal klient tel:" . $order["Phone"] . ". Vy poluchili " . $sum . "t. na Vash nakopitel'nyi schet. Summa na schete " . $senderAccount["money"];
                     $saveUserResult = OrderHelper::SaveLoyaltyAccountByRequest($senderAccount);
+                    $saveResult = $saveResult && $saveUserResult["result"];
                     $sendSmsResult = SmsApi::sendSms($senderAccount["phone"], $smsText);
 
                 }
@@ -1064,7 +1069,7 @@ class OrderHelper
             } elseif ($_REQUEST["status"] == "dealClosed") {
                 $order["Status"] = "Сделка закрыта";
             }
-            $saveResult = OrderHelper::SaveOrder($order);
+            $saveResult = $saveResult && OrderHelper::SaveOrder($order);
             $updateResult = OrderHelper::updateOrderDeal($order, $adminToken, true);
 
             $updateProductsSet = $updateDealProductsSet == true ? OrderHelper::updateDealProductSet($order, $adminToken) : false;

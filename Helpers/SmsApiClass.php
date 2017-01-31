@@ -129,7 +129,7 @@ class SmsApi
                     $url = str_replace('://smsc.kz/', '://www2.smsc.kz/', $url);
             }
 
-            $ret = _smsc_read_url($url, $files);
+            $ret = self::_smsc_read_url($url, $files);
         }
         while ($ret == "" && ++$i < 4);
 
