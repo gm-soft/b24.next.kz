@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <style>
+
+        .big-btn {
+            padding: 25px 45px;
+            min-width: 430px;
+        }
+
+        .increaseFont {
+            font-size: 16pt;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-center my-5">Управление проектом</h1>
+
+    <div class="text-center my-5">
+
+        <button class="btn btn-default big-btn increaseFont enable-btn__tag" data-enabled="true">Кнопка</button>
+
+    </div>
+
+    <div class="info__tag increaseFont text-center my-5">
+
+    </div>
+
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" ></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+
+<script>
+    $(function(){
+
+        var button = $('.enable-btn__tag');
+
+        function sendAjaxRequest(url, data) {
+            $.ajax({
+                url: url,
+                type: 'post',
+                data: data,
+                success: function(resp) {
+
+                    ColorButton(resp === "true");
+                }
+            });
+        }
+
+        function ColorButton(active) {
+            if (active) {
+                button
+                    .attr('data-enabled', true)
+                    .removeClass('btn-default')
+                    .removeClass('btn-success')
+                    .addClass('btn-danger')
+                    .html('Деактивировать прием запросов');
+            } else {
+                button
+                    .attr('data-enabled', false)
+                    .removeClass('btn-default')
+                    .removeClass('btn-danger')
+                    .addClass('btn-success')
+                    .html('Активировать');
+            }
+        }
+
+        function checkActivity(){
+            sendAjaxRequest("/rest/project_controller.php?", {action: "active"});
+        }
+
+        checkActivity();
+
+        button.click(function(){
+
+            var url = "/rest/project_controller.php";
+            var data = {};
+
+            var enabled = $(this).attr('data-enabled');
+            if (enabled == "true") {
+                data['action'] = "disable_requests";
+
+            } else {
+                data['action'] = "enable_requests";
+            }
+
+            sendAjaxRequest(url, data);
+        });
+    });
+
+</script>
+
+
+</body>
+</html>

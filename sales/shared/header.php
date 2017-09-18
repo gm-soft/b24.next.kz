@@ -78,7 +78,8 @@
                     if ($userId == "30" ||
                         $userId == "1" ||
                         $userId == "10" ||
-                        $userId == "98"){
+                        $userId == "98" ||
+                        $userId == "72"){
                         ?>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Корпоративные продажи
@@ -93,6 +94,14 @@
                     }
 
                     ?>
+
+                    <?php if($userId == "72" || $userId == "30" || $userId == "1") { ?>
+
+
+                    <?php } ?>
+                    <li>
+                        <a class="navbar-link"  href="/rest/project_controller.php" target="_blank">Административное управление проектом</a>
+                    </li>
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

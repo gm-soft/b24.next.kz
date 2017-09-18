@@ -10,7 +10,15 @@
     require_once $_SERVER["DOCUMENT_ROOT"] . "/Helpers/MysqlHelper.php";
     require_once $_SERVER["DOCUMENT_ROOT"] . "/Model/UserClass.php";*/
 
+
     require_once "/var/www/b24.next.kz/include/constants.php";
+    require_once "/var/www/b24.next.kz/Helpers/ConfigHelper.php";
+
+    if (!ConfigHelper::IsRequestsEnabled()){
+        echo "=)";
+        return;
+    }
+
     require_once "/var/www/b24.next.kz/Helpers/ApplicationHelperClass.php";
     require_once "/var/www/b24.next.kz/Helpers/BitrixHelperClass.php";
     require_once "/var/www/b24.next.kz/Helpers/OrderHelperClass.php";
