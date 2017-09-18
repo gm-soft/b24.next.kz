@@ -88,7 +88,7 @@ switch ($actionPerformed){
             var resultDiv = $('#resultDiv');
 
             function SendRequest(){
-                var url = "http://b24.next.kz/rest/order.php";
+                var url = "https://b24.next.kz/rest/order.php";
                 var payment = {
                     "paymentValue" : <?= $_REQUEST["paymentValue"] ?>,
                     "receiptDate" : <?= $_REQUEST["receiptDate"] ?>,
@@ -179,7 +179,7 @@ switch ($actionPerformed){
             "userFullName" => $_REQUEST["userFullName"],
             "payment" => $payment
         ];
-        $closeResponse = query("POST", "http://b24.next.kz/rest/order.php", $params);
+        $closeResponse = query("POST", "https://b24.next.kz/rest/order.php", $params);
         $closeResponse = $closeResponse["result"];
 
         $remainder = $closeResponse["remainder"];

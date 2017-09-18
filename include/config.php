@@ -17,6 +17,7 @@
     require_once "/var/www/b24.next.kz/Helpers/SmsApiClass.php";
     require_once "/var/www/b24.next.kz/Helpers/MysqlHelper.php";
     require_once "/var/www/b24.next.kz/Model/UserClass.php";
+    require_once "/var/www/b24.next.kz/Helpers/MailSmtpClass.php";
 
 
     /**

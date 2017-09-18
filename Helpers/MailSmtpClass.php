@@ -43,7 +43,7 @@ class MailSmtp {
             $headers= "MIME-Version: 1.0\r\n";
             $headers .= "Content-type: text/html; charset=utf-8\r\n"; // кодировка письма
             $headers .= "From: Next.kz <noreply@next.kz>\r\n"; // от кого письмо
-            $headers .= "Bcc: m.poyarel@next.kz, y.alimbetova@next.kz, m.gorbatyuk@next.kz\r\n";
+            $headers .= "Bcc: m.poyarel@next.kz, m.gorbatyuk@next.kz\r\n";
         }
         $instance = new self(EMAIL_LOGIN, EMAIL_PASSWORD, EMAIL_SMTP, EMAIL_FROM, EMAIL_PORT);
         $result = $instance->send($mailTo, $subject, $content, $headers);

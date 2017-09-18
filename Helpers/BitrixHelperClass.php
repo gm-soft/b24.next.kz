@@ -10,7 +10,7 @@ class BitrixHelper
 {
 
     public static function getAuth($tokenOnly = false) {
-        $url = "http://b24.next.kz/rest/control.php";
+        $url = "https://b24.next.kz/rest/control.php";
         $params = array("action" => "getAccessToken");
         $result = query("GET", $url, $params);
         $result = isset($result["access_token"]) && $tokenOnly ? $result["access_token"] : $result;

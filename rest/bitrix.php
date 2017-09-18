@@ -38,7 +38,7 @@
             $type = isset($_REQUEST["type"]) ? $_REQUEST["type"] : null;
 
             $types = array(0 => "admin", 1 => "food", 2 => "design");
-            $url = "http://b24.next.kz/rest/bitrix.php";
+            $url = "https://b24.next.kz/rest/bitrix.php";
             $params = array("deal_id" => $_REQUEST["deal_id"]);
 
             foreach ($types as $key => $value) {
@@ -201,7 +201,7 @@
                     break;
             }
             
-            $checklist_data = query("POST", "http://b24.next.kz/rest/bitrix.php", array(
+            $checklist_data = query("POST", "https://b24.next.kz/rest/bitrix.php", array(
                "action" => "task.checklist.get",
                 "deal_id" => $deal_id,
                 "type" => $type
@@ -339,21 +339,47 @@
             $leadName = $_REQUEST["title"];
             $phone = BitrixHelper::formatPhone($_REQUEST["phone"]);
             $sourceId = isset($_REQUEST["source"]) ? $_REQUEST["source"] : "11";
+            $sourceDescription = isset($_REQUEST["source_description"]) ? $_REQUEST["source_description"] : "";
+            $sourceCenter = isset($_REQUEST["center"]) ? $_REQUEST["center"] : "";
+            $comments = isset($_REQUEST["comments"]) ? $_REQUEST["comments"] : "";
+
             $params = [
                 "fields[TITLE]" => $leadName,
                 "fields[PHONE][0][VALUE]" => $phone,
+                "fields[EMAIL][0][VALUE]" => $_REQUEST["email"],
                 "fields[SOURCE_ID]" => $sourceId,
+                "fields[SOURCE_DESCRIPTION]" => $sourceDescription,
                 "fields[STATUS_ID]"=> "NEW",
                 "fields[OPENED]"=> "Y",
                 "fields[ASSIGNED_BY_ID]" => "72",
                 "fields[CREATED_BY_ID]" => "72",
+                "fields[UF_CRM_1495122472]" => $sourceCenter, // Центр
+                "fields[COMMENTS]" => $comments,
                 "auth" => $auth
             ];
-            $result = BitrixHelper::callMethod("crm.lead.add", $params);
-            $response["result"] = isset($result["result"]);
-            header("Access-Control-Allow-Origin: http://new-landing.next.kz");
-            header("Access-Control-Allow-Headers: *");
-            //$response["result"] = $result;
+            $result = null;
+            for($i = 0; $i < 3; $i++) {
+                $result = BitrixHelper::callMethod("crm.lead.add", $params);
+                if (!isset($result["error"])) {
+                    break;
+                }
+            }
+
+            if (isset($result["error"]))
+            {
+                $serverName = isset($_REQUEST["server_name"]) ? $_REQUEST["server_name"] : $sourceId;
+                $emailContent = "<h1>Заявка с лендинга $serverName</h1>";
+                $emailContent .= "<p>Пришла заявка с лендинга от:<br>";
+                $emailContent .= "<b>Имя</b>: ".$_REQUEST["title"]."<br>";
+                $emailContent .= "<b>Email</b>: ".$_REQUEST["email"]."<br>";
+                $emailContent .= "<b>Телефон</b>: ".$phone."<br></p>";
+                $emailContent .= "<b>Причина</b>: ".$result["error"]."<br></p>";
+
+                $receiver = "business@next.kz";
+                $subject = "Необработанная заявка с лендинга";
+                $result = MailSmtp::SendEmail($receiver, $subject, $emailContent);
+            }
+            $response["result"] = $result;
             break;
 
         case "deals.get":

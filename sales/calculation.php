@@ -137,7 +137,7 @@
             break;
 
         case 'schoolSaveChanges':
-            $url = "http://b24.next.kz/rest/bitrix.php";
+            $url = "https://b24.next.kz/rest/bitrix.php";
             $params = array(
                 "action" => "order.get.google",
                 "id" => $_REQUEST["orderId"]

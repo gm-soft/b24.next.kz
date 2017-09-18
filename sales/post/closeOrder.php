@@ -95,7 +95,7 @@ switch ($actionPerformed){
 
         if (!isset($_REQUEST["dealSelect"])) {
 
-            ApplicationHelper::redirect("http://b24.next.kz/sales/post/closeOrder.php?error=Номер заказа пустой. Введите данные");
+            ApplicationHelper::redirect("https://b24.next.kz/sales/post/closeOrder.php?error=Номер заказа пустой. Введите данные");
         }
         $deal = BitrixHelper::getDeal($_REQUEST["dealSelect"], $_REQUEST["adminToken"]);
         $title = $deal["TITLE"];
@@ -118,7 +118,7 @@ switch ($actionPerformed){
             "status" => $_REQUEST["statusSelect"]
 
         ];
-        $closeResponse = query("POST", "http://b24.next.kz/rest/order.php", $params);
+        $closeResponse = query("POST", "https://b24.next.kz/rest/order.php", $params);
         $closeResponse = $closeResponse["result"];
 
         $remainder = $closeResponse["remainder"];

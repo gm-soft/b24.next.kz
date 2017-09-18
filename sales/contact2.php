@@ -366,6 +366,12 @@ switch ($actionPerformed){
         }
 
         $createResult = BitrixHelper::callMethod("crm.contact.add", $params);
+        if (isset($createResult["error"])) {
+            ApplicationHelper::debug(var_export($createResult, true));
+            var_export($createResult);
+            break;
+        }
+        //ApplicationHelper::debug(var_export($createResult, true));
         $contactId = $createResult["result"];
 
         $url = "$pageRedirect?".

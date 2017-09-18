@@ -96,7 +96,7 @@ function process_user_request($request, $access_data) {
             $data = BitrixHelper::callMethod("event.bind", array(
                 "auth" => $access_token,
                 "EVENT" => $event,
-                "HANDLER" => "http://b24.next.kz/event.php",
+                "HANDLER" => "https://b24.next.kz/event.php",
             ));
 
             break;
@@ -124,7 +124,7 @@ function process_user_request($request, $access_data) {
             $data = BitrixHelper::callMethod("bizproc.activity.add", array(
                 "auth" => $access_token,
                 "CODE" => "calendar_accessibility",
-                "HANDLER" => "http://b24.next.kz/rest/biz.process.php",
+                "HANDLER" => "https://b24.next.kz/rest/biz.process.php",
                 "NAME" => "Проверка доступности в календаре",
                 "PROPERTIES" => array(
 

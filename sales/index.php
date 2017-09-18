@@ -17,10 +17,11 @@
         $userId = $_SESSION["user_id"];
 
         $displayCondition =
-            $userId == "30" ||
+            $userId == "72" ||
             $userId == "1" ||
             $userId == "10" ||
             $userId == "100" ||
+            $userId == "88" ||
             $userId == "98";
     }
 
@@ -72,8 +73,8 @@
                         <div class="panel-heading">Операции над заказами</div>
                         <div class="panel-body">
                             <div class="btn-group">
-                                <a class="btn btn-default" href="/sales/post/closeOrder.php?authId=<?= $authId?>" role="button">Закрыть аренду</a>
-                                <a class="btn btn-default" href="/sales/post/paymentOrder.php?authId=<?= $authId?>" role="button">Внести оплату</a>
+                                <!--a class="btn btn-default disabled" href="/sales/post/closeOrder.php?authId=<?= $authId?>" role="button">Закрыть аренду</a>
+                                <a class="btn btn-default disabled" href="/sales/post/paymentOrder.php?authId=<?= $authId?>" role="button">Внести оплату</a-->
                                 <a class="btn btn-default" href="/sales/post/cancelOrder.php?authId=<?= $authId?>" role="button">Отменить заказ</a>
                             </div>
                         </div>
@@ -99,7 +100,7 @@
                 </div>
 
                 <?php
-                if ($userId == "30"){
+                if ($userId == "72"){
                     ?>
                     <div class="col-sm-6">
                         <div class="action-card panel panel-warning">

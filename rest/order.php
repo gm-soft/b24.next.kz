@@ -42,7 +42,7 @@ switch ($action) {
         break;
 
     case "order.cancel":
-        $response["result"] = OrderHelper::CancelOrder($order, $adminToken);
+        $response["result"] = OrderHelper::CancelOrder($order, $adminToken, $_REQUEST["comment"] );
         $processed = true;
         break;
 

@@ -935,7 +935,7 @@ class OrderHelper
         return $result;
     }
 
-    public static function CancelOrder(Array $order, $adminToken){
+    public static function CancelOrder(Array $order, $adminToken, $comment){
 
         $status = $order["Status"];
         $response = [
@@ -947,7 +947,7 @@ class OrderHelper
             "message" => "",
         ];
 
-        if (empty($_REQUEST["comment"])){
+        if (empty($comment)){
             $response["message"] = "Комментарий к отмене пуст. Нельзя отменить заказ без него";
             return $response;
         }

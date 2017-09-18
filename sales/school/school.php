@@ -66,7 +66,7 @@ switch ($actionPerformed) {
     break;
 
     case "school_edit":
-        $url = "http://b24.next.kz/rest/bitrix.php";
+        $url = "https://b24.next.kz/rest/bitrix.php";
         $params = array(
                 "action" => "order.get.google",
                 "id" => $_REQUEST["orderId"]
@@ -120,7 +120,7 @@ switch ($actionPerformed) {
     case "order_saved":
 
 
-        $url = "http://b24.next.kz/sales/calculation.php";
+        $url = "https://b24.next.kz/sales/calculation.php";
         $parameters = array(
             "action" => "schoolGetCost",
             "pack" => $_REQUEST["pack"],
@@ -211,7 +211,7 @@ switch ($actionPerformed) {
 
     case "order_confirmed":
 
-        $url = "http://b24.next.kz/sales/calculation.php";
+        $url = "https://b24.next.kz/sales/calculation.php";
         $actionRequest = $action == "school_created" ? "schoolCreate" : "schoolSaveChanges";
         $_REQUEST["action"] = $actionRequest;
 

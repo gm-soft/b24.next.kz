@@ -109,7 +109,7 @@
             $data = BitrixHelper::callMethod("event.bind", array(
                 "auth" => $auth,
                 "EVENT" => $event,
-                "HANDLER" => "http://b24.next.kz/event.php",
+                "HANDLER" => "https://b24.next.kz/event.php",
             ));
 
             break;
@@ -137,7 +137,7 @@
             $data = BitrixHelper::callMethod("bizproc.activity.add", array(
                 "auth" => $auth,
                 "CODE" => "client_by_deal_id",
-                "HANDLER" => "http://b24.next.kz/bp/client_by_deal_id.php",
+                "HANDLER" => "https://b24.next.kz/bp/client_by_deal_id.php",
                 "NAME" => "Возврат данных о контакте по ID сделки",
                 "PROPERTIES" => array(
                     "dealID" => array(

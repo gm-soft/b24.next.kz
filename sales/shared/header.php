@@ -63,7 +63,7 @@
                         </ul>
                     </li>
 
-                    <li class="dropdown">
+                    <!--li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Операции над заказами
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -71,7 +71,7 @@
                             <li><a href="/sales/post/closeOrder.php?authId=<?=$authId ?>">Закрыть аренду/сделку</a></li>
                             <li><a href="/sales/post/cancelOrder.php?authId=<?=$authId ?>">Отменить заказ</a></li>
                         </ul>
-                    </li>
+                    </li-->
 
                     <?php
                     $userId = $_SESSION["user_id"];

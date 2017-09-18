@@ -28,7 +28,7 @@ switch ($actionPerformed){
             <h1>Отмена заказа</h1>
 
             <div>
-                <form id="form" class="form-horizontal" method="post" action="paymentOrder.php">
+                <form id="form" class="form-horizontal" method="post" action="cancelOrder.php">
 
                     <input type="hidden" name="actionPerformed" value="dealSelected">
                     <input type="hidden" name="userFullName" value="<?= $curr_user["NAME"]." ".$curr_user["LAST_NAME"] ?>">
@@ -83,9 +83,10 @@ switch ($actionPerformed){
             "action" => "order.cancel",
             "orderId" => $orderId,
             "userId" => $userId,
+            "comment" => $_REQUEST["comment"],
             "userFullName" => $_REQUEST["userFullName"]
         ];
-        $closeResponse = query("POST", "http://b24.next.kz/rest/order.php", $params);
+        $closeResponse = query("POST", "https://b24.next.kz/rest/order.php", $params);
         $closeResponse = $closeResponse["result"];
 
         $remainder = $closeResponse["remainder"];
@@ -102,7 +103,7 @@ switch ($actionPerformed){
         require_once($_SERVER["DOCUMENT_ROOT"] . "/sales/shared/header.php");
         ?>
         <div class="container">
-            <h1>Результат подсчета доп.заказа</h1>
+            <h1>Результат отмены заказа</h1>
             <div id="toPrint">
                 <h3>Заказ ID<?= $orderId?></h3>
 
@@ -117,10 +118,10 @@ switch ($actionPerformed){
                 <a href="#" id="print" class="btn btn-default">Печать</a>
                 <a href="https://b24.next.kz/sales/index.php?authId=<?= $_REQUEST["authId"] ?>" id="back" class="btn btn-default">В главное меню</a>
                 <?php
-                $url = "https://b24.next.kz/sales/post/closeOrder.php?".
+                $url = "https://b24.next.kz/sales/post/cancelOrder.php?".
                     "authId=".$_REQUEST["authId"]."&".
-                    "action=closeOrder";
-                echo "<a href=\"$url\" class=\"btn btn-default\">Закрыть еще одну аренду</a>";
+                    "action=cancelOrder";
+                echo "<a href=\"$url\" class=\"btn btn-default\">Отменить еще одну аренду</a>";
                 ?>
             </div>
 
