@@ -95,13 +95,13 @@
 
                     ?>
 
-                    <?php if($userId == "72" || $userId == "30" || $userId == "1") { ?>
-
+                    <?php if($userId == "72" || $userId == "1" || $userId == "296") { ?>
+                        <li>
+                            <a class="navbar-link"  href="/rest/project_controller.php" target="_blank">Административное управление проектом</a>
+                        </li>
 
                     <?php } ?>
-                    <li>
-                        <a class="navbar-link"  href="/rest/project_controller.php" target="_blank">Административное управление проектом</a>
-                    </li>
+
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

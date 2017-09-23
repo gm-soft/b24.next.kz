@@ -16,7 +16,7 @@
 
     if (!ConfigHelper::IsRequestsEnabled()){
         echo "=)";
-        return;
+        die();
     }
 
     require_once "/var/www/b24.next.kz/Helpers/ApplicationHelperClass.php";

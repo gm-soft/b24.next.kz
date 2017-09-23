@@ -223,6 +223,10 @@ switch ($actionPerformed){
                 <div class="form-group">
                     <button id="sbmButton" type="submit" class="btn btn-primary">Далее</button>
                 </div>
+                <div class="hidden info__tag">
+                    <h2>Даннные отправлены на сервер. Подождите пару секунд. Не перезагружайте страницу</h2>
+                    <div class="loader"></div>
+                </div>
             </form>
 
         </div>
@@ -238,6 +242,14 @@ switch ($actionPerformed){
 
 
             var form = $('#form');
+
+            form.submit(function(){
+                sbmButton.attr('disabled', true).addClass('disabled');
+                $('.info__tag')
+                    .removeClass('hidden')
+                    .addClass('overlay');
+            });
+
             var inputActionPerformed = $('#actionPerformed');
 
             createBtn.on("click", function(){
